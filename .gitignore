@@ -24,6 +24,7 @@ jmx.log
 derby.log
 spring-test/test-output/
 
+target/
 classes/
 /build
 buildSrc/build
