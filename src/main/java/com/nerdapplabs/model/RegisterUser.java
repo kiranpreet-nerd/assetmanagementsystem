@@ -1,8 +1,7 @@
 package com.nerdapplabs.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,30 +9,26 @@ import javax.persistence.Table;
 @Table(name = "registeruser")
 public class RegisterUser {
 	
-	
-		@Id
-	    @GeneratedValue(strategy = GenerationType.AUTO)
-		private long id;
+
+  
+        @Id
+	    @Column(name = "email" ,unique = true )
 		private String email;
-		private String password;
-		private String firstname;
-        private String lastname;
-        private String designation;
+        @Column(name = "firstname")
+	    private String firstName;
+        @Column(name = "lastname")
+		private String lastName;
+        @Column(name = "designation")
+		private String designation;
+        @Column(name = "status")
+		private String status;
+        @Column(name = "password")
+	    private String password;
+        @Column(name = "confirmpassword")
+        private String confirmPassword;
 	    
-		public RegisterUser() {
+        public RegisterUser() {
 	    	
-	    }
-	    
-	    public RegisterUser (long id) {
-	    	   this.id = id;
-	    }
-	    
-	    public long getId() {
-	    	return id;
-	    }
-	    
-	    public void setId(long id) {
-	    	this.id = id;
 	    }
 	    
 		public String getEmail() {
@@ -53,19 +48,19 @@ public class RegisterUser {
 		}
 		
 		 public String getFirstname() {
-				return firstname;
+				return firstName;
 			}
 
 			public void setFirstname(String firstname) {
-				this.firstname = firstname;
+				this.firstName = firstname;
 			}
 
 			public String getLastname() {
-				return lastname;
+				return lastName;
 			}
 
 			public void setLastname(String lastname) {
-				this.lastname = lastname;
+				this.lastName = lastname;
 			}
 
 			public String getDesignation() {
@@ -74,6 +69,22 @@ public class RegisterUser {
 
 			public void setDesignation(String designation) {
 				this.designation = designation;
+			}
+			
+			public String getConfirmPassword() {
+				return confirmPassword;
+			}
+
+			public void setConfirmPassword(String confirmPassword) {
+				this.confirmPassword = confirmPassword;
+			}
+			
+			public String getStatus() {
+				  return status;
+			}
+			
+			public void setStatus(String status) {
+				this.status = status;
 			}
 
 

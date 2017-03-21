@@ -24,36 +24,45 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
+					<li><a href="/login">BACK</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
     <div class="container">
      <legend align = "center"> Register </legend>
-        <form:form action = ""  method = "post" class = "form-signin" align = "center">
-         <div class = "form-group">
-           <label align = "left">Email     </label>
-           <input type = "text" name = "email" placeholder = "enter email"><br><br>
+        <form:form action = ""  method = "post" class = "form-signin" align = "center" commandName = "registeruser">
+         <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Email     </label>
+           <input type = "text" name = "email" placeholder = "enter email">
+           <form:errors path="email"></form:errors><br><br>
          </div>
-         <div class = "form-group">
-           <label align = "left">Firstname </label>
-           <input type = "type" name = "password" placeholder = "enter firstname" ><br><br>
+         <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Firstname </label>
+           <input type = "type" name = "firstname" placeholder = "enter firstname" >
+           <form:errors path="firstname"></form:errors><br><br>
          </div> 
-         <div class = "form-group">
-           <label align = "left">Lastname  </label>
-           <input type = "text" name = "email" placeholder = "enter lastname"><br><br>
+         <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Lastname  </label>
+           <input type = "text" name = "lastname" placeholder = "enter lastname">
+           <form:errors path="lastname"></form:errors><br><br>
          </div>
-         <div class = "form-group">
-           <label align = "left">Password  </label>
-           <input type = "password" name = "email" placeholder = "enter password"><br><br>
+          <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Designation  </label>
+           <input type = "text" name = "designation" placeholder = "enter designation">
+           <form:errors path="designation"></form:errors><br><br>
          </div>
-         <div class = "form-group">
-           <label align = "left">Confirm Password</label>
-           <input type = "password" name = "email" placeholder = "enter password again"><br><br>
+         <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Password  </label>
+           <input type = "password" name = "password" placeholder = "enter password">
+           <form:errors path="password"></form:errors><br><br>
          </div>
-           <button class="btn btn-success" type = "submit" name = "registerbutton" value = "submit" > REGISTER </button>
+         <div class = "form-group ${status.error ? 'has-error' : ''}">
+           <label>Confirm Password</label>
+           <input type = "password" name = "confirmpassword" placeholder = "enter password again">
+           <form:errors path="confirmpassword"></form:errors><br><br>
+         </div>
+           <button class="btn btn-success" type = "submit" name = "registerbutton" value = "submit" onClick ="registration()"> REGISTER </button>
        </form:form>
     </div>
 </body>
