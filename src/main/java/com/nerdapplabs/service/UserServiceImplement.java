@@ -18,42 +18,44 @@ import com.nerdapplabs.model.RegisterUser;
 public class UserServiceImplement implements UserService {
 
 	@Autowired
-	private UserDao userdao;
+	private UserDao userDao;
 	
 	Connection connection;
 	
 	@Override
 	@Transactional
-	public void save(RegisterUser registeruser) {
-		     userdao.save(registeruser);
-
-	}
+	public void save(RegisterUser registerUser) {
+		     userDao.save(registerUser);
+    }
 
 	@Override
 	@Transactional
 	public void delete(String email) {
-		userdao.delete(email);
+		userDao.delete(email);
+    }
 
-	}
-
-	@Override
+	/*@Override
 	@Transactional
 	public RegisterUser findByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return null;
+	}*/
 	
 	public void validateRegister(RegisterUser registeruser, Errors error) {
 		   
 		ValidationUtils.rejectIfEmptyOrWhitespace(error, "email", "email can't be empty");
-        if (registeruser.getEmail().length() < 6 || registeruser.getEmail().length() > 32) {
+        
+		if (registeruser.getEmail().length() < 6 || registeruser.getEmail().length() > 32) {
             error.rejectValue("email", "Size.registeruser.email");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(error, "firstname", "firstname can't be empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(error, "lastname", "lastname can't be empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(error, "designation", "designation can't be empty");
+        
+		ValidationUtils.rejectIfEmptyOrWhitespace(error, "firstname", "firstname can't be empty");
+        
+		ValidationUtils.rejectIfEmptyOrWhitespace(error, "lastname", "lastname can't be empty");
+        
+		ValidationUtils.rejectIfEmptyOrWhitespace(error, "designation", "designation can't be empty");
         
         ValidationUtils.rejectIfEmptyOrWhitespace(error, "password", "password can't be empty");
+        
         if (registeruser.getPassword().length() < 8 || registeruser.getPassword().length() > 32) {
             error.rejectValue("password", "Size.registeruser.password");
         }
@@ -66,19 +68,19 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	@Transactional
-	public void validateLogin(RegisterUser registeruser, Errors error) {
+	public void validateLogin(RegisterUser registerUser, Errors error) {
 		 try {
 			   Statement statement = connection.createStatement();
   	           ResultSet rs = statement.executeQuery("select email, password from registeruser");
   	           while(rs.next()) {
-  		       registeruser.setEmail("email");
-  		       registeruser.setPassword("password");
+  		       registerUser.setEmail("email");
+  		       registerUser.setPassword("password");
   		       
-  		     } 
-		       } catch(Exception e) {
+  		       } 
+		      } catch(Exception e) {
 	        	   e.printStackTrace();
 	           }
 		
-	}
+	 }
 }
 

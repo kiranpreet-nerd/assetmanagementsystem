@@ -31,7 +31,7 @@
 	</nav>
     <div class="container">
      <legend align = "center"> Register </legend>
-        <form:form action = ""  method = "post" class = "form-signin" align = "center" commandName = "registeruser">
+        <form:form action = ""  method = "post" class = "form-signin" align = "center" commandName = "registerUser">
          <div class = "form-group ${status.error ? 'has-error' : ''}">
            <label>Email     </label>
            <input type = "text" name = "email" placeholder = "enter email">
@@ -39,7 +39,7 @@
          </div>
          <div class = "form-group ${status.error ? 'has-error' : ''}">
            <label>Firstname </label>
-           <input type = "type" name = "firstname" placeholder = "enter firstname" >
+           <input type = "text" name = "firstname" placeholder = "enter firstname" >
            <form:errors path="firstname"></form:errors><br><br>
          </div> 
          <div class = "form-group ${status.error ? 'has-error' : ''}">

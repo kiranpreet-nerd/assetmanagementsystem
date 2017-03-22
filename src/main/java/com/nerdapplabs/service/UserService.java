@@ -6,9 +6,9 @@ import com.nerdapplabs.model.*;
 
 public interface UserService {
         
-	    void save(RegisterUser registeruser);
+	    void save(RegisterUser registerUser);
         void delete(String email);
-        RegisterUser findByEmail(String email);
-		void validateLogin(RegisterUser registeruser, Errors error);
-		void validateRegister(RegisterUser registeruser, Errors error);
+       // RegisterUser findByEmail(String email);
+		void validateLogin(RegisterUser registerUser, Errors error);
+		void validateRegister(RegisterUser registerUser, Errors error);
 }

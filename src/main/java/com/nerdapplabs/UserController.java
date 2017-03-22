@@ -17,7 +17,7 @@ import com.nerdapplabs.service.UserServiceImplement;
 public class UserController {
     
 	@Autowired
-	private UserServiceImplement userservice;
+	private UserServiceImplement userService;
 	
 	@RequestMapping(value = "/login" , method = RequestMethod.GET)
 	public String login() {
@@ -25,33 +25,31 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login" , method = RequestMethod.POST )
-	public String validateLogin(@ModelAttribute RegisterUser registeruser , BindingResult result , String error , Model model) {
-		     RegisterUser user = new RegisterUser();
-		     userservice.validateLogin(registeruser, result);
-		     if (error != null) { 
-		           model.addAttribute("error", "email and password invalid") ; 
-		        } else {
-		           model.addAttribute("message", "logged in successfully");
-		        }
-		     return "login";
+	public String validateLogin(@ModelAttribute RegisterUser registerUser , BindingResult result , String error , Model model) {
+        userService.validateLogin(registerUser, result);
+		    if (error != null) { 
+		        model.addAttribute("error", "email and password invalid") ; 
+		     } else {
+		        model.addAttribute("message", "logged in successfully");
+		      }
+		return "login";
 	}
 	
 	
 	@RequestMapping(value = "/register" , method = RequestMethod.GET)
 	public String register() {
-		     return "register";
+        return "register";
 	}
 	
 	@RequestMapping(value = "/register" , method = RequestMethod.POST)
-	public String registeration(@ModelAttribute RegisterUser registeruser, BindingResult result) {
-		   RegisterUser user = new RegisterUser();
-		   userservice.save(registeruser);
-		   userservice.validateRegister(registeruser,result);
-		   return "redirect:/login";
+	public String registeration(@ModelAttribute RegisterUser registerUser, BindingResult result) {
+        //userService.validateRegister(registerUser,result);
+		userService.save(registerUser);
+		return "redirect:/login";
 	}
 	
 	@RequestMapping(value = "/forgotpassword")
-	public String forgotpassword() {
-		     return "forgotpassword";
+	public String forgotPassword() {
+        return "forgotpassword";
 	}
 }
