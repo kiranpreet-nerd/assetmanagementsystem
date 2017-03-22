@@ -17,6 +17,18 @@
 <c:url value="/css/userdesign.css" var="jstlCssfile" />
 <link href="${jstlCss}" rel="stylesheet" />
 
+<!-- Bootstrap Core CSS -->
+    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- MetisMenu CSS -->
+    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -32,7 +44,12 @@
 		</div>
 	</nav>
 	<div class="container">
-		<legend align="center"> LOGIN </legend>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+		<div class="panel-heading">
+               <h3 class="panel-title">Please Sign In</h3>
+        </div>
 		<form:form action="" method="post" class="form-inline" align="center" >
 			<div class="form-group ${error != null ? 'has-error' : ''}">
 				<label class = "sr-only">Email </label> 
@@ -49,5 +66,20 @@
 		
 		</form:form>
 	</div>
+	</div>
+	</div>
+	</div>
+	
+	<!-- jQuery -->
+<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/sb-admin-2.js"></script>
 </body>
 </html>
