@@ -4,28 +4,44 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "registeruser")
-public class RegisterUser {
+@Table(name = "user")
+public class User {
 
 	@Id
 	@Column(name = "email", unique = true)
+	@Email
+	@NotEmpty(message = "email required")
 	private String email;
+	
+	@NotEmpty(message ="*")
 	@Column(name = "firstname")
 	private String firstName;
+	
+	@NotEmpty(message = "*")
 	@Column(name = "lastname")
 	private String lastName;
+	
+	@NotEmpty(message = "*")
 	@Column(name = "designation")
 	private String designation;
-	@Column(name = "status")
-	private String status;
+	
+	//@Column(name = "status")
+	//private String status;
+	
+	@NotEmpty(message = "password required")
 	@Column(name = "password")
 	private String password;
-	@Column(name = "confirmpassword")
-	private String confirmPassword;
+	
+	@NotEmpty(message = "*")
+	@Column(name = "confirm")
+	private String confirm;
 
-	public RegisterUser() {
+	
+	public User() {
 
 	}
 
@@ -69,20 +85,15 @@ public class RegisterUser {
 		this.designation = designation;
 	}
 
-	public String getConfirmPassword() {
-		return confirmPassword;
+	public String getConfirm() {
+		return confirm;
 	}
 
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
+	public void setConfirm(String confirm) {
+		this.confirm = confirm;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
+	
+	
 
 }

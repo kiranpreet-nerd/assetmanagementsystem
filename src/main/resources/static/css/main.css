@@ -5,7 +5,24 @@ h1{
 h2{
 	color:#FF0000;
 }
+h3 {
+	align:center;
+}
+.form-control {
+	width:55%;
+	margin-left:40%;
+}
 
-label {
-	 text-align:left;
+.form-alignment {
+	margin-top:10%;
+	width:100%;
+}
+
+.form-align {
+	width:88%;
+}
+
+#form-item label {
+	 display: block;
+	 text-align: center;
 }

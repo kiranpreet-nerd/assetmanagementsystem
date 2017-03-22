@@ -2,9 +2,9 @@ package com.nerdapplabs.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.nerdapplabs.model.RegisterUser;
+import com.nerdapplabs.model.User;
 
-public interface UserDao extends CrudRepository<RegisterUser , String>{
+public interface UserDao extends CrudRepository<User , String>{
 	
             //public RegisterUser findByEmail(String email);
 		

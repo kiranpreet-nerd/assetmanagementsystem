@@ -45,25 +45,36 @@
 	</nav>
 	<div class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-6 col-md-offset-4">
             <div class="login-panel panel panel-default">
 		<div class="panel-heading">
                <h3 class="panel-title">Please Sign In</h3>
         </div>
-		<form:form action="" method="post" class="form-inline" align="center" >
-			<div class="form-group ${error != null ? 'has-error' : ''}">
-				<label class = "sr-only">Email </label> 
-				<input class = "textbox-alignment" type="text" name="email" width = "20px"
-					placeholder="enter email" >
-			</div><br>
-			<div class="form-group ${error != null ? 'has-error' : ''}">
-				<label class = "sr-only">Password </label> 
-				<input class = "textbox-alignment" type="password"
-					name="password" placeholder="enter password">
+		<form:form action="" method="post" class="form-inline" align="center" commandName = "userform" >
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class = "sr-only col-sm-2 control-label">Email </label> 
+				<input class = "form-alignment" type="text" name="email" width = "20px"
+					placeholder="enter email" > 
+			    <div align = "left">
+				<form:errors path="email"></form:errors>
+				</div>
+					
+								
+			 </div><br>
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class = "sr-only col-sm-2 control-label">Password </label> 
+				<input class = "form-align" type="password"
+					name="password" placeholder="enter password" width = "20px" >
+				<div>
+				<form:errors path="password"></form:errors>
+				</div>
 			</div><br><br>
-			<button class="btn btn-success" type = "submit" name = "loginbutton" value = "submit" onclick = "validateLogin()" > LOGIN </button><br><br>
+			<button class="btn btn-success" type = "submit" name = "loginbutton" value = "submit" onclick = "login()" align = "center"> LOGIN </button><br><br>
 			<a href="<c:url value="/forgotpassword"/>" >Forgot Password?</a>
-		
+		    <br><br>
+		    <br>
+		   
+		   
 		</form:form>
 	</div>
 	</div>

@@ -31,11 +31,10 @@
 		</div>
 	</nav>
 
-	<div class="container">
+	<div class="container" >
 
-		<div class="starter-template">
-			<h1>Snap-IT</h1>
-			<h2>Message: ${message}</h2>
+		<div class="starter-template" align = "center" commandName = "userform">
+			<h2>Welcome ${userform.email}! You have logged in successfully.</h2>
 		</div>
 
 	</div>
