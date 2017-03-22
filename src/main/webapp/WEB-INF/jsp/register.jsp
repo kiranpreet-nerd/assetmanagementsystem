@@ -57,7 +57,7 @@
            <input type = "password" name = "password" placeholder = "enter password">
            <form:errors path="password"></form:errors><br><br>
          </div>
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
+         <div class = "form-group">
            <label>Confirm Password</label>
            <input type = "password" name = "confirmpassword" placeholder = "enter password again">
            <form:errors path="confirmpassword"></form:errors><br><br>

@@ -58,10 +58,10 @@ public class UserServiceImplement implements UserService {
             error.rejectValue("password", "Size.registeruser.password");
         }
        
-        ValidationUtils.rejectIfEmptyOrWhitespace(error, "confirmpassword", "enter password again to confirm");
+       /* ValidationUtils.rejectIfEmptyOrWhitespace(error, "confirmpassword", "enter password again to confirm");
         if (!registeruser.getConfirmPassword().equals(registeruser.getPassword())) {
             error.rejectValue("confirmpassword", "Diff.registeruser.passwordConfirm");
-        }
+        }*/
 	}
 
 	@Override

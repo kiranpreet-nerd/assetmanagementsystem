@@ -24,8 +24,8 @@ public class RegisterUser {
 		private String status;
         @Column(name = "password")
 	    private String password;
-        @Column(name = "confirmpassword")
-        private String confirmPassword;
+       // @Column(name = "confirmpassword")
+        //private String confirmPassword;
 	    
         public RegisterUser() {
 	    	
@@ -71,13 +71,13 @@ public class RegisterUser {
 				this.designation = designation;
 			}
 			
-			public String getConfirmPassword() {
+			/*public String getConfirmPassword() {
 				return confirmPassword;
 			}
 
 			public void setConfirmPassword(String confirmPassword) {
 				this.confirmPassword = confirmPassword;
-			}
+			}*/
 			
 			public String getStatus() {
 				  return status;
