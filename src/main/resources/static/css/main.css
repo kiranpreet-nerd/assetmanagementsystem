@@ -1,11 +1,30 @@
-h1{
-	color:#0000FF;
+h1 {
+	color: #0000FF;
 }
 
-h2{
-	color:#FF0000;
+h2 {
+	color: #FF0000;
 }
 
-label {
-	 text-align:left;
+h3 {
+	align: center;
+}
+
+.form-control {
+	width: 55%;
+	margin-left: 40%;
+}
+
+.form-alignment {
+	margin-top: 10%;
+	width: 100%;
+}
+
+.form-align {
+	width: 88%;
+}
+
+#form-item label {
+	display: block;
+	text-align: center;
 }
