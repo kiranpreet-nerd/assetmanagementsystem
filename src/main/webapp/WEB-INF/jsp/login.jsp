@@ -67,8 +67,6 @@
 							<div align="left">
 								<form:errors path="email"></form:errors>
 							</div>
-
-
 						</div>
 						<br>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -89,8 +87,6 @@
 						<br>
 						<br>
 						<br>
-
-
 					</form:form>
 				</div>
 			</div>
