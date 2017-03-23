@@ -1,13 +1,16 @@
 package com.nerdapplabs;
 
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.service.UserServiceImplement;
 
@@ -18,35 +21,33 @@ public class UserController {
 	private UserServiceImplement userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Map<String, Object> model) {
-		User user = new User();
-		model.put("userform", user);
+	public String login() {
 		return "login";
 	}
-	
+
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {
-		   return "welcome";
+		return "welcome";
 	}
 
-	/*
-	 * @RequestMapping(value = "/login" , method = RequestMethod.POST ) public
-	 * String validateLogin(@ModelAttribute User registerUser , BindingResult
-	 * result , String error , Model model) {
-	 * userService.validateLogin(registerUser, result); if (error != null) {
-	 * model.addAttribute("error", "email and password invalid") ; } else {
-	 * model.addAttribute("message", "logged in successfully"); } return
-	 * "login"; }
-	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String validateLogin(@Valid @ModelAttribute("userform") User user, BindingResult result,
-			Map<String, Object> model) {
-		if (result.hasErrors()) {
+	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
+
+		User user = userService.loginUser(email, password);
+		if (user == null) {
+			model.addAttribute("loginError", "Error Loggin in , please try again");
 			return "login";
 		}
-		userService.save(user);
+		session.setAttribute("loggedInUser", user);
 		return "redirect:/welcome";
 	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.removeAttribute("loggedInUser");
+		return "login";
+	}
+
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
@@ -56,11 +57,13 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registeration(@Valid @ModelAttribute("userform") User user, BindingResult result,
 			Map<String, Object> model) {
+		String returnVal = "redirect:/login";
 		if (result.hasErrors()) {
-			return "register";
+			returnVal = "register";
+		} else {
+			userService.save(user);
 		}
-		userService.save(user);
-		return "redirect:/login";
+		return returnVal;
 	}
 
 	@RequestMapping(value = "/forgotpassword")

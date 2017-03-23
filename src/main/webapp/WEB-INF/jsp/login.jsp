@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="en">
 <head>
 
@@ -18,16 +18,23 @@
 <link href="${jstlCss}" rel="stylesheet" />
 
 <!-- Bootstrap Core CSS -->
-    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/bootstrap.min.css" rel="stylesheet" />
+<link
+	href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/bootstrap.min.css"
+	rel="stylesheet" />
 
-    <!-- MetisMenu CSS -->
-    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet" />
+<!-- MetisMenu CSS -->
+<link
+	href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/plugins/metisMenu/metisMenu.min.css"
+	rel="stylesheet" />
 
-    <!-- Custom CSS -->
-    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css" rel="stylesheet" />
+<!-- Custom CSS -->
+<link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css"
+	rel="stylesheet" />
 
-    <!-- Custom Fonts -->
-    <link href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<!-- Custom Fonts -->
+<link
+	href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
 
 </head>
 <body>
@@ -38,59 +45,70 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-				   <li><a href = "<c:url value="/register"/>" >SIGN UP</a>
+					<li><a href="<c:url value="/register"/>">SIGN UP</a>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-4">
-            <div class="login-panel panel panel-default">
-		<div class="panel-heading">
-               <h3 class="panel-title">Please Sign In</h3>
-        </div>
-		<form:form action="" method="post" class="form-inline" align="center" commandName = "userform" >
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class = "sr-only col-sm-2 control-label">Email </label> 
-				<input class = "form-alignment" type="text" name="email" width = "20px"
-					placeholder="enter email" > 
-			    <div align = "left">
-				<form:errors path="email"></form:errors>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Please Sign In</h3>
+					</div>
+					${loginError}
+					<form:form action="" method="post" class="form-inline"
+						align="center" commandName="userform">
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="sr-only col-sm-2 control-label">Email </label> <input
+								class="form-alignment" type="text" name="email" width="20px"
+								placeholder="enter email">
+							<div align="left">
+								<form:errors path="email"></form:errors>
+							</div>
+
+
+						</div>
+						<br>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="sr-only col-sm-2 control-label">Password </label> <input
+								class="form-align" type="password" name="password"
+								placeholder="enter password" width="20px">
+							<div>
+								<form:errors path="password"></form:errors>
+							</div>
+						</div>
+						<br>
+						<br>
+						<button class="btn btn-success" type="submit" name="loginbutton"
+							value="submit" onclick="login()" align="center">LOGIN</button>
+						<br>
+						<br>
+						<a href="<c:url value="/forgotpassword"/>">Forgot Password?</a>
+						<br>
+						<br>
+						<br>
+
+
+					</form:form>
 				</div>
-					
-								
-			 </div><br>
-			<div class="form-group ${status.error ? 'has-error' : ''}">
-				<label class = "sr-only col-sm-2 control-label">Password </label> 
-				<input class = "form-align" type="password"
-					name="password" placeholder="enter password" width = "20px" >
-				<div>
-				<form:errors path="password"></form:errors>
-				</div>
-			</div><br><br>
-			<button class="btn btn-success" type = "submit" name = "loginbutton" value = "submit" onclick = "login()" align = "center"> LOGIN </button><br><br>
-			<a href="<c:url value="/forgotpassword"/>" >Forgot Password?</a>
-		    <br><br>
-		    <br>
-		   
-		   
-		</form:form>
+			</div>
+		</div>
 	</div>
-	</div>
-	</div>
-	</div>
-	
+
 	<!-- jQuery -->
-<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/jquery.js"></script>
+	<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/jquery.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script
+		src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/bootstrap.min.js"></script>
 
-<!-- Metis Menu Plugin JavaScript -->
-<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+	<script
+		src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.min.js"></script>
 
-<!-- Custom Theme JavaScript -->
-<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/sb-admin-2.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/sb-admin-2.js"></script>
 </body>
 </html>

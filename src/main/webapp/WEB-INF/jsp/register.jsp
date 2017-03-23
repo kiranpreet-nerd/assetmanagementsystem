@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="en">
 <head>
 
@@ -29,46 +29,68 @@
 			</div>
 		</div>
 	</nav>
-    <div class="container">
-     <div class="row">
-        <div class="col-md-5 col-md-offset-3">
-            <div class="login-panel panel panel-default">
-		<div class="panel-heading">
-               <h3 class="panel-title" align = "center" >Register</h3>
-        </div><br>
-        <form:form action = ""  method = "post" commandName = "userform" class = "form-group" align = "center" >
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label  class="col-sm-4 control-label ">Email</label>
-           <input type = "text" name = "email" placeholder = "enter email" class = "form-control">
-           <div><form:errors path="email"></form:errors></div>
-         </div>
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label class="col-sm-4 control-label">First Name </label>
-           <input type = "text" name = "firstname" placeholder = "enter firstname" class = "form-control">
-           <div><form:errors path="firstname"></form:errors></div>
-         </div> 
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label class="col-sm-4 control-label">Last Name  </label>
-           <input type = "text" name = "lastname" placeholder = "enter lastname" class = "form-control">
-           <div><form:errors path="lastname"></form:errors></div>
-         </div>
-          <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label class="col-sm-4 control-label">Designation  </label>
-           <input type = "text" name = "designation" placeholder = "enter designation" class = "form-control">
-           <div><form:errors path="designation"></form:errors></div>
-         </div>
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label class="col-sm-4 control-label">Password  </label>
-           <input type = "password" name = "password" placeholder = "enter password" class = "form-control">
-           <div><form:errors path="password"></form:errors></div>
-         </div>
-         <div class = "form-group ${status.error ? 'has-error' : ''}">
-           <label class="col-sm-4 control-label">Confirm Password</label>
-           <input type = "password" name = "confirm" placeholder = "enter password again" class = "form-control">
-           <div><form:errors path="confirm"></form:errors></div>
-         </div>
-           <button class="btn btn-success" type = "submit" name = "registerbutton" value = "submit" onClick ="registration()"> REGISTER </button>
-       </form:form>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 col-md-offset-3">
+				<div class="login-panel panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title" align="center">Register</h3>
+					</div>
+					<br>
+					<form:form action="" method="post" commandName="userform"
+						class="form-group" align="center">
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label ">Email</label> <input
+								type="text" name="email" placeholder="enter email"
+								class="form-control">
+							<div>
+								<form:errors path="email"></form:errors>
+							</div>
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">First Name </label> <input
+								type="text" name="firstname" placeholder="enter firstname"
+								class="form-control">
+							<div>
+								<form:errors path="firstname"></form:errors>
+							</div>
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">Last Name </label> <input
+								type="text" name="lastname" placeholder="enter lastname"
+								class="form-control">
+							<div>
+								<form:errors path="lastname"></form:errors>
+							</div>
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">Designation </label> <input
+								type="text" name="designation" placeholder="enter designation"
+								class="form-control">
+							<div>
+								<form:errors path="designation"></form:errors>
+							</div>
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">Password </label> <input
+								type="password" name="password" placeholder="enter password"
+								class="form-control">
+							<div>
+								<form:errors path="password"></form:errors>
+							</div>
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">Confirm Password</label> <input
+								type="password" name="confirm"
+								placeholder="enter password again" class="form-control">
+							<div>
+								<form:errors path="confirm"></form:errors>
+							</div>
+						</div>
+						<button class="btn btn-success" type="submit"
+							name="registerbutton" value="submit" onClick="registration()">
+							REGISTER</button>
+					</form:form>
+				</div>
 </body>
 </html>

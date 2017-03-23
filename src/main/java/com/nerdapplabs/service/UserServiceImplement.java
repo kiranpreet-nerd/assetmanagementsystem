@@ -1,12 +1,9 @@
 package com.nerdapplabs.service;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
 import com.nerdapplabs.dao.UserDao;
 import com.nerdapplabs.model.User;
 
@@ -30,28 +27,19 @@ public class UserServiceImplement implements UserService {
 		userDao.delete(email);
 	}
 
-	/*
-	 * @Override
-	 * 
-	 * @Transactional public RegisterUser findByEmail(String email) { return
-	 * null; }
-	 */
+	@Override
+	public User findByEmail(String email) {
+		return userDao.findByEmail(email);
+	}
 
 	@Override
 	@Transactional
-	public void validateLogin(User registerUser, Errors error) {
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(
-					"select email, password from registeruser where email = '+email+' && password = '+password+'");
-			while (rs.next()) {
-				registerUser.setEmail("email");
-				registerUser.setPassword("password");
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public User loginUser(String email, String password) {
+		User user = this.findByEmail(email);
+		if (user != null && user.getPassword().equals(password)) {
+			return user;
 		}
-
+		return null;
 	}
+
 }

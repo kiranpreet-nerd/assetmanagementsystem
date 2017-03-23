@@ -24,16 +24,16 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href='/register'>Sign In</a></li>
+					<li><a href='/login'>LOGOUT</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<div class="container" >
+	<div class="container">
 
-		<div class="starter-template" align = "center" commandName = "userform">
+		<div class="starter-template" align="center" commandName="userform">
+			</a>
 			<h2>Welcome ${userform.email}! You have logged in successfully.</h2>
 		</div>
 

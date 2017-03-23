@@ -16,31 +16,30 @@ public class User {
 	@Email
 	@NotEmpty(message = "email required")
 	private String email;
-	
-	@NotEmpty(message ="*")
+
+	@NotEmpty(message = "first name required")
 	@Column(name = "firstname")
 	private String firstName;
-	
-	@NotEmpty(message = "*")
+
+	@NotEmpty(message = "last name required")
 	@Column(name = "lastname")
 	private String lastName;
-	
-	@NotEmpty(message = "*")
+
+	@NotEmpty(message = " designation required")
 	@Column(name = "designation")
 	private String designation;
-	
-	//@Column(name = "status")
-	//private String status;
-	
+
+	// @Column(name = "status")
+	// private String status;
+
 	@NotEmpty(message = "password required")
 	@Column(name = "password")
 	private String password;
-	
-	@NotEmpty(message = "*")
+
+	@NotEmpty(message = " enter password again")
 	@Column(name = "confirm")
 	private String confirm;
 
-	
 	public User() {
 
 	}
@@ -92,8 +91,5 @@ public class User {
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
 	}
-
-	
-	
 
 }
