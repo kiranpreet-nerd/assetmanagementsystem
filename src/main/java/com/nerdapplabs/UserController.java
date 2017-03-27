@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.service.UserServiceImplement;
 
@@ -48,26 +51,37 @@ public class UserController {
 		return "login";
 	}
 
-
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register() {
-		return "register";
+	public ModelAndView getRegistration() {
+		ModelAndView modelandview = new ModelAndView("register");
+		return modelandview;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registeration(@Valid @ModelAttribute("userform") User user, BindingResult result,
-			Map<String, Object> model) {
-		String returnVal = "redirect:/login";
+	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
+			Map<String, Object> model, Errors errors) {
+		ModelAndView modelandview = new ModelAndView("register");
 		if (result.hasErrors()) {
-			returnVal = "register";
-		} else {
-			userService.save(user);
+			return modelandview;
 		}
-		return returnVal;
+		User tempUser = userService.findByEmail(user.getEmail());
+		if (tempUser != null) {
+			((Model) model).addAttribute("emailError", "email already registered");
+			return modelandview;
+		}
+		if (!(user.getPassword().equals(user.getConfirm()))) {
+			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
+			return modelandview;
+		}
+		userService.save(user);
+
+		ModelAndView modelview = new ModelAndView("login");
+		return modelview;
 	}
 
 	@RequestMapping(value = "/forgotpassword")
 	public String forgotPassword() {
 		return "forgotpassword";
 	}
+
 }

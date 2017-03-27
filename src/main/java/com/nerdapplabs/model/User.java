@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,17 +15,34 @@ public class User {
 
 	@Id
 	@Column(name = "email", unique = true)
-	@Email
 	@NotEmpty(message = "email required")
+	@Size(min = 6, max = 30, message = "email name must be between 6 and 30")
+	@Email
 	private String email;
 
 	@NotEmpty(message = "first name required")
 	@Column(name = "firstname")
-	private String firstName;
+	private String firstname;
 
 	@NotEmpty(message = "last name required")
 	@Column(name = "lastname")
-	private String lastName;
+	private String lastname;
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
 	@NotEmpty(message = " designation required")
 	@Column(name = "designation")
@@ -58,22 +77,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getFirstname() {
-		return firstName;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstName = firstname;
-	}
-
-	public String getLastname() {
-		return lastName;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastName = lastname;
 	}
 
 	public String getDesignation() {

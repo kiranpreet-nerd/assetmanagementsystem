@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="en">
 <head>
-
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
@@ -46,11 +45,12 @@
 							<div>
 								<form:errors path="email"></form:errors>
 							</div>
+							<div> ${emailError} </div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">First Name </label> <input
 								type="text" name="firstname" placeholder="enter firstname"
-								class="form-control">
+								class="form-control" >
 							<div>
 								<form:errors path="firstname"></form:errors>
 							</div>

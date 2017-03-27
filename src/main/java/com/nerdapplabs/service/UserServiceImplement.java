@@ -28,6 +28,7 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User findByEmail(String email) {
 		return userDao.findByEmail(email);
 	}
@@ -43,3 +44,6 @@ public class UserServiceImplement implements UserService {
 	}
 
 }
+
+
+
