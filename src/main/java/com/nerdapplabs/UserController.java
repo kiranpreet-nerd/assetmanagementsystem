@@ -68,12 +68,13 @@ public class UserController {
 		if (tempUser != null) {
 			((Model) model).addAttribute("emailError", "email already registered");
 			return modelandview;
-		} else if (!(user.getPassword().equals(user.getConfirm()))) {
+		}
+		if (!(user.getPassword().equals(user.getConfirm()))) {
 			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
-		} else {
-			userService.save(user);
 		}
+		userService.save(user);
+
 		ModelAndView modelview = new ModelAndView("login");
 		return modelview;
 	}
