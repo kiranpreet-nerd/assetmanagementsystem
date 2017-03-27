@@ -28,18 +28,23 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User findByEmail(String email) {
 		return userDao.findByEmail(email);
 	}
-
+	
 	@Override
 	@Transactional
-	public User loginUser(String email, String password) {
+	public User loginUser (String email, String password) {
 		User user = this.findByEmail(email);
 		if (user != null && user.getPassword().equals(password)) {
 			return user;
 		}
 		return null;
 	}
+
+	
+	
+
 
 }

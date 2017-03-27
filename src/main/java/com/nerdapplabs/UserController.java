@@ -2,11 +2,16 @@ package com.nerdapplabs;
 
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,7 +53,6 @@ public class UserController {
 		return "login";
 	}
 
-
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
 		return "register";
@@ -59,7 +63,12 @@ public class UserController {
 			Map<String, Object> model) {
 		String returnVal = "redirect:/login";
 		if (result.hasErrors()) {
-			returnVal = "register";
+			returnVal = "redirect:/register";
+		}
+		User tempUser = userService.findByEmail(user.getEmail());
+		if (tempUser != null) {
+			((Model) model).addAttribute("emailError", "email already registered");
+			return "redirect:/register";
 		} else {
 			userService.save(user);
 		}
@@ -70,4 +79,5 @@ public class UserController {
 	public String forgotPassword() {
 		return "forgotpassword";
 	}
+
 }
