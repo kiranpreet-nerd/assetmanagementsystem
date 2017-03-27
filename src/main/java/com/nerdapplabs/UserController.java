@@ -2,11 +2,8 @@ package com.nerdapplabs;
 
 import java.util.Map;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,7 +61,6 @@ public class UserController {
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
 			Map<String, Object> model, Errors errors) {
 		ModelAndView modelandview = new ModelAndView("register");
-		// String returnVal = "redirect:/login";
 		if (result.hasErrors()) {
 			return modelandview;
 		}
