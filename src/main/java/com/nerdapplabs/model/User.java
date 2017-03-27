@@ -9,8 +9,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-
 @Entity
 @Table(name = "user")
 public class User {
@@ -60,6 +58,7 @@ public class User {
 	@NotEmpty(message = " enter password again")
 	@Column(name = "confirm")
 	private String confirm;
+
 	public User() {
 
 	}
@@ -93,9 +92,7 @@ public class User {
 	}
 
 	public void setConfirm(String confirm) {
-		this.confirm= confirm;
+		this.confirm = confirm;
 	}
-
-	
 
 }

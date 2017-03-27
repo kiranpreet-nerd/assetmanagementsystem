@@ -2,7 +2,7 @@ package com.nerdapplabs.service;
 
 import com.nerdapplabs.model.*;
 
-public interface UserService {
+public interface UserService{
 
 	void save(User registerUser);
 
