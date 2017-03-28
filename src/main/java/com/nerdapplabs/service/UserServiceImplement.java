@@ -1,17 +1,35 @@
 package com.nerdapplabs.service;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
 import javax.transaction.Transactional;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import com.nerdapplabs.dao.UserDao;
-import com.nerdapplabs.model.User;
+import com.nerdapplabs.model.*;
 
 @Service
 public class UserServiceImplement implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	private JdbcTemplate jdbcTemplate;
+	
+	public UserServiceImplement(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	Connection connection;
 
@@ -24,8 +42,12 @@ public class UserServiceImplement implements UserService {
 	@Override
 	@Transactional
 	public void delete(String email) {
-		userDao.delete(email);
+		//userDao.delete(email);
+		String sql = "DELETE FROM user WHERE email=?";
+	    jdbcTemplate.update(sql, email);
 	}
+	
+	
 
 	@Override
 	@Transactional
@@ -41,6 +63,37 @@ public class UserServiceImplement implements UserService {
 			return user;
 		}
 		return null;
+	}
+
+	@Override
+	public void update(User user,String email,Role role) {
+		if(user.getEmail() != null && user.getEmail().equals(email)) {
+			String sql = "UPDATE user SET firstname=?, email=?, designation=?, "
+                    + "role=? WHERE email=?";
+			 jdbcTemplate.update(sql, user.getFirstname(), user.getEmail(),
+		                user.getDesignation(), role.getRole());
+		}
+		
+	}
+
+	@Override
+	public List<User> list() {
+		String sql = "select email,firstname,designation,role from user";
+		List<User> listUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
+			
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User aUser = new User();
+				
+				aUser.setEmail(rs.getString("email"));
+				aUser.setFirstname(rs.getString("firstname"));
+				aUser.setDesignation(rs.getString("designation"));
+				aUser.setRole(rs.getString("role"));
+				
+				return aUser;
+			}
+		});
+		return listUsers;
 	}
 
 }

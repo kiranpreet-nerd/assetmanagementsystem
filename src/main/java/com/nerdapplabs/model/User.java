@@ -27,6 +27,14 @@ public class User {
 	@NotEmpty(message = "last name required")
 	@Column(name = "lastname")
 	private String lastname;
+	
+	public User() {} 
+	
+	public User (String firstname,String email, String designation) {
+		this.firstname = firstname;
+		this.email = email;
+		this.designation = designation;
+	}
 
 	public String getFirstname() {
 		return firstname;
@@ -48,8 +56,8 @@ public class User {
 	@Column(name = "designation")
 	private String designation;
 
-	// @Column(name = "status")
-	// private String status;
+	@Column(name = "role")
+	private String role;
 
 	@NotEmpty(message = "password required")
 	@Column(name = "password")
@@ -58,9 +66,13 @@ public class User {
 	@NotEmpty(message = " enter password again")
 	@Column(name = "confirm")
 	private String confirm;
+	
+	public String getRole() {
+		return role;
+	}
 
-	public User() {
-
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getEmail() {
