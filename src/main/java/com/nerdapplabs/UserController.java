@@ -3,8 +3,6 @@ package com.nerdapplabs;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.service.*;
@@ -27,8 +24,9 @@ public class UserController {
 
 	@Autowired
 	private UserServiceImplement userService;
-	
-	@Autowired UserService service;
+
+	@Autowired
+	UserService service;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -63,14 +61,14 @@ public class UserController {
 		ModelAndView modelandview = new ModelAndView("register");
 		return modelandview;
 	}
-	
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
-	public ModelAndView deleteUser(HttpServletRequest request) {
-		    String email = request.getParameter("email");
-		    userService.delete(email);
-		    return new ModelAndView("redirect:/users");
-	}
-    
+
+	/*
+	 * @RequestMapping(value = "/deleteUser", method = RequestMethod.GET) public
+	 * ModelAndView deleteUser(HttpServletRequest request) { String email =
+	 * request.getParameter("email"); userService.delete(email); return new
+	 * ModelAndView("redirect:/users"); }
+	 */
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
 			Map<String, Object> model, Errors errors) {

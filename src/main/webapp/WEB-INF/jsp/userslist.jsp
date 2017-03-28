@@ -29,31 +29,28 @@
 		</div>
 	</nav>
 	<div class="container">
-      <form:form action = "" class = "form-group">
-         <table class = "table table-striped"> 
-             <tr>   
-                <th> Name </th>
-                <th> Email </th>
-                <th> Designation </th>
-                <th> Role </th>
-                <th> Actions </th>
-              </tr>  
-            <c:forEach items = "${listUsers}" var = "user">
-            <tr>
-                <td> ${user.firstname}</td>
-                <td> ${user.email}</td>
-                <td> ${user.designation}</td>
-                <td> ${role.role}</td>
-                <td> 
-                <a href="/deleteUser?email=${email}">
-                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span></a>
-                &nbsp; 
-                 <span class="glyphicon glyphicon-pencil" aria-hidden="false"></span>
-                </td>
-            </tr>
-            </c:forEach>
-         </table>
-      </form:form>
-     </div>
+		<form:form action="" class="form-group">
+			<table class="table table-striped">
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Designation</th>
+					<th>Role</th>
+					<th>Actions</th>
+				</tr>
+				<c:forEach items="${listUsers}" var="user">
+					<tr>
+						<td>${user.firstname}</td>
+						<td>${user.email}</td>
+						<td>${user.designation}</td>
+						<td>${user.role}</td>
+						<td><a href="#"> <span class="glyphicon glyphicon-trash"
+								aria-hidden="true"></span></a> &nbsp; <span
+							class="glyphicon glyphicon-pencil" aria-hidden="false"></span></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</form:form>
+	</div>
 </body>
 </html>

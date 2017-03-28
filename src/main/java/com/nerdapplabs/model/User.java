@@ -28,7 +28,9 @@ public class User {
 	@Column(name = "lastname")
 	private String lastname;
 	
-	public User() {} 
+	public User() {
+		
+	} 
 	
 	public User (String firstname,String email, String designation) {
 		this.firstname = firstname;
