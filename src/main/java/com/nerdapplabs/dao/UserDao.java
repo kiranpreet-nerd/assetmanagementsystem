@@ -7,6 +7,7 @@ import com.nerdapplabs.model.User;
 public interface UserDao extends CrudRepository<User , String>{
 	
             public User findByEmail(String email);
+            
 		
 	}
 

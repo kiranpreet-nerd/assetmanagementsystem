@@ -72,6 +72,11 @@
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
+							<label class="col-sm-4 control-label">Role </label> <input
+								type="text"  readonly = "readonly" value = "Employee" name = "role"
+								class="form-control">
+						</div>
+						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">Password </label> <input
 								type="password" name="password" placeholder="enter password"
 								class="form-control">
