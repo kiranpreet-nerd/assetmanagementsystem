@@ -3,6 +3,8 @@ package com.nerdapplabs;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +63,29 @@ public class UserController {
 		ModelAndView modelandview = new ModelAndView("register");
 		return modelandview;
 	}
-
-	/*
-	 * @RequestMapping(value = "/deleteUser", method = RequestMethod.GET) public
-	 * ModelAndView deleteUser(HttpServletRequest request) { String email =
-	 * request.getParameter("email"); userService.delete(email); return new
-	 * ModelAndView("redirect:/users"); }
-	 */
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView updateUser(@ModelAttribute User user) {
+	    userService.Update(user);
+	    return new ModelAndView("redirect:/users");
+	}
+	
+	@RequestMapping(value = "/editUser")
+	public ModelAndView editUser(HttpServletRequest request) {
+	    String email = request.getParameter("email");
+	    User user = userService.edit(email);
+	    ModelAndView model = new ModelAndView("updateuser");
+	    model.addObject("updateForm", user);
+	    return model;
+	}
+	
+	  @RequestMapping(value = "/deleteUser", method = RequestMethod.GET) 
+	  public ModelAndView deleteUser(HttpServletRequest request) { 
+	      String email = request.getParameter("email");
+	      userService.delete(email); 
+	      return new ModelAndView("redirect:/users"); 
+	   }
+	 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,

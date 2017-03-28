@@ -7,7 +7,9 @@ import java.util.List;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import com.nerdapplabs.dao.UserDao;
@@ -56,12 +58,33 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public void update(User user, String email, Role role) {
-		if (user.getEmail() != null && user.getEmail().equals(email)) {
-			String sql = "UPDATE user SET firstname=?, email=?, designation=?, " + "role=? WHERE email=?";
-			jdbcTemplate.update(sql, user.getFirstname(), user.getEmail(), user.getDesignation(), role.getRole());
-		}
+	public void Update(User user) {
+	
+			String sql = "UPDATE user SET firstname=?, designation=?, role=? WHERE email=?";
+			jdbcTemplate.update(sql, user.getFirstname(), user.getDesignation(), user.getRole(), user.getEmail());
 
+	}
+	
+	public User edit(String email) {
+	    String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
+	    return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
+	 
+	        @Override
+	        public User extractData(ResultSet rs) throws SQLException,
+	                DataAccessException {
+	            if (rs.next()) {
+	                User user = new User();
+	                user.setFirstname(rs.getString("firstname"));
+	                user.setEmail(rs.getString("email"));
+	                user.setDesignation(rs.getString("designation"));
+	                user.setRole(rs.getString("role"));
+	                return user;
+	            }
+	 
+	            return null;
+	        }
+	 
+	    });
 	}
 
 	@Override

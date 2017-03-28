@@ -44,9 +44,10 @@
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
-						<td><a href="#"> <span class="glyphicon glyphicon-trash"
-								aria-hidden="true"></span></a> &nbsp; <span
-							class="glyphicon glyphicon-pencil" aria-hidden="false"></span></td>
+						<td><a href= "/deleteUser?email=${user.email}"> 
+						       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> &nbsp; 
+						     <a href= "/editUser?email=${user.email}">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 					</tr>
 				</c:forEach>
 			</table>

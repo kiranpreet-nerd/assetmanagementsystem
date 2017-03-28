@@ -10,7 +10,9 @@ public interface UserService{
 
 	void delete(String email);
 
-	void update(User user, String email, Role role);
+	void Update(User user);
+	
+	User edit (String email);
 
 	List<User> list();
 
