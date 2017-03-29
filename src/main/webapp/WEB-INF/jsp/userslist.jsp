@@ -24,7 +24,7 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href='/login'>LOGOUT</a></li>
-					<li><a href='/register'>ADD USER</a></li>
+					<li><a href='/add'>ADD USER</a></li>
 				</ul>
 			</div>
 		</div>
