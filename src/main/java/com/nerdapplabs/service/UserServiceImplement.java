@@ -8,8 +8,6 @@ import javax.sql.DataSource;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -59,41 +57,40 @@ public class UserServiceImplement implements UserService {
 		}
 		return null;
 	}
-	
-	@Override
-	public User getUserByEmail(String email){  
-	    String sql="select * from user where email=?";  
-	    return jdbcTemplate.queryForObject(sql, new Object[]{email},new BeanPropertyRowMapper<User>(User.class));  
-	}  
-
 
 	@Override
-	public int update(User user){  
-	    String sql="update user set firstname='"+user.getFirstname()+"',lastname='"+user.getLastname()+"', designation='"+user.getDesignation()+"', role='"+user.
-	         getRole()+"' where email ='"+user.getEmail()+"'";
-	    return jdbcTemplate.update(sql);  
-	}  
-	
+	public User getUserByEmail(String email) {
+		String sql = "select * from user where email=?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { email }, new BeanPropertyRowMapper<User>(User.class));
+	}
+
+	@Override
+	public int update(User user) {
+		String sql = "update user set firstname='" + user.getFirstname() + "',lastname='" + user.getLastname()
+				+ "', designation='" + user.getDesignation() + "', role='" + user.getRole() + "' where email ='"
+				+ user.getEmail() + "'";
+		return jdbcTemplate.update(sql);
+	}
+
 	public User edit(String email) {
-	    String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
-	    return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
-	 
-	        @Override
-	        public User extractData(ResultSet rs) throws SQLException,
-	                DataAccessException {
-	            if (rs.next()) {
-	                User user = new User();
-	                user.setFirstname(rs.getString("firstname"));
-	                user.setEmail(rs.getString("email"));
-	                user.setDesignation(rs.getString("designation"));
-	                user.setRole(rs.getString("role"));
-	                return user;
-	            } else {
-	            return null;
-	            }
-	        }
-	 
-	    });
+		String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
+
+			@Override
+			public User extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if (rs.next()) {
+					User user = new User();
+					user.setFirstname(rs.getString("firstname"));
+					user.setEmail(rs.getString("email"));
+					user.setDesignation(rs.getString("designation"));
+					user.setRole(rs.getString("role"));
+					return user;
+				} else {
+					return null;
+				}
+			}
+
+		});
 	}
 
 	@Override

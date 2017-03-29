@@ -45,12 +45,12 @@
 							<div>
 								<form:errors path="email"></form:errors>
 							</div>
-							<div> ${emailError} </div>
+							<div>${emailError}</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">First Name </label> <input
 								type="text" name="firstname" placeholder="enter firstname"
-								class="form-control" >
+								class="form-control">
 							<div>
 								<form:errors path="firstname"></form:errors>
 							</div>
@@ -73,7 +73,7 @@
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">Role </label> <input
-								type="text"  readonly = "readonly" value = "Employee" name = "role"
+								type="text" readonly="readonly" value="Employee" name="role"
 								class="form-control">
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
