@@ -40,7 +40,7 @@
 				</tr>
 				<c:forEach items="${listUsers}" var="user">
 					<tr>
-						<td>${user.firstname}</td>
+						<td>${user.firstname} ${user.lastname}</td> 
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>

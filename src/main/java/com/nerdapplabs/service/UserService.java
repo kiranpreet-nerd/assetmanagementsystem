@@ -10,7 +10,7 @@ public interface UserService{
 
 	void delete(String email);
 
-	void Update(User user);
+	int update( User user);
 	
 	User edit (String email);
 
@@ -19,5 +19,7 @@ public interface UserService{
 	User findByEmail(String email);
 
 	User loginUser(String email, String password);
+	
+	User getUserByEmail(String email);
 
 }
