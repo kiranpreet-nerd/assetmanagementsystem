@@ -60,7 +60,7 @@ public class UserServiceImplement implements UserService {
 	@Override
 	public void Update(User user) {
 	
-			String sql = "UPDATE user SET firstname=?, designation=?, role=? WHERE email=?";
+			String sql = "UPDATE user SET firstname='?', designation='?', role='?' WHERE email='?'";
 			jdbcTemplate.update(sql, user.getFirstname(), user.getDesignation(), user.getRole(), user.getEmail());
 
 	}

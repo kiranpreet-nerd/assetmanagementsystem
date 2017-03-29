@@ -59,7 +59,7 @@
 					           </div>
 					           </div><br> 
 					           <div>
-					               <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success"  > Update </button>
+					               <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success" > Update </button>
 					           </div>
 					</form:form>
 					</div>
