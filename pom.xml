@@ -92,8 +92,6 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
-          
-		
 		<dependency>	  
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
@@ -107,8 +105,9 @@
 			<scope>test</scope>
 		</dependency>
 				
-
 	</dependencies>
+	
+	
 	<build>
 		<plugins>
 			<!-- Package as an executable jar/war -->
