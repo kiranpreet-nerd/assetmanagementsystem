@@ -83,6 +83,37 @@ public class UserController {
 		userService.delete(email);
 		return new ModelAndView("redirect:/users");
 	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView getAdd() {
+		ModelAndView modelandview = new ModelAndView("add");
+		return modelandview;
+	}
+
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ModelAndView addUser(@Valid @ModelAttribute("adduser") User user, BindingResult result,
+			Map<String, Object> model, Errors errors) {
+		ModelAndView modelandview = new ModelAndView("add");
+		if (result.hasErrors()) {
+			return modelandview;
+		}
+		User tempUser = userService.findByEmail(user.getEmail());
+		if (tempUser != null) {
+			((Model) model).addAttribute("emailError", "email already registered");
+			return modelandview;
+		}
+		if (!(user.getPassword().equals(user.getConfirm()))) {
+			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
+			return modelandview;
+		}
+		userService.save(user);
+
+		ModelAndView modelview = new ModelAndView("redirect:/users");
+		return modelview;
+		
+	}
+	
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
@@ -102,7 +133,7 @@ public class UserController {
 		}
 		userService.save(user);
 
-		ModelAndView modelview = new ModelAndView("login");
+		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
 	}
 
