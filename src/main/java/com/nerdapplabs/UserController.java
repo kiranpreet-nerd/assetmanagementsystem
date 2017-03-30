@@ -3,6 +3,7 @@ package com.nerdapplabs;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.service.*;
-
 
 @Controller
 public class UserController {
@@ -62,12 +62,58 @@ public class UserController {
 		return modelandview;
 	}
 
-	/*
-	 * @RequestMapping(value = "/deleteUser", method = RequestMethod.GET) public
-	 * ModelAndView deleteUser(HttpServletRequest request) { String email =
-	 * request.getParameter("email"); userService.delete(email); return new
-	 * ModelAndView("redirect:/users"); }
-	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ModelAndView updateUser(@ModelAttribute("user") User user) {
+		userService.update(user);
+		return new ModelAndView("redirect:/users");
+	}
+
+	@RequestMapping(value = "/editUser")
+	public ModelAndView editUser(HttpServletRequest request) {
+		String email = request.getParameter("email");
+		ModelAndView model = new ModelAndView("updateuser");
+		User user = userService.edit(email);
+		model.addObject("updateForm", user);
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
+	public ModelAndView deleteUser(HttpServletRequest request) {
+		String email = request.getParameter("email");
+		userService.delete(email);
+		return new ModelAndView("redirect:/users");
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView getAdd() {
+		ModelAndView modelandview = new ModelAndView("add");
+		return modelandview;
+	}
+
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ModelAndView addUser(@Valid @ModelAttribute("adduser") User user, BindingResult result,
+			Map<String, Object> model, Errors errors) {
+		ModelAndView modelandview = new ModelAndView("add");
+		if (result.hasErrors()) {
+			return modelandview;
+		}
+		User tempUser = userService.findByEmail(user.getEmail());
+		if (tempUser != null) {
+			((Model) model).addAttribute("emailError", "email already registered");
+			return modelandview;
+		}
+		if (!(user.getPassword().equals(user.getConfirm()))) {
+			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
+			return modelandview;
+		}
+		userService.save(user);
+
+		ModelAndView modelview = new ModelAndView("redirect:/users");
+		return modelview;
+		
+	}
+	
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
@@ -87,7 +133,7 @@ public class UserController {
 		}
 		userService.save(user);
 
-		ModelAndView modelview = new ModelAndView("login");
+		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
 	}
 

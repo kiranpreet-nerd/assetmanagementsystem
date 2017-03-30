@@ -23,7 +23,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/login">BACK</a></li>
+					<li><a href="/users">BACK</a></li>
 				</ul>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 						<h3 class="panel-title" align="center">Register</h3>
 					</div>
 					<br>
-					<form:form action="" method="post" commandName="userform"
+					<form:form action="" method="post" commandName="adduser"
 						class="form-group" align="center">
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label ">Email</label> <input
@@ -72,11 +72,6 @@
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Role </label> <input
-								type="text" readonly="readonly" value="Employee" name="role"
-								class="form-control">
-						</div>
-						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">Password </label> <input
 								type="password" name="password" placeholder="enter password"
 								class="form-control">
@@ -92,9 +87,21 @@
 								<form:errors path="confirm"></form:errors>
 							</div>
 						</div>
+						 <div class = "form-group">
+					           <label class="col-sm-4 control-label">Role </label> 
+					           <div class=" col-sm-3 checkbox checkbox-primary">
+					           <input id="checkbox" type="checkbox" name = "role" value = "Super Admin"> Super Admin <br>
+					           </div><br>
+                               <div class=" col-sm-3 checkbox checkbox-primary">
+					           <input id="checkbox" type="checkbox" name = "role" value = "Admin"> Admin <br>
+					           </div><br>
+					           <div class="col-sm-1 checkbox checkbox-primary">
+					           <input id="checkbox" type="checkbox" name = "role" value = "Employee" checked> Employee <br>
+					           </div>
+					      </div><br> 
 						<button class="btn btn-success" type="submit"
-							name="registerbutton" value="submit" onClick="registration()">
-							REGISTER</button>
+							name="registerbutton" value="submit" onClick="addUser()">
+							ADD</button>
 					</form:form>
 				</div>
 </body>

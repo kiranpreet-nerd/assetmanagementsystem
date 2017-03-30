@@ -10,12 +10,16 @@ public interface UserService{
 
 	void delete(String email);
 
-	void update(User user, String email, Role role);
+	int update( User user);
+	
+	User edit (String email);
 
 	List<User> list();
 
 	User findByEmail(String email);
 
 	User loginUser(String email, String password);
+	
+	User getUserByEmail(String email);
 
 }
