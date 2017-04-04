@@ -9,16 +9,7 @@
 	 <%
      String email=request.getParameter("email");
      request.getSession().setAttribute("email", email);
-    
-     String lastname=request.getParameter("lastname");
-     request.getSession().setAttribute("lastname", lastname);
-     String designation=request.getParameter("designation");
-     request.getSession().setAttribute("designation", designation);
-     String role=request.getParameter("role");
-     request.getSession().setAttribute("role", role);
-     %>
-      <% String firstname=request.getParameter("firstname");
-     request.getSession().setAttribute("firstname", firstname);
+     
      %>
 	
 
@@ -55,11 +46,11 @@
 					<form:form action = "update" class = "form-group" align = "center" modelAttribute = "updateForm" method = "post">
 					           <div class = "form-group">
 					           <label class="col-sm-4 control-label">First Name </label> 
-					           <input type="text" name="firstname" placeholder="enter first Name" value = "${firstname}" class="form-control" > 
+					           <input type="text" name="firstname" value = "<%=session.getAttribute("firstname")%>" class="form-control" > 
 					           </div> <br>
 					           <div class = "form-group">
 					           <label class="col-sm-4 control-label">Last Name </label> 
-					           <input type="text" name="lastname" placeholder="enter Last Name" value = "${lastname}" class="form-control" > 
+					           <input type="text" name="lastname"  value = "${lastname}" class="form-control" > 
 					           </div> <br>
 					            <div class = "form-group">
 					           <label class="col-sm-4 control-label">Email </label> 
@@ -67,7 +58,7 @@
 					           </div> <br>
 					           <div class = "form-group">
 					           <label class="col-sm-4 control-label">Designation </label> 
-					           <input type="text" name="designation"  placeholder="enter designation" value = "${designation}" class="form-control" > 
+					           <input type="text" name="designation" value = "${designation}" class="form-control" > 
 					           </div> <br>
 					           <div class = "form-group">
 					           <label class="col-sm-4 control-label">Role </label> 

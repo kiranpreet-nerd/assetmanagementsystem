@@ -11,6 +11,16 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 
+	 <%
+     String lastname=request.getParameter("lastname");
+     request.getSession().setAttribute("lastname", lastname);
+     String designation=request.getParameter("designation");
+     request.getSession().setAttribute("designation", designation);
+     String role=request.getParameter("role");
+     request.getSession().setAttribute("role", role);
+	 
+	 %>
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -23,7 +33,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href='/login'>LOGOUT</a></li>
+					<li><a href='/logout'>LOGOUT</a></li>
 					<li><a href='/add'>ADD USER</a></li>
 				</ul>
 			</div>
@@ -52,6 +62,10 @@
 					</tr>
 				</c:forEach>
 			</table>
+			 <% 
+			 
+			 String firstname=request.getParameter("firstname");
+			 session.setAttribute("firstname", firstname);%> 
 		</form:form>
 	</div>
 </body>

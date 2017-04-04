@@ -71,7 +71,11 @@ public class UserServiceImplement implements UserService {
 				+ user.getEmail() + "'";
 		return jdbcTemplate.update(sql);
 	}
-
+	
+    public int softDelete(String email) {
+    	String sql = "update user set status = 0 where email = '" + email + "'";
+        return jdbcTemplate.update(sql);
+    }
 	public User edit(String email) {
 		String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
@@ -95,7 +99,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<User> list() {
-		String sql = "select email,firstname,designation,role,lastname from user";
+		String sql = "select email,firstname,designation,role,lastname from user where status = 1";
 		List<User> listUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override

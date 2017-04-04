@@ -12,6 +12,8 @@ public interface UserService{
 
 	int update( User user);
 	
+    int softDelete(String email );
+	
 	User edit (String email);
 
 	List<User> list();

@@ -69,6 +69,17 @@ public class User {
 	@Column(name = "confirm")
 	private String confirm;
 	
+	@Column(name = "status")
+	private Integer status;
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public String getRole() {
 		return role;
 	}

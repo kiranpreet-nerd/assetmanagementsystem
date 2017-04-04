@@ -53,7 +53,7 @@ public class UserController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.removeAttribute("loggedInUser");
-		return "login";
+		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -80,7 +80,7 @@ public class UserController {
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
 	public ModelAndView deleteUser(HttpServletRequest request) {
 		String email = request.getParameter("email");
-		userService.delete(email);
+		userService.softDelete(email);
 		return new ModelAndView("redirect:/users");
 	}
 	
@@ -107,6 +107,7 @@ public class UserController {
 			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
+		user.setStatus(1);
 		userService.save(user);
 
 		ModelAndView modelview = new ModelAndView("redirect:/users");
@@ -131,6 +132,7 @@ public class UserController {
 			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
+		user.setStatus(1);
 		userService.save(user);
 
 		ModelAndView modelview = new ModelAndView("redirect:/login");
