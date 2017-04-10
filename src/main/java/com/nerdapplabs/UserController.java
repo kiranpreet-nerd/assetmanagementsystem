@@ -39,7 +39,7 @@ public class UserController {
 	
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	 private static final String STRING_PATTERN = "[a-zA-Z]+";
-	 private static final String PASSWORD_PATTERN = "[A-Z]+[a-z]+[0-9]+[@._#$&!%]";
+	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,16}$";
 			//"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			//+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -195,7 +195,7 @@ public class UserController {
             	 Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
             	 Matcher matcherPassword= patternPassword.matcher(user.getPassword());
             	 if(!matcherPassword.matches()) {
-            		 errors.rejectValue("password", "special.password", "password should contain atleast one capital letter, one numeric value , one small letter and special symbol");
+            		 errors.rejectValue("password", "special.password", "password should contain atleast one numeric value and special symbol");
             		 return modelandview;
                  } 
                }
