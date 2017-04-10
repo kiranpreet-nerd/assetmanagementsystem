@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -15,8 +16,9 @@ public class User {
 
 	@Id
 	@Column(name = "email", unique = true)
-	@NotEmpty(message = "email required")
-	@Size(min = 6, max = 30, message = "email name must be between 6 and 30")
+	@NotEmpty
+	@Size(min = 6, max = 40, message = "email name must be between 6 and 40")
+	//@Pattern(regexp = ".+@+nerdapplabs+.com", message = "domain must be nerdapplabs.com")
 	@Email
 	private String email;
 
@@ -57,15 +59,16 @@ public class User {
 	@NotEmpty(message = " designation required")
 	@Column(name = "designation")
 	private String designation;
-
+    
+	@NotEmpty(message = "role required")
 	@Column(name = "role")
 	private String role;
 
-	@NotEmpty(message = "password required")
+	//@NotEmpty(message = "password required")
 	@Column(name = "password")
 	private String password;
 
-	@NotEmpty(message = " enter password again")
+	//@NotEmpty(message = " enter password again")
 	@Column(name = "confirm")
 	private String confirm;
 	

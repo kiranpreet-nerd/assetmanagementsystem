@@ -12,15 +12,6 @@
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
 	 
-	 <%
-     String lastname=request.getParameter("lastname");
-     request.getSession().setAttribute("lastname", lastname);
-     String designation=request.getParameter("designation");
-     request.getSession().setAttribute("designation", designation);
-     String role=request.getParameter("role");
-     request.getSession().setAttribute("role", role);
-	 
-	 %>
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -40,7 +31,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group">
+		<form:form action="" class="form-group" commandName = "user">
 			<table class="table table-striped">
 				<tr>
 					<th>Name</th>
@@ -51,22 +42,18 @@
 				</tr>
 				<c:forEach items="${listUsers}" var="user">
 					<tr>
-						<td>${user.firstname}${user.lastname}</td>
+						<td>${user.firstname} ${user.lastname}</td>
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
 						<td><a href="/deleteUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-							&nbsp; <a href="/editUser?email=${user.email}"> <span
+							&nbsp; <a href="/getUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 					</tr>
 				</c:forEach>
 			</table>
-			 <% 
-			 
-			 String firstname=request.getParameter("firstname");
-			 session.setAttribute("firstname", firstname);%> 
-		</form:form>
+  		</form:form>
 	</div>
 </body>
 </html>

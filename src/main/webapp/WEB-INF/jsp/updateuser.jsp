@@ -9,10 +9,17 @@
 	 <%
      String email=request.getParameter("email");
      request.getSession().setAttribute("email", email);
+     String firstname=request.getParameter("firstname");
+     request.getSession().setAttribute("firstname", firstname);
+     String lastname=request.getParameter("lastname");
+     request.getSession().setAttribute("lastname", lastname);
+     String designation=request.getParameter("designation");
+     request.getSession().setAttribute("designation", designation);
+     String role=request.getParameter("role");
+     request.getSession().setAttribute("role", role);
      
      %>
 	
-
 <!-- 
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
@@ -43,38 +50,43 @@
 					</div>
 				</div>
 					<br>
-					<form:form action = "update" class = "form-group" align = "center" modelAttribute = "updateForm" method = "post">
-					           <div class = "form-group">
+					 <% out.println("hi"); %>
+					<form:form action = "/updateuser"  method = "post" class = "form-group" align = "center" commandName="user" >
+					<input type = "hidden" name = "${user.email}"/>
+					           <div class = "form-group" >
 					           <label class="col-sm-4 control-label">First Name </label> 
-					           <input type="text" name="firstname" value = "<%=session.getAttribute("firstname")%>" class="form-control" > 
+					           <input type="text" name="firstname" value = "${user.firstname}" class="form-control" > 
+					           <form:errors path="firstname"/>
 					           </div> <br>
-					           <div class = "form-group">
+					           <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Last Name </label> 
-					           <input type="text" name="lastname"  value = "${lastname}" class="form-control" > 
+					           <input type="text" name="lastname"  value = "${user.lastname}" class="form-control" > 
+					           <form:errors path="lastname" />
 					           </div> <br>
 					            <div class = "form-group">
 					           <label class="col-sm-4 control-label">Email </label> 
-					           <input type="text" name="email" readonly = "readonly" value = "${email}" class="form-control" > 
+					           <input type="text" name="email" readonly = "readonly" value = "${user.email}" class="form-control" > 
 					           </div> <br>
 					           <div class = "form-group">
-					           <label class="col-sm-4 control-label">Designation </label> 
-					           <input type="text" name="designation" value = "${designation}" class="form-control" > 
+					           <label class="col-sm-4 control-label" >Designation </label> 
+					           <input type="text" name="designation" value = "${user.designation}" class="form-control" > 
+					           <form:errors path="designation" />
 					           </div> <br>
-					           <div class = "form-group">
-					           <label class="col-sm-4 control-label">Role </label> 
+					           <div class = "form-group" >
+					           <label class="col-sm-4 control-label" >Role </label> 
 					           <div class=" col-sm-3 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "Super Admin"> Super Admin <br>
+					           <form:errors path="role"  />
+					           <input id="checkbox" type="checkbox" name = "${user.role}" value = " ROLE_SUPER"> Super Admin <br>
 					           </div><br>
                                <div class=" col-sm-3 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "Admin"> Admin <br>
+					           <input id="checkbox" type="checkbox" name = "${user.role}" value = "ROLE_ADMIN"> Admin <br>
 					           </div><br>
 					           <div class="col-sm-1 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "Employee" checked> Employee <br>
+					           <input id="checkbox" type="checkbox" name = "${user.role}" value = "ROLE_USER"> Employee <br>
 					           </div>
 					           </div><br> 
-					           <div>
-					               <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success"  > Update </button>
-					           </div>
+					            <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success" onClick="updateUser()"> Update </button>
+					        
 					</form:form>
 					</div>
 				</div>

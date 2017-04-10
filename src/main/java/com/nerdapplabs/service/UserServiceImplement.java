@@ -13,6 +13,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+
 import com.nerdapplabs.dao.UserDao;
 import com.nerdapplabs.model.*;
 
@@ -69,6 +72,7 @@ public class UserServiceImplement implements UserService {
 		String sql = "update user set firstname='" + user.getFirstname() + "',lastname='" + user.getLastname()
 				+ "', designation='" + user.getDesignation() + "', role='" + user.getRole() + "' where email ='"
 				+ user.getEmail() + "'";
+		//String sql = "update user set firstname = '?', lastname = '?', email = '?', designation = '?', role = '?' where email = '?'";
 		return jdbcTemplate.update(sql);
 	}
 	
@@ -76,25 +80,19 @@ public class UserServiceImplement implements UserService {
     	String sql = "update user set status = 0 where email = '" + email + "'";
         return jdbcTemplate.update(sql);
     }
-	public User edit(String email) {
-		String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
-		return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
-
-			@Override
-			public User extractData(ResultSet rs) throws SQLException, DataAccessException {
-				if (rs.next()) {
-					User user = new User();
-					user.setFirstname(rs.getString("firstname"));
-					user.setEmail(rs.getString("email"));
-					user.setDesignation(rs.getString("designation"));
-					user.setRole(rs.getString("role"));
-					return user;
-				} else {
-					return null;
-				}
-			}
-
-		});
+    
+    public User getUser(String email) {
+    	return userDao.findOne(email);
+    }
+	
+    
+	
+	@Override
+	public void validate(Object target, Errors errors) {
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "firstname.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "lastname.required");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "designation", "designation.required");
+		ValidationUtils.rejectIfEmpty(errors, "role", "role.required");
 	}
 
 	@Override
