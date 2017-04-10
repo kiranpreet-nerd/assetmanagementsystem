@@ -255,11 +255,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value= "/recoverypassword", method = RequestMethod.POST)
-	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model) {
+	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model, @RequestParam String email) {
 		System.out.println("in controller");
 		User tempuser = userService.findByEmail(user.getEmail());
 		if(tempuser != null && tempuser.getStatus() == 1) {
-		   userService.sendEmail(tempuser);
+		   userService.sendEmail(email);
 		   model.addAttribute("emailSuccess","email successfully send");
 		   return "forgotpassword";
 		} else {

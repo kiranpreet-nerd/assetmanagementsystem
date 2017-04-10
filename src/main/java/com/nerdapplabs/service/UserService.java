@@ -22,7 +22,7 @@ public interface UserService{
 
 	User findByEmail(String email);
 	
-	void sendEmail(User user);
+	void sendEmail(String email);
 
 	User loginUser(String email, String password);
 	

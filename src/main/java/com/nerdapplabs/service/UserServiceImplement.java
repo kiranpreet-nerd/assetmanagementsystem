@@ -114,15 +114,13 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public void sendEmail(User user) {
-		user = this.findByEmail(user.getEmail());
-		System.out.println("starting mail send");
+	public void sendEmail(String email) {
+		User user = this.findByEmail(email);
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(user.getEmail());
 		message.setSubject("Recovery Password");
 		message.setText("hello "+ user.getFirstname() +" your recovery password is "+ user.getPassword());
 		try {
-			System.out.println("mail in process");
 			mailService.send(message);
 			System.out.println("mail sent");
 		} catch (MailException e) {
