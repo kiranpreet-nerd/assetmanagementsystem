@@ -28,3 +28,7 @@ h3 {
 	display: block;
 	text-align: center;
 }
+
+.required label {
+	color : red;
+}
