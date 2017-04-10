@@ -12,6 +12,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -26,6 +29,9 @@ public class UserServiceImplement implements UserService {
 	private UserDao userDao;
 
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private JavaMailSender mailService;
 
 	public UserServiceImplement(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
@@ -85,15 +91,6 @@ public class UserServiceImplement implements UserService {
     	return userDao.findOne(email);
     }
 	
-    
-	
-	@Override
-	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "firstname.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "lastname.required");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "designation", "designation.required");
-		ValidationUtils.rejectIfEmpty(errors, "role", "role.required");
-	}
 
 	@Override
 	public List<User> list() {
@@ -114,6 +111,22 @@ public class UserServiceImplement implements UserService {
 			}
 		});
 		return listUsers;
+	}
+
+	@Override
+	public void sendEmail(String email) {
+		User user = this.findByEmail(email);
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(user.getEmail());
+		message.setSubject("Recovery Password");
+		message.setText("hello "+ user.getFirstname() +" your recovery password is "+ user.getPassword());
+		try {
+			mailService.send(message);
+			System.out.println("mail sent");
+		} catch (MailException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 
 }
