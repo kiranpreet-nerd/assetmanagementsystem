@@ -15,6 +15,15 @@
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 
+<script type="text/javascript">
+	    $(document).ready(function() {
+	    	$('#forgotpasswordbutton').click(function(){
+	    		alert('enter password');
+	    	});
+	    });
+	 
+	 </script>
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -31,14 +40,15 @@
 	</nav>
 	<div class="container">
 		<legend align="center"> Forgot Password </legend>
-		<form:form action="" method="post" class="form-signin" align="center">
+		<form:form action="/recoverypassword" method="post" class="form-signin" align="center" commandName = "passwordform">
 			<div class="form-group">
 				<label >Email </label> 
 				<input type="text" name="email"
 					placeholder="enter email"><br>
-				<br>
-			</div><br>
-			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button>
+				<br> ${emailError} 
+			</div>
+			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button><br><br>
 		</form:form>
+	</div>
 </body>
 </html>

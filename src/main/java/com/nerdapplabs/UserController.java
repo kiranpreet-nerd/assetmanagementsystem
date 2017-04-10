@@ -39,7 +39,7 @@ public class UserController {
 	
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	 private static final String STRING_PATTERN = "[a-zA-Z]+";
-	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,16}$";
+	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
 			//"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			//+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -123,6 +123,10 @@ public class UserController {
 			((Model) model).addAttribute("emailError", "email already registered");
 			return modelandview;
 		}
+		if (!(user.getPassword().equals(user.getConfirm()))) {
+			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
+			return modelandview;
+		}
 		
 		if(!(user.getEmail().isEmpty())){
        	 Pattern pattern = Pattern.compile(EMAIL_PATTERN);
@@ -131,19 +135,42 @@ public class UserController {
 			  errors.rejectValue("email","domainmatch.email", "domain name must be @nerdapplabs.com");
        	 return modelandview;
        	 }
+		
+       	 
+       	 if(!(user.getFirstname().isEmpty())) {
+        	 Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
+        	 Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
+        	 if(!matcherFirstName.matches()) {
+        		 errors.rejectValue("firstname", "nonchar.firstname", "First name should contain only alphabets");
+        		 return modelandview;
+             } 
+           }
+    	 if(!(user.getLastname().isEmpty())) {
+        	 Pattern patternLastName = Pattern.compile(STRING_PATTERN);
+        	 Matcher matcherLastName = patternLastName.matcher(user.getLastname());
+        	 if(!matcherLastName.matches()) {
+        		 errors.rejectValue("lastname", "nonchar.lastname", "Last name should contain only alphabets");
+        		 return modelandview;
+             } 
+           }
+    	 if(!(user.getPassword().isEmpty())) {
+        	 Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
+        	 Matcher matcherPassword= patternPassword.matcher(user.getPassword());
+        	 if(!matcherPassword.matches()) {
+        		 errors.rejectValue("password", "special.password", "password should contain atleast one capital letter, one numeric value , one small letter ,special symbol and password length must be between 6 to 20 characters");
+        		 return modelandview;
+             } 
+           }
+         
        	 user.setStatus(1);
          userService.save(user);
        	 return new ModelAndView("redirect:/users");
 		}
 
-		if (!(user.getPassword().equals(user.getConfirm()))) {
-			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
-			return modelandview;
-		}
+		
 		user.setStatus(1);
 		userService.save(user);
-
-		ModelAndView modelview = new ModelAndView("redirect:/users");
+        ModelAndView modelview = new ModelAndView("redirect:/users");
 		return modelview;
 
 	}
@@ -195,7 +222,7 @@ public class UserController {
             	 Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
             	 Matcher matcherPassword= patternPassword.matcher(user.getPassword());
             	 if(!matcherPassword.matches()) {
-            		 errors.rejectValue("password", "special.password", "password should contain atleast one numeric value and special symbol");
+            		 errors.rejectValue("password", "special.password", "password should contain atleast one numeric value,special symbol,one small letter, one capital letter and password length must be between 6 to 20 characters");
             		 return modelandview;
                  } 
                }
@@ -220,10 +247,31 @@ public class UserController {
 
 		return model;
 	}
+	
 
 	@RequestMapping(value = "/forgotpassword")
 	public String forgotPassword() {
 		return "forgotpassword";
+	}
+	
+	@RequestMapping(value= "/recoverypassword", method = RequestMethod.POST)
+	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model, @RequestParam String email) {
+		System.out.println("in controller");
+		User tempuser = userService.findByEmail(user.getEmail());
+		if(tempuser != null && tempuser.getStatus() == 1) {
+		   userService.sendEmail(email);
+		   model.addAttribute("emailError","email successfully send");
+		   return "forgotpassword";
+		} else if(tempuser == null ){
+			model.addAttribute("emailError", "valid email required");
+			return "forgotpassword";
+		} else if(tempuser.getStatus() == 0) {
+			System.out.println("email not registered");
+			model.addAttribute("emailError", "email not registered");
+			return "forgotpassword";
+		} else {
+			return "forgotpassword";
+		}
 	}
 
 	

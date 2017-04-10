@@ -11,6 +11,14 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 <script type="text/javascript">
+	    $(document).ready(function() {
+	    	$('registerbutton').click(function(){
+	    		alert('Registerd Successfully');
+	    	});
+	    });
+	 
+	 </script>
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />

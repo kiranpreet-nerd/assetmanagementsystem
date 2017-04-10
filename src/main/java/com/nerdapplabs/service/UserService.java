@@ -22,12 +22,11 @@ public interface UserService{
 
 	User findByEmail(String email);
 	
-	//User getUser(String email);
+	void sendEmail(String email);
 
 	User loginUser(String email, String password);
 	
 	User getUserByEmail(String email);
 	
-	void validate(Object target, Errors errors) ;
 
 }
