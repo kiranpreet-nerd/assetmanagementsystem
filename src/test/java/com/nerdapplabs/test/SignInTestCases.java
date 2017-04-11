@@ -1,29 +1,28 @@
 package com.nerdapplabs.test;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.validation.constraints.NotNull;
+
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.apache.commons.validator.routines.EmailValidator;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.isEmptyString;
 /**
 * <h1>Automation Testing of signIn page in Asset Management System</h1>
 * The SignInTestCases program implements an application that
 * simply run the given test methods and give information of passed and failed test cases
 * the output on the chrome browser
-* <p>
-* <b>Note:</b> Giving proper comments in your program makes it more
-* user friendly and it is assumed as a high quality code.
-*
 * @author  Harpreet Kaur
 * @version 1.0
 * @since   2017-03-31
@@ -32,7 +31,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class SignInTestCases {
 	//class body
 	protected static WebDriver driver;
-	
+	protected static final String url= "http://localhost:8092/login"; 
 	/*
     In order to use chrome driver
     Go to: http://chromedriver.storage.googleapis.com/index.html?path=2.9/
@@ -42,19 +41,25 @@ public class SignInTestCases {
     * @return Nothing.
     * @exception InterruptedException .
     */
+	List<String[]> dataSource = null;
+	public SignInTestCases() throws IOException {
+		dataSource = TestDataReader.readCsv("testData.csv");
+		
+	}
 	
 	@Before
-	public void setup() throws InterruptedException {
+	public void setup() throws InterruptedException  {
 		//To set the path of chrome driver
 		System.setProperty("webdriver.chrome.driver", "libs/chromedriver");
 		// Create a new instance of the Chrome driver
 		driver = new ChromeDriver();
-		// To tell the driver that wait for 10 seconds to navigate to link
+		// To tell the driver that wait for 10 seconds to navigate to link 
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// driver navigate to given link
-		driver.navigate().to("http://localhost:8092/login");
+		driver.navigate().to(url);
 		Thread.sleep(1000);
 	}
+	
 
 	/**
 	   * This method is to verify login page title
@@ -76,12 +81,11 @@ public class SignInTestCases {
 		Assert.assertTrue(driver.findElement(By.name("email")).isDisplayed());
 	}
 	/**
-	   * This method is to verify password text box is present
+	   * This method is to verify password field is present
 	   * @param args Unused.
 	   * @return Nothing.
 	 */
 	@Test
-	// To check password text box is present
 	public void verifyPasswordTextBox() {
 		Assert.assertTrue(driver.findElement(By.name("password")).isDisplayed());
 	}
@@ -92,7 +96,7 @@ public class SignInTestCases {
 	 */
 	@Test
 	public void verifyLoginButton() {
-		Assert.assertTrue(driver.findElement(By.name("loginbutton")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.name("loginbutton")).isEnabled());
 	}
 	/**
 	   * This method is to verify login button is clicked
@@ -101,27 +105,11 @@ public class SignInTestCases {
 	 */
 	@Test
 	public void verifyLoginClick() {
-		// find element by name
-		WebElement loginbtn = driver.findElement(By.name("loginbutton"));
-		// To check login button is enabled
-		Assert.assertTrue(loginbtn.isEnabled());
+		//WebElement clicklogin = driver.findElement(By.name("loginbutton"));
+		//Assert.assertTrue(clicklogin.click());
+		
 	}
-	/**
-	   * This method is to verify when invalid email  enters,user successfully logged in or not
-	   * @param args Unused.
-	   * @return Nothing.
-	 */
-	@Test
-	public void verifyInvalidEmail() {
-		//boolean allowLocal = true;
-		// find element by name and enter invalid email
-		//WebElement email = driver.findElement(By.name("email"));
-		// click on login button
-		//driver.findElement(By.name("loginbutton")).click();
-		// compare expected and actual results if results not matching then give
-		// written message below
-		//Assert.assertTrue(EmailValidator.getInstance(allowLocal).isValid(email.sendKeys("!xyz1234hyc%#*%$*")));
-	}
+		
 
 	@Test
 	/**
@@ -132,10 +120,10 @@ public class SignInTestCases {
 	public void verifyInvalidEmailandInvalidPwd() {
 		// find element by name and enter invalid email
 		WebElement email = driver.findElement(By.name("email"));
-		email.sendKeys("!xyz1234hyc%#*%$*");
+		email.sendKeys("dataSource");
 		// find element by name and enter invalid password
 		WebElement pwd = driver.findElement(By.name("password"));
-		pwd.sendKeys("12345#$%^");
+		pwd.sendKeys("dataSource");
 		// click on login button
 		driver.findElement(By.name("loginbutton")).click();
 		// compare the expected and actual results if results not matching then
@@ -191,14 +179,8 @@ public class SignInTestCases {
 	@Test
 	public void verifyForgotPasswordLink() {
 		// compare the expected and actual results
-		try {
-			Thread.sleep(2000);
-			Assert.assertEquals("Forgot Password?", driver.findElement(By.linkText("Forgot Password?")).getText(),
-					"Please Sign In title not found");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		      WebElement forgotpwd = driver.findElement(By.linkText("Forgot Password?"));
+			 Assert.assertEquals(true, forgotpwd.isDisplayed());
 	}
 
 	/**
@@ -208,11 +190,16 @@ public class SignInTestCases {
 	 */
 	@Test
 	public void verifyEmailEmpty() {
-		driver.findElement(By.name("loginbutton")).click();
-		// compare the expected and actual results
-		 Assert.assertEquals( "", driver.findElement(By.name("email")).getText(),"email field is not empty");	
-	}
+		
+		 driver.findElement(By.name("loginbutton")).click();	
+		 
+		// Assert.assertEquals(email.getAttribute("value"), isEmptyString());
+		 //email.Assert.assertThat("Field should be empty", email.getAttribute("value"), isEmptyString());
+		 //assertThat(isEmptyString(), containsString(driver.findElement(By.name("email")).getText()));
+		 assertThat(isEmptyString(), is(equals(driver.findElement(By.name("email")).getText())));
 
+	}
+	
 	/**
 	 * This method is to verify with password field empty,user should not be able to logged in
 	 * @param args Unused
@@ -226,42 +213,6 @@ public class SignInTestCases {
 	    Assert.assertEquals( "", driver.findElement(By.name("password")).getText(),"password field is not empty");
 	}
 	
-	@Test
-	public void verifyEmailAndPwdEmpty() {
-		
-		// click on login button
-		driver.findElement(By.name("loginbutton")).click();	
-		 assertTrue("".equals(driver.findElement(By.name("email")).getText() ));
-		 Assert.assertEquals("", driver.findElement(By.name("password")).getText());
-	    
-	}
-	
-	
-	/**
-	 * This method is to verify registered email should not be more than 30 character
-	 * @param args Unused
-	 * @return nothing
-	 */
-	@Test
-	// Verify email should not be more than 30 character
-	public void verifyEmailNotMoreThan30Char() {
-		
-		 String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-         java.util.regex.Matcher m = p.matcher("");
-     
-		// Enter user email for login
-		WebElement email = driver.findElement(By.name("email"));
-		email.sendKeys("harpreethapreetharpreetharpreet@nerdapplabs.com");
-		// click on login button
-		driver.findElement(By.name("loginbutton")).click();
-		
-
-		// compare the expected and actual results
-		//Assert.assertEquals("
-				//"  failed,email should not be more than 30 character");
-	}
-
 	/**
 	 * This method is to verify email should not be start with special character
 	 * @param args Unused
@@ -289,7 +240,6 @@ public class SignInTestCases {
 	 * @return nothing
 	 */
 	@Test
-	// Verify email should contain combination of symbol,letter and numbers
 	public void verifyPwdLetterSymbolNumber() {
 		// Enter user email for login
 		WebElement email = driver.findElement(By.name("email"));
