@@ -31,14 +31,16 @@
 	</nav>
 	<div class="container">
 		<legend align="center"> Forgot Password </legend>
-		<form:form action="" method="post" class="form-signin" align="center">
+		<form:form action="/recoverypassword" method="post" class="form-signin" align="center" commandName = "passwordform">
 			<div class="form-group">
 				<label >Email </label> 
 				<input type="text" name="email"
 					placeholder="enter email"><br>
-				<br>
-			</div><br>
-			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button>
+				<br> ${emailError} 
+			</div>
+			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button><br><br>
+			${emailSuccess}
 		</form:form>
+	</div>
 </body>
 </html>
