@@ -41,11 +41,8 @@ public class SignInTestCases {
     * @return Nothing.
     * @exception InterruptedException .
     */
-	List<String[]> dataSource = null;
-	public SignInTestCases() throws IOException {
-		dataSource = TestDataReader.readCsv("testData.csv");
 		
-	}
+	
 	
 	@Before
 	public void setup() throws InterruptedException  {
