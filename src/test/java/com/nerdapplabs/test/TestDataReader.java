@@ -27,8 +27,7 @@ import au.com.bytecode.opencsv.CSVReader;
 			csvReader = new CSVReader(new FileReader(filePath));
 			String[] cell = null;
 			while((cell= csvReader.readNext()) != null) {
-				System.out.println(cell[0]);
-				//for(int i = 0; i <= dataSource.size(); i++)      
+				System.out.println(cell[0]);  
 			}
 		} catch (FileNotFoundException e) {
 	
@@ -43,6 +42,8 @@ import au.com.bytecode.opencsv.CSVReader;
 	public static void main(String[] args) throws IOException {
 		TestDataReader testDataReader = new TestDataReader();
 		List<String[]> dataSource = testDataReader.readCsv("testData.csv");
+	
+				
 		
 	 
 

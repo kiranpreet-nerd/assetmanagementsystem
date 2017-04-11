@@ -23,56 +23,19 @@ public class csvPageObject extends SignInPageObject {
 	}
 	csvPageObject csvpageobject = new csvPageObject();
 	List<String[]> dataSource = csvpageobject.readCsv("testData.csv");
+		
 	
 	public void verifyLoginFunctionality() {
-	       //for(int i = 1; i <= dataSource.size(); i++)
-			String passData = dataSource[1];
 			// find element by name and enter invalid email
 			WebElement email = driver.findElement(emailTextBox );
-			email.sendKeys(passData);
+			email.sendKeys();
 			// find element by name and enter invalid password
 			WebElement pwd = driver.findElement(passwordTextBox);
-			pwd.sendKeys(passData;
+			pwd.sendKeys();
 			// click on login button
 			driver.findElement(loginBtn).click();
-         }
-}
-			
-			
-			
-			
 	}
-   /* @Test
-	public  verifyLoginWithMultipleTestData() throws InterruptedException{
-		//read csv file 
-		CSVReader reader = null;
-		try
-	  	{
-			reader = new CSVReader(new FileReader("testData.csv"));
-			     String[] cell = reader.readNext();
-					
-                     while(cell = reader.readNext())!=null){
-                    	 String passemail= cell[0];
-                    	 String passpwd = cell[1];
-				    // find element by name and enter invalid email
-						WebElement email = driver.findElement(emailTextBox );
-						email.sendKeys(passData);
-						// find element by name and enter invalid password
-						WebElement pwd = driver.findElement(passwordTextBox);
-						pwd.sendKeys(passpwd);
-						// click on login button
-						driver.findElement(loginBtn).click();
-                     }
-                     
-						
-	}catch(IOException e)
-		{
-		e.printStackTrace();
-		}
-	
-	return 
-	}
-}*/
+   
 
 
 	
