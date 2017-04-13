@@ -36,9 +36,30 @@
 <link
 	href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css" />
+	
+	<script>
+	     function validate() {
+	    	 if(document.form.email.value == "" && document.form.password.value == "") {
+	    		 alert("Email and password required");
+	    		 document.form.email.focus();
+	    		 return false;
+	        }
+	    	 if (document.form.email.value == "") {
+	             alert("email required");
+	             document.form.email.focus();
+	             return false;
+	         }
+	         if (document.form.password.value == "") {
+	             alert("password required");
+	             document.form.password.focus();
+	             return false;
+	         }
+	     }
+	</script>
 
 </head>
 <body>
+
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -51,6 +72,11 @@
 			</div>
 		</div>
 	</nav>
+	<div class="alert alert-info" <c:if test = "${param.message != null}" > <c:out value = "${param.message[0]}"/></c:if> >message</div>
+	<br></br>
+	<div class = "alert alert-info" <c:if test = "${param.error != null}"/>
+  <c:out value = "${session[SPRING_SECURITY_LAST_EXCEPTION]}"/>>error</div>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-4">
@@ -58,9 +84,10 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Please Sign In</h3>
 					</div>
+					   
 					${loginError}
-					<form:form action="" method="post" class="form-inline"
-						align="center" commandName="userform">
+					<form:form  name = "form" action="/login" method="post" class="form-inline"
+						align="center" commandName="userform" onsubmit="return validate();">
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="sr-only col-sm-2 control-label">Email </label> <input
 								class="form-alignment" type="text" name="email" width="20px"
@@ -81,7 +108,7 @@
 						<br>
 						<br>
 						<button class="btn btn-success" type="submit" name="loginbutton"
-							value="submit" onclick="login()" align="center">LOGIN</button>
+							value="submit"  align="center">LOGIN</button>
 						<br>
 						<br>
 						<a href="<c:url value="/forgotpassword"/>">Forgot Password?</a>
