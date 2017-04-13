@@ -1,12 +1,9 @@
 package com.ams.pageobject;
 
-import java.io.IOException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.ams.testsetup.SetUp;
-import com.nerdapplabs.test.TestDataReader;
 
 public class SignInPageObject extends SetUp {
 
@@ -16,11 +13,6 @@ public class SignInPageObject extends SetUp {
 	public By loginBtn = By.name("loginbutton");
 	public By forgotLink = By.linkText("Forgot Password?");
 	
-	String username;
- 	String password;
- 	String validemail;
- 	String validpwd;
- 	String[] cellNum = null;
  	
 	public SignInPageObject(WebDriver Driver) {
 	    SetUp.driver = Driver;
@@ -125,21 +117,8 @@ public class SignInPageObject extends SetUp {
 	}
  
  	
- 	
 
- /*public boolean verifyValidEmailandPwd() throws IOException{
-	
- 	validemail = TestDataReader.readData(3);
- 	validpwd = TestDataReader.readData(4);
-	driver.findElement( emailTextBox).sendKeys(validemail);
- 	driver.findElement(passwordTextBox).sendKeys(validpwd);
- 	WebElement logn= driver.findElement( loginBtn);
- 	logn.click();
- 	
-	return true;
-	
- 	}*/
- 	
+ 
 }
  	
  	

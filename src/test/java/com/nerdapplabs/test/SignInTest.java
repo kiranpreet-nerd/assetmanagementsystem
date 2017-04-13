@@ -60,11 +60,7 @@ public class SignInTest extends SignInPageObject {
     	   Assert.assertTrue("Email field is not empty", signInPage.verifyEmailEmpty());  
        }
      
-      /* @Test
-       public void verifyvalidEmailAndPwd() throws IOException{
-    		Assert.assertTrue("logged in failed", signInPage.verifyValidEmailandPwd());
-    	   
-       }*/
+      
 }
 		 
        
