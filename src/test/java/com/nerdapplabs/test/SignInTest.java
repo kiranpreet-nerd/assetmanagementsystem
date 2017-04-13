@@ -1,5 +1,7 @@
 package com.nerdapplabs.test;
 
+import java.io.IOException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import com.ams.pageobject.SignInPageObject;
@@ -7,13 +9,14 @@ import com.ams.pageobject.SignInPageObject;
 public class SignInTest extends SignInPageObject {
 		
  SignInPageObject signInPage = new SignInPageObject(driver);
+ 
  public SignInTest()
  {
 	 
  }
 
        @Test
-   	    public void verifyLoginInPageTitle()  { 
+   	    public void verifyLoginInPageTitle() { 
     	 Assert.assertTrue("Login Page title is not displayed", signInPage.verifySignInPageTitle() );
         }
        
@@ -38,7 +41,7 @@ public class SignInTest extends SignInPageObject {
        }
        
        @Test
-       public void verifySignInButtonIsClickable() {
+       public void verifySignInButtonIsClickable(){
     	   Assert.assertTrue("Sign button is not clickable", signInPage.verifyLoginButtonIsClicked()  );    
        }
 	  
@@ -53,8 +56,17 @@ public class SignInTest extends SignInPageObject {
     	   
        }
        @Test
-       public void VerifyEmailTextBoxIsEmpty() {
+       public void verifyEmailTextBoxIsEmpty() throws IOException{
     	   Assert.assertTrue("Email field is not empty", signInPage.verifyEmailEmpty());  
        }
-
+     
+      /* @Test
+       public void verifyvalidEmailAndPwd() throws IOException{
+    		Assert.assertTrue("logged in failed", signInPage.verifyValidEmailandPwd());
+    	   
+       }*/
 }
+		 
+       
+
+

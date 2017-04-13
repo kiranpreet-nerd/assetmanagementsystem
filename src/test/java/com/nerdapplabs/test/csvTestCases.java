@@ -4,25 +4,23 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
-import com.ams.testsetup.SetUp;
-import com.nerdapplabs.test.csvPageObject;
+import com.nerdapplabs.test.Test_Login;
 
-public class csvTestCases extends csvPageObject{
+public class csvTestCases extends Test_Login{
 	
-	 public csvTestCases(WebDriver driver2) {
-		 SetUp.driver =  driver2;
-		 	 
-	 }
-	 public csvTestCases(){
-		 
-	 }
-
-	csvTestCases csvTestCase = new csvTestCases(driver);
+	
+  private WebDriver driver;
+  csvTestCases csvObject = new csvTestCases(driver);
+	public csvTestCases(WebDriver driver2) {
+			
+	}
+	//csvTestCases csvTestCase = new csvTestCases(driver);
 	
 	@Test
-	public void verifySignFunctionality() {
+	public void verifySignFunctionality()throws ArrayIndexOutOfBoundsException{
 		
-		//Assert.assertTrue("Sign In failed", ((csvPageObject) csvTestCase). verifyLoginWithMultipleTestData());  
+
+		Assert.assertTrue("Sign In failed", csvObject.LoginFunctionality());  
 		
 	}
 }
