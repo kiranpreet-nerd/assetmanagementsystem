@@ -7,9 +7,11 @@ import org.junit.Test;
 import com.ams.pageobject.SignInPageObject;
 
 public class SignInTest extends SignInPageObject {
-		
+	
+// create the object of signInPageObject to access the methods 		
  SignInPageObject signInPage = new SignInPageObject(driver);
- 
+  
+ //create constructor for initialization
  public SignInTest()
  {
 	 
@@ -17,6 +19,7 @@ public class SignInTest extends SignInPageObject {
 
        @Test
    	    public void verifyLoginInPageTitle() { 
+    	  
     	 Assert.assertTrue("Login Page title is not displayed", signInPage.verifySignInPageTitle() );
         }
        
@@ -30,6 +33,15 @@ public class SignInTest extends SignInPageObject {
     	Assert.assertTrue(signInPage.verifyPasswordField());
        }
        
+       @Test
+       public void verifyEmailPlaceholder() {
+    	 Assert.assertTrue("email placeholder is not present",signInPage.verifyUserPlaceholder());  
+       }
+       
+       @Test
+       public void verifyPwdPlcaeHolder(){
+    	   Assert.assertTrue("password placeholder is not present",signInPage.verifyPasswordPlaceholder() );
+       }
        @Test
         public void verifyLoginButtonIsDisplayed() {
     	   Assert.assertTrue("Login button is not displayed", signInPage.verifyLoginButtonIsPresent() );

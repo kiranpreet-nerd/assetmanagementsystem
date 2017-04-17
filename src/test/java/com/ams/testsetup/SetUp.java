@@ -29,12 +29,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 			// To tell the driver that wait for 10 seconds to navigate to link 
 			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			// driver navigate to given link
-			driver.navigate().to(url);
-			Thread.sleep(1000);
+			driver.navigate().to(url);	
 		}
-
 		@AfterClass
 		public static void tearDown() {
+			driver.close();
 			driver.quit();
 		}
 	}
