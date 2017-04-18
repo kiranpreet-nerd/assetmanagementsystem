@@ -2,7 +2,7 @@ package com.nerdapplabs.service;
 
 import java.util.List;
 
-import org.springframework.validation.Errors;
+import org.springframework.validation.Errors; 
 
 import com.nerdapplabs.model.*;
 
@@ -27,6 +27,12 @@ public interface UserService{
 	User loginUser(String email, String password);
 	
 	User getUserByEmail(String email);
+	
+	User getUserToken(String verificationToken);
+	
+	void createVerificationToken(User user, String token);
+	 
+    VerificationToken getVerificationToken(String VerificationToken);
 	
 
 }
