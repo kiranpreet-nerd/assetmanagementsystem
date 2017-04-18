@@ -47,6 +47,11 @@ public class UserController {
 	public String login() {
 		return "login";
 	}
+	
+	@RequestMapping(value = "/newasset", method = RequestMethod.GET)
+	public String newAsset() {
+		return "newasset";
+	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {
