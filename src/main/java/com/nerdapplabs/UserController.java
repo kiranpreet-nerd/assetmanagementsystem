@@ -48,11 +48,6 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/newasset", method = RequestMethod.GET)
-	public String newAsset() {
-		return "newasset";
-	}
-
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {
 		return "welcome";
