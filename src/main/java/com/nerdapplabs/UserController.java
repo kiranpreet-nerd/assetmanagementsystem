@@ -60,12 +60,35 @@ public class UserController {
 		return "login";
 	}
 	
+	@RequestMapping(value = "/newasset", method = RequestMethod.GET)
+	public String newAsset() {
+		return "newasset";
+	} 
+	
+	@RequestMapping(value = "/newaccessory", method = RequestMethod.GET)
+	public String newAccessory() {
+		return "newaccessory";
+	}
+	
+	@RequestMapping(value = "/assetrequest", method = RequestMethod.GET)
+	public String assetRequest() {
+		return "assetrequest";
+	}
+	
+	@RequestMapping(value = "/newconsummable", method = RequestMethod.GET)
+	public String newConsummable() {
+		return "newconsummable";
+	}
+	
+	@RequestMapping(value = "/requestedassets", method = RequestMethod.GET)
+	public String requestedAssets() {
+		return "requestedassets";
+	}
+	
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome() {
 		return "welcome";
 	}
-	
-	String email1 = "abc";
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model, HttpServletRequest request) {
@@ -76,8 +99,18 @@ public class UserController {
 			model.addAttribute("loginError", "Error Loggin in , please try again");
 			return "login";
 		}
+		if(user.getRole() == "ROLE_SUPER") {
 		session.setAttribute("loggedInUser", user);
 		return "redirect:/users";
+		} else if(user.getRole() == "ROLE_ADMIN") {
+			session.setAttribute("loggedInUser", user);
+			return "redirect:/requestedassets";
+		} else if(user.getRole() == "ROLE_USER") {
+			session.setAttribute("loggedInUser", user);
+			return "redirect:/assetrequest";
+		} else {
+			return "login";
+		}
 	  } catch (Exception e) {
 		  throw new RuntimeException(e);
 	  }
