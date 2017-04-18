@@ -38,8 +38,8 @@
 					<br>
 					<form:form action="" method="post" commandName="userform"
 						class="form-group" align="center">
-						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label ">Email</label> <input
+						<div class="form-group " ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label ">Email<span class = "required"> * </span></label> <input
 								type="text" name="email" placeholder="enter email"
 								class="form-control">
 							<div>
@@ -97,5 +97,10 @@
 							REGISTER</button>
 					</form:form>
 				</div>
+			</div>
+			</div>
+			</div>
+			
+			
 </body>
 </html>

@@ -12,8 +12,13 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.nerdapplabs.dao.UserDao;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import com.nerdapplabs.dao.*;
 import com.nerdapplabs.model.*;
 
 @Service
@@ -23,7 +28,15 @@ public class UserServiceImplement implements UserService {
 	private UserDao userDao;
 
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private JavaMailSender mailService;
+	
+	 @Autowired
+	 private VerificationTokenRepository tokenRepository;
+	 
 
+	int count = 0;
 	public UserServiceImplement(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
@@ -48,11 +61,12 @@ public class UserServiceImplement implements UserService {
 		return userDao.findByEmail(email);
 	}
 
+	
 	@Override
 	@Transactional
 	public User loginUser(String email, String password) {
 		User user = this.findByEmail(email);
-		if (user != null && user.getPassword().equals(password)) {
+		if (user != null && user.getPassword().equals(password) && user.getStatus() == 1) {
 			return user;
 		}
 		return null;
@@ -69,33 +83,23 @@ public class UserServiceImplement implements UserService {
 		String sql = "update user set firstname='" + user.getFirstname() + "',lastname='" + user.getLastname()
 				+ "', designation='" + user.getDesignation() + "', role='" + user.getRole() + "' where email ='"
 				+ user.getEmail() + "'";
+		//String sql = "update user set firstname = '?', lastname = '?', email = '?', designation = '?', role = '?' where email = '?'";
 		return jdbcTemplate.update(sql);
 	}
-
-	public User edit(String email) {
-		String sql = "SELECT firstname,email,designation,role FROM user WHERE email='" + email + "'";
-		return jdbcTemplate.query(sql, new ResultSetExtractor<User>() {
-
-			@Override
-			public User extractData(ResultSet rs) throws SQLException, DataAccessException {
-				if (rs.next()) {
-					User user = new User();
-					user.setFirstname(rs.getString("firstname"));
-					user.setEmail(rs.getString("email"));
-					user.setDesignation(rs.getString("designation"));
-					user.setRole(rs.getString("role"));
-					return user;
-				} else {
-					return null;
-				}
-			}
-
-		});
-	}
+	
+    public int softDelete(String email) {
+    	String sql = "update user set status = 0 where email = '" + email + "'";
+        return jdbcTemplate.update(sql);
+    }
+    
+    public User getUser(String email) {
+    	return userDao.findOne(email);
+    }
+	
 
 	@Override
 	public List<User> list() {
-		String sql = "select email,firstname,designation,role,lastname from user";
+		String sql = "select email,firstname,designation,role,lastname from user where status = 1";
 		List<User> listUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
@@ -112,6 +116,40 @@ public class UserServiceImplement implements UserService {
 			}
 		});
 		return listUsers;
+	}
+
+	@Override
+	public void sendEmail(String email) {
+		User user = this.findByEmail(email);
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(user.getEmail());
+		message.setSubject("Recovery Password");
+		message.setText("hello "+ user.getFirstname() +" your recovery password is "+ user.getPassword());
+		try {
+			mailService.send(message);
+			System.out.println("mail sent");
+		} catch (MailException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public User getUserToken(String verificationToken) {
+		User user = tokenRepository.findByToken(verificationToken).getUser();
+        return user;
+	}
+
+	@Override
+	public void createVerificationToken(User user, String token) {
+		 VerificationToken myToken = new VerificationToken(token, user);
+	     tokenRepository.save(myToken);
+		
+	}
+
+	@Override
+	public VerificationToken getVerificationToken(String VerificationToken) {
+		return tokenRepository.findByToken(VerificationToken);
 	}
 
 }

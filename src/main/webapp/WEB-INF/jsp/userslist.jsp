@@ -11,6 +11,7 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -23,14 +24,14 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href='/login'>LOGOUT</a></li>
+					<li><a href='/logout'>LOGOUT</a></li>
 					<li><a href='/add'>ADD USER</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group">
+		<form:form action="" class="form-group" commandName = "user">
 			<table class="table table-striped">
 				<tr>
 					<th>Name</th>
@@ -41,18 +42,33 @@
 				</tr>
 				<c:forEach items="${listUsers}" var="user">
 					<tr>
-						<td>${user.firstname}${user.lastname}</td>
+						<td>${user.firstname} ${user.lastname}</td>
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
 						<td><a href="/deleteUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-							&nbsp; <a href="/editUser?email=${user.email}"> <span
+							&nbsp; <a href="/getUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+								<td><div class="checkbox">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled">
+                                            <input type="checkbox" id="toggle-two">
+                                            <script>
+                                                $(function() {
+                                                $('#toggle-two').bootstrapToggle({
+                                                      on: 'Enabled',
+                                                      off: 'Disabled'
+                                                 });
+                                                 })
+                                            </script>
+                                        </label>
+                                    </div>
+                                </td>
 					</tr>
 				</c:forEach>
 			</table>
-		</form:form>
+  		</form:form>
 	</div>
 </body>
 </html>
