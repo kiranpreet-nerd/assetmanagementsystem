@@ -54,8 +54,6 @@ public class UserController {
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	 private static final String STRING_PATTERN = "[a-zA-Z]+";
 	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
-			//"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			//+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -266,7 +264,6 @@ public class UserController {
 
 	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
-		//Locale locale = request.getLocale();
 		
 		VerificationToken verificationToken = userService.getVerificationToken(token);
 		if (verificationToken == null) {

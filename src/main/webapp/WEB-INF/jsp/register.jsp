@@ -6,15 +6,11 @@
 <head>
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-	
 
 <!-- 
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
-	
-	 
-	 
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -40,7 +36,7 @@
 						<h3 class="panel-title" align="center">Register</h3>
 					</div>
 					<br>
-					<form:form action="/register" method="post" commandName="userform"
+					<form:form action="" method="post" commandName="userform"
 						class="form-group" align="center">
 						<div class="form-group " ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label ">Email<span class = "required"> * </span></label> <input
@@ -82,7 +78,7 @@
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">Password </label> <input
-								id = "password" type="password" name="password" placeholder="enter password"
+								type="password" name="password" placeholder="enter password"
 								class="form-control">
 							<div>
 								<form:errors path="password"></form:errors>
@@ -97,7 +93,7 @@
 							</div>
 						</div>
 						<button class="btn btn-success" type="submit"
-							name="registerbutton" value="submit" >
+							name="registerbutton" value="submit" onClick="registration()">
 							REGISTER</button>
 					</form:form>
 				</div>
@@ -107,45 +103,4 @@
 			
 			
 </body>
-<script type="text/javascript">
-
-jQuery(document).ready(function () {
-
-"use strict";
-
-var options = {
-
-minChar: 8,
-
-bootstrap3: false,
-
-errorMessages: {
-
-    password_too_short: "<font color='red'>The Password is too short</font>",
-
-    same_as_username: "Your password cannot be the same as your username" },
-
-scores: [17, 26, 40, 50],
-
-verdicts: ["Weak", "Normal", "Medium", "Strong", "Very Strong"],
-
-showVerdicts: true,
-
-showVerdictsInitially: false,
-
-raisePower: 1.4,
-
-usernameField: "#username",
-
-};
-
-$(':password').pwstrength(options);
-
-});
-
-</script>
-	
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-   <script src="pwstrength.js"></script>
 </html>
