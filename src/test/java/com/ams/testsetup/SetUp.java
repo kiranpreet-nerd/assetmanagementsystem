@@ -19,6 +19,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 	    * @param args Unused.
 	    * @return Nothing.
 	    * @exception InterruptedException .
+	    * @before it will execute before each test
+	    * @AfterClass will execute after each test
 	    */
 		@Before
 		public void setup() throws InterruptedException  {
@@ -33,7 +35,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 		}
 		@AfterClass
 		public static void tearDown() {
-			driver.close();
+			// to close the driver
 			driver.quit();
 		}
 	}

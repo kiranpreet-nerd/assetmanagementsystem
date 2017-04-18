@@ -140,8 +140,20 @@ public class SignInPageObject extends SetUp {
 		          }
 		          return false;
 	}
+	
+	/*public boolean verifyEmailAndPasswordTextAlignment() {
+		  String emailAlign = driver.findElement(emailTextBox).getCssValue("text-align");
+		         String pwdAlign = driver.findElement(passwordTextBox).getCssValue("Text-align");
+		         if(emailAlign.equals(pwdAlign)){
+		        	 return true;
+		        	 
+		         }
+		         return false;
+		
+	}*/
 }
 	
+
 		
  
  	
