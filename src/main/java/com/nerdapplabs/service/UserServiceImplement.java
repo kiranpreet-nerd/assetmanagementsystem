@@ -18,8 +18,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-
-import com.nerdapplabs.dao.UserDao;
+import com.nerdapplabs.dao.*;
 import com.nerdapplabs.model.*;
 
 @Service
@@ -32,7 +31,12 @@ public class UserServiceImplement implements UserService {
 	
 	@Autowired
 	private JavaMailSender mailService;
+	
+	 @Autowired
+	 private VerificationTokenRepository tokenRepository;
+	 
 
+	int count = 0;
 	public UserServiceImplement(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
@@ -57,11 +61,12 @@ public class UserServiceImplement implements UserService {
 		return userDao.findByEmail(email);
 	}
 
+	
 	@Override
 	@Transactional
 	public User loginUser(String email, String password) {
 		User user = this.findByEmail(email);
-		if (user != null && user.getPassword().equals(password)) {
+		if (user != null && user.getPassword().equals(password) && user.getStatus() == 1) {
 			return user;
 		}
 		return null;
@@ -127,6 +132,24 @@ public class UserServiceImplement implements UserService {
 			System.out.println(e.getMessage());
 		}
 		
+	}
+
+	@Override
+	public User getUserToken(String verificationToken) {
+		User user = tokenRepository.findByToken(verificationToken).getUser();
+        return user;
+	}
+
+	@Override
+	public void createVerificationToken(User user, String token) {
+		 VerificationToken myToken = new VerificationToken(token, user);
+	     tokenRepository.save(myToken);
+		
+	}
+
+	@Override
+	public VerificationToken getVerificationToken(String VerificationToken) {
+		return tokenRepository.findByToken(VerificationToken);
 	}
 
 }

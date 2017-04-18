@@ -15,6 +15,15 @@
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 
+<script type="text/javascript">
+	    $(document).ready(function() {
+	    	$('#forgotpasswordbutton').click(function(){
+	    		alert('enter password');
+	    	});
+	    });
+	 
+	 </script>
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -39,7 +48,6 @@
 				<br> ${emailError} 
 			</div>
 			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button><br><br>
-			${emailSuccess}
 		</form:form>
 	</div>
 </body>

@@ -1,7 +1,9 @@
 package com.nerdapplabs;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.nerdapplabs.registerEvent.OnRegistrationCompleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +28,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import com.nerdapplabs.model.User;
+import com.nerdapplabs.model.VerificationToken;
 import com.nerdapplabs.service.*;
 
 
@@ -37,11 +44,16 @@ public class UserController {
 	@Autowired
 	UserService service;
 	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
+	
+	 @Autowired
+	    private MessageSource messages;
+	  
+	int count = 0;
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	 private static final String STRING_PATTERN = "[a-zA-Z]+";
-	 private static final String PASSWORD_PATTERN = "[A-Z]+[a-z]+[0-9]+[@._#$&!%]";
-			//"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			//+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -52,17 +64,24 @@ public class UserController {
 	public String welcome() {
 		return "welcome";
 	}
-
+	
+	String email1 = "abc";
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
-
+	public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model, HttpServletRequest request) {
+        
 		User user = userService.loginUser(email, password);
+	  try {
 		if (user == null) {
 			model.addAttribute("loginError", "Error Loggin in , please try again");
 			return "login";
 		}
 		session.setAttribute("loggedInUser", user);
 		return "redirect:/users";
+	  } catch (Exception e) {
+		  throw new RuntimeException(e);
+	  }
+		
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -157,7 +176,7 @@ public class UserController {
         	 Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
         	 Matcher matcherPassword= patternPassword.matcher(user.getPassword());
         	 if(!matcherPassword.matches()) {
-        		 errors.rejectValue("password", "special.password", "password should contain atleast one capital letter, one numeric value , one small letter and special symbol");
+        		 errors.rejectValue("password", "special.password", "password should contain atleast one capital letter, one numeric value , one small letter ,special symbol and password length must be between 6 to 20 characters");
         		 return modelandview;
              } 
            }
@@ -177,7 +196,7 @@ public class UserController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
-			Map<String, Object> model, Errors errors) {
+			Map<String, Object> model, Errors errors, WebRequest request) {
 		ModelAndView modelandview = new ModelAndView("register");
 		if (result.hasErrors() || user.getPassword().isEmpty() || user.getConfirm().isEmpty()) {
 			errors.rejectValue("password", "required.password", "password is required");
@@ -202,6 +221,7 @@ public class UserController {
 			  errors.rejectValue("email","domainmatch.email", "domain name must be @nerdapplabs.com");
         	 return modelandview;
         	 }
+         }
         	 if(!(user.getFirstname().isEmpty())) {
             	 Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
             	 Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
@@ -222,20 +242,49 @@ public class UserController {
             	 Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
             	 Matcher matcherPassword= patternPassword.matcher(user.getPassword());
             	 if(!matcherPassword.matches()) {
-            		 errors.rejectValue("password", "special.password", "password should contain atleast one capital letter, one numeric value , one small letter and special symbol");
+            		 errors.rejectValue("password", "special.password", "password should contain atleast one numeric value,special symbol,one small letter, one capital letter and password length must be between 6 to 20 characters");
             		 return modelandview;
                  } 
                }
-             
-        	 user.setStatus(1);
-     		 userService.save(user);
-        	 return new ModelAndView("redirect:/login");
-		}
 		
-		user.setStatus(1);
+		user.setStatus(0);
 		userService.save(user);
-        ModelAndView modelview = new ModelAndView("redirect:/login");
+		try {
+			 String appUrl = request.getContextPath();
+	         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, appUrl));
+		} catch (Exception e) {
+			((Model) model).addAttribute("emailError", "email already registered");
+			 return modelandview; 
+		}
+       
+		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
+	}
+	
+
+	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)
+	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
+		
+		VerificationToken verificationToken = userService.getVerificationToken(token);
+		if (verificationToken == null) {
+	        String message = messages.getMessage("auth.message.invalidToken", null, null);
+	        model.addAttribute("message", message);
+	        return "redirect:/baduser";
+	    }
+		
+		User user = verificationToken.getUser();
+	    Calendar cal = Calendar.getInstance();
+	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+	        String messageValue = messages.getMessage("auth.message.expired", null, null);
+	        model.addAttribute("message", messageValue);
+	        return "redirect:/baduser";
+	        
+	    } 
+	    
+	    user.setStatus(1); 
+        userService.save(user); 
+        return "redirect:/login";
+		
 	}
 
 	@RequestMapping(value = "/users")
@@ -260,11 +309,16 @@ public class UserController {
 		User tempuser = userService.findByEmail(user.getEmail());
 		if(tempuser != null && tempuser.getStatus() == 1) {
 		   userService.sendEmail(email);
-		   model.addAttribute("emailSuccess","email successfully send");
+		   model.addAttribute("emailError","email successfully send");
 		   return "forgotpassword";
-		} else {
+		} else if(tempuser == null ){
+			model.addAttribute("emailError", "valid email required");
+			return "forgotpassword";
+		} else if(tempuser.getStatus() == 0) {
 			System.out.println("email not registered");
 			model.addAttribute("emailError", "email not registered");
+			return "forgotpassword";
+		} else {
 			return "forgotpassword";
 		}
 	}
