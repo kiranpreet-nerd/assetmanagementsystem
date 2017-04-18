@@ -18,7 +18,6 @@ public class User {
 	@Column(name = "email", unique = true)
 	@NotEmpty
 	@Size(min = 6, max = 40, message = "email name must be between 6 and 40")
-	//@Pattern(regexp = ".+@+nerdapplabs+.com", message = "domain must be nerdapplabs.com")
 	@Email
 	private String email;
 
@@ -64,11 +63,9 @@ public class User {
 	@Column(name = "role")
 	private String role;
 
-	//@NotEmpty(message = "password required")
 	@Column(name = "password")
 	private String password;
 
-	//@NotEmpty(message = " enter password again")
 	@Column(name = "confirm")
 	private String confirm;
 	
