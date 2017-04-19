@@ -6,7 +6,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class TestDataReader {
 
 // to read list of string arrays
-public static List<String[]> readData(String fileName ) throws IOException{
+public static List<String[]> readData(String fileName ) throws IOException {
 CSVReader reader;
 try {
 	 reader = new CSVReader(new FileReader("datasource/" + fileName));

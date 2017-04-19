@@ -14,11 +14,21 @@ public class Test_Login extends SetUp {
 	public static By passwordTextBox = By.name("password");
 	public By loginBtn = By.name("loginbutton");
 	public By errorText = By.className(".login-panel.panel.panel-default"); 
+	public static By logout = By.tagName("a");
+
 	List<String[]> dataSource;
 	static String username;
 	static String password;
 	
 	  @Test
+	  public void verifyLoginFunctionality() {
+		  try {
+			Assert.assertTrue("failed to logged in", LoginFunction());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	  }
+	  
 	  /* @ this method is to verify login functionality with multiple test data through csv file
 	   * exception IOException on input error
 	   * @param username to get value of email from string array
@@ -27,7 +37,7 @@ public class Test_Login extends SetUp {
 	   * @array userNameData to get values from dataSource 
 		 */
 	
-        public void LoginFunction() throws IOException {
+        public boolean LoginFunction() throws IOException {
 		 try {
 			 dataSource = TestDataReader.readData("Test_Login.csv");
 		} catch (IOException e) {
@@ -46,16 +56,12 @@ public class Test_Login extends SetUp {
 	 	WebElement login = driver.findElement( loginBtn);
 	 	//click on login button
 	 	login.click();
-	 	//check to pass the login 
-	 	 Assert.assertTrue(driver.getCurrentUrl().endsWith("users"));
-	 	//find error text and get value and store into string variable
-	 	 //String actual_error = driver.findElement(errorText).getText();
-	 	  //put expected error text message into string variable
-	 	 //String expected_error = "Error Loggin in , please try again";
-	 	  //compare expected and actual values of error text message
-	 	// Assert.assertEquals("failed to loggin ", expected_error, actual_error);
-	 
-	 	    
+	 	String lgout = driver.findElement(logout).getText();
+	 	String logged = "LOGOUT";
+	 	if(lgout.equals(logged)) {
+	 		return true;
+	 	}
+	 	return false;
 	 	
 	  }
 }

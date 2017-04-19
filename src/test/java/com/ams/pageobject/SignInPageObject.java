@@ -103,8 +103,6 @@ public static By forgotLink = By.linkText("Forgot Password?");
 	
 	//to verify click on login button, check email text box is empty or not
 	public static boolean verifyEmailEmpty(){
-		WebElement  login = driver.findElement(loginBtn );
-		login.click();
 		WebElement emailEmpty = driver.findElement(emailTextBox);
 		if(emailEmpty.getAttribute("value").isEmpty()){
 			return true;
