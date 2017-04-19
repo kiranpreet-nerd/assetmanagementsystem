@@ -26,6 +26,10 @@ public class UserServiceImplement implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private AssetDao assetDao;
+	
 
 	private JdbcTemplate jdbcTemplate;
 	
@@ -47,6 +51,12 @@ public class UserServiceImplement implements UserService {
 	@Transactional
 	public void save(User registerUser) {
 		userDao.save(registerUser);
+	}
+	
+	@Override
+	@Transactional
+	public void saveAsset(AssetRequest requestasset) {
+		assetDao.save(requestasset);
 	}
 
 	@Override
@@ -152,4 +162,31 @@ public class UserServiceImplement implements UserService {
 		return tokenRepository.findByToken(VerificationToken);
 	}
 
+	@Override
+	public AssetRequest findById(Long id) {
+		return assetDao.findById(id);
+	}
+
+	@Override
+	public List<AssetRequest> listAsset() {
+		String sql = "select u.email,u.firstname,u.lastname,a.date,a.assetname,a.reason,a.quantity from user u,assetrequest a where u.status = 1 && u.email= a.email";
+		List<AssetRequest> listAssets = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
+
+			@Override
+			public AssetRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
+				AssetRequest asset = new AssetRequest();
+
+				//aUser.setEmail(rs.getString("email"));
+				//aUser.setFirstname(rs.getString("firstname"));
+				//aUser.setLastname(rs.getString("lastname"));
+				asset.setAssetname(rs.getString("assetname"));
+				asset.setReason(rs.getString("reason"));
+				asset.setRequestdate(rs.getString("requestdate"));
+				asset.setQuantity(rs.getString("quantity"));
+
+				return asset;
+			}
+		});
+		return listAssets;
+}
 }

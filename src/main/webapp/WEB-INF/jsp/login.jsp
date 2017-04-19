@@ -56,6 +56,10 @@
 	         }
 	     }
 	</script>
+	<%
+     String email=request.getParameter("email");
+     request.getSession().setAttribute("email", email);
+     %>
 
 </head>
 <body>
@@ -67,7 +71,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<c:url value="/register"/>">SIGN UP</a>
+					<li><a href = "/register"><span class="glyphicon glyphicon-user"></span>SIGN UP</a></li>
 				</ul>
 			</div>
 		</div>
@@ -85,7 +89,7 @@
 						<h3 class="panel-title">Please Sign In</h3>
 					</div>
 					   
-					${loginError}
+					<div class = "redalert">${loginError}</div>
 					<form:form  name = "form" action="/login" method="post" class="form-inline"
 						align="center" commandName="userform" onsubmit="return validate();">
 						<div class="form-group ${status.error ? 'has-error' : ''}">

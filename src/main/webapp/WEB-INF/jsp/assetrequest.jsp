@@ -11,6 +11,8 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 
+	<%String email = request.getParameter("email"); request.getSession().setAttribute("email", email);%>
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -33,39 +35,65 @@
 			<div class="col-md-5 col-md-offset-3">
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title" align="center">Register</h3>
+						<h3 class="panel-title" align="center">Request Asset</h3>
 					</div>
 					<br>
-					<form:form action="" method="post" 
-						class="form-group" align="center">
-					<div class = "form-group" >
+					<form:form action="/assetrequest" method="post" 
+						class="form-group" align="center" commandName = "assetrequest">
+					<div class = "form-group" ${status.error ? 'has-error' : ''} >
+					           <label class="col-sm-4 control-label">Email </label>
+					           <input type="text" readonly = "readonly" name="email" value = <%=email %>  class="form-control" >
+					           <div>
+								<form:errors path="assetname"></form:errors>
+							</div>
+				   </div> <br>
+					<div class = "form-group" ${status.error ? 'has-error' : ''} >
 					           <label class="col-sm-4 control-label">Asset name </label>
 					           <input type="text" name="assetname" value = ""  class="form-control" >
+					           <div>
+								<form:errors path="assetname"></form:errors>
+							</div>
 				   </div> <br>
-				    <div class = "form-group" >
+				    <div class = "form-group" ${status.error ? 'has-error' : ''}>
 						    <label class="col-sm-4 control-label" for = "type" > Asset type </label>
-						    <select class = "form-control" id = "sell">
+						    <select class = "form-control" name = "assettype" id = "sell">
 						        <option> Asset </option>
 						        <option> Accessory</option>
 						        <option> Consumable </option>
 						      </select>
+						      <div>
+								<form:errors path="assettype"></form:errors>
+							</div>
 					</div><br>
-					<div class = "form-group" >
+					<div class = "form-group" ${status.error ? 'has-error' : ''}>
 					           <label class="col-sm-4 control-label">Number of assets needed </label>
 					           <input type="number" name="quantity" value = ""  class="form-control" >
+					           <div>
+								<form:errors path="quantity"></form:errors>
+							</div>
 				   </div> <br>
-				   <div class = "form-group" >
+				   <div class = "form-group" ${status.error ? 'has-error' : ''}>
 					           <label class="col-sm-4 control-label">Reason </label>
-					            <textarea class="form-control" rows="5"></textarea>
+					            <textarea class="form-control" name = "reason" rows="5"></textarea>
+					            <div>
+								<form:errors path="reason"></form:errors>
+							</div>
 				   </div> <br>
-				   <div class = "form-group" >
-					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy"> Date of Request </label>
-					           <input type="text" name="requestdate" value = ""  class="form-control" >
+				   <div class = "form-group" ${status.error ? 'has-error' : ''} >
+					           <label class="col-sm-4 control-label">Date of request </label>
+					            <input type = "date" name="requestdate" value = "" class="form-control" >
+					            <div>
+								<form:errors path="requestdate"></form:errors>
+							</div>
 				   </div> <br>
-				   <button type = "submit" value = "submit" name = "requestbutton" class="btn btn-success"> REQUEST </button><
+				   <button type = "submit" value = "submit" name = "requestbutton" class="btn btn-success" > REQUEST </button>
 				   
 					
 					</form:form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

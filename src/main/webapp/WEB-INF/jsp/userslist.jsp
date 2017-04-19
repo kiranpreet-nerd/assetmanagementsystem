@@ -50,21 +50,6 @@
 								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 							&nbsp; <a href="/getUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-								<td><div class="checkbox">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled">
-                                            <input type="checkbox" id="toggle-two">
-                                            <script>
-                                                $(function() {
-                                                $('#toggle-two').bootstrapToggle({
-                                                      on: 'Enabled',
-                                                      off: 'Disabled'
-                                                 });
-                                                 })
-                                            </script>
-                                        </label>
-                                    </div>
-                                </td>
 					</tr>
 				</c:forEach>
 			</table>

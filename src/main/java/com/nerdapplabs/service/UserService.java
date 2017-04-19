@@ -9,6 +9,8 @@ import com.nerdapplabs.model.*;
 public interface UserService{
 
 	void save(User registerUser);
+	
+	void saveAsset(AssetRequest requestasset);
 
 	void delete(String email);
 
@@ -19,8 +21,12 @@ public interface UserService{
 	User getUser (String email);
 
 	List<User> list();
+	
+	List<AssetRequest> listAsset();
 
 	User findByEmail(String email);
+	
+	AssetRequest findById(Long id);
 	
 	void sendEmail(String email);
 

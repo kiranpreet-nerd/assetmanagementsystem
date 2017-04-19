@@ -28,14 +28,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.nerdapplabs.model.AssetRequest;
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.model.VerificationToken;
 import com.nerdapplabs.service.*;
 
 
 @Controller
+@SessionAttributes("sessionUser")
 public class UserController {
 
 	@Autowired
@@ -54,7 +58,8 @@ public class UserController {
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	 private static final String STRING_PATTERN = "[a-zA-Z]+";
 	 private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
-
+     private static final String NUMBER_PATTERN = "[0-9]";
+	 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
@@ -99,17 +104,19 @@ public class UserController {
 			model.addAttribute("loginError", "Error Loggin in , please try again");
 			return "login";
 		}
-		if(user.getRole() == "ROLE_SUPER") {
+		if(user.getRole().contentEquals("ROLE_SUPER")) {
 		session.setAttribute("loggedInUser", user);
 		return "redirect:/users";
-		} else if(user.getRole() == "ROLE_ADMIN") {
+		} else if(user.getRole().contentEquals("ROLE_ADMIN")) {
 			session.setAttribute("loggedInUser", user);
 			return "redirect:/requestedassets";
-		} else if(user.getRole() == "ROLE_USER") {
+		} else if(user.getRole().contentEquals("ROLE_USER")) {
 			session.setAttribute("loggedInUser", user);
 			return "redirect:/assetrequest";
 		} else {
-			return "login";
+			session.setAttribute("loggedInUser", user);
+			return "redirect:/assetrequest";
+
 		}
 	  } catch (Exception e) {
 		  throw new RuntimeException(e);
@@ -141,9 +148,14 @@ public class UserController {
 		
 	}
 	
+	@RequestMapping(value = "/getAsset{email}")
+	public String assetView (@RequestParam String email,Model model) {
+		model.addAttribute("assetrequest", userService.getUser(email));
+		return "assetrequest";
+	}
+	
 	@RequestMapping(value = "/getUser{email}")
 	public String view (@RequestParam String email,Model model) {
-		
 		model.addAttribute("user", userService.getUser(email));
 		return "updateuser";
 	}
@@ -219,7 +231,6 @@ public class UserController {
        	 return new ModelAndView("redirect:/users");
 		}
 
-		
 		user.setStatus(1);
 		userService.save(user);
         ModelAndView modelview = new ModelAndView("redirect:/users");
@@ -294,6 +305,19 @@ public class UserController {
 		return modelview;
 	}
 	
+	@RequestMapping(value = "/assetrequest", method = RequestMethod.POST)
+	public ModelAndView requestAsset( @Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result, Map<String, Object> model, Errors errors,HttpSession session) {
+		session.getAttribute("loggedInUser");
+		ModelAndView view = new ModelAndView("assetrequest");
+		if(result.hasErrors()) {
+			return view;
+		}
+		userService.saveAsset(assetrequest);
+		ModelAndView modelandview = new ModelAndView("redirect:/login");
+		return modelandview;
+		
+	}
+	
 
 	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
@@ -317,6 +341,15 @@ public class UserController {
 	    user.setStatus(1); 
         userService.save(user); 
         return "redirect:/login";
+		
+	}
+	
+	@RequestMapping(value = "/requestedassets")
+	public ModelAndView listAssets(ModelAndView model) throws IOException {
+		 List<AssetRequest> listAssets = service.listAsset();
+		 model.addObject("listAssets", listAssets);
+		 model.setViewName("assetrequest");
+		 return model;
 		
 	}
 

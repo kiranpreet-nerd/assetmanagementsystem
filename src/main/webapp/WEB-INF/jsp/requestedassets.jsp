@@ -18,26 +18,24 @@
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Snap-IT</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href='/logout'>LOGOUT</a></li>
-					<li class = "dropdown">
-                    <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown"> Create New</a>
-                    <span class="caret"></span>
-                    <ul class = "dropdown-menu">
-                       <li class = "active"><a href = "/newasset"> Asset</a></li>
-                       <li class = "active"><a href = "/newaccessory"> Accessory</a></li>
-                       <li class = "active"><a href = "/newconsumable"> Consumable</a></li>
-                    </ul>
-                    </li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+     <div class="container-fluid">
+     <div class="navbar-header">
+         <a class="navbar-brand" href="#">Snap-It</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/logout">LOGOUT</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">CREATE NEW
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#"> Asset</a></li>
+          <li><a href="#"> Accessory</a></li>
+          <li><a href="#"> Consumable</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
 	<div class="container">
 		<form:form action="" class="form-group" >
 			<table class="table table-striped">
@@ -51,6 +49,16 @@
 					<th>Reason</th>
 					<th>Actions</th>
 				</tr>
+				<c:forEach items="${listAssets}" var="assetrequest user">
+					<tr>
+					    <td>${user.email}</td>
+					    <td>${user.firstname} ${user.lastname}</td>
+						<td>${assetrequest.requestdate}</td>
+						<td>${assetrequest.assetname}</td>
+						<td>${assetrequest.reason}</td>
+						<td>${assetrequest.quantity}</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</form:form>
 	</div>
