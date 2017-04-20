@@ -77,6 +77,3 @@ public class SignInTest extends SignInPageObject {
 		Assert.assertTrue("Email field is not empty", SignInPageObject.verifyEmailEmpty());  
 	}      
 }		 
-       
-
-

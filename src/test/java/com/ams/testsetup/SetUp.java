@@ -40,7 +40,3 @@ public static final String url= "http://localhost:8090/login";
 		driver.quit();
 	}
 }
-
-
-
-

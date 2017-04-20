@@ -65,21 +65,3 @@ public class Test_Login extends SetUp {
 	 	
 	  }
 }
-
-
-
-	  
-	 	
-
-
-
-
-	
-		
-		
-		
-		
-	
-
-	
-
