@@ -1,7 +1,6 @@
 package com.ams.pageobject;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.ams.testsetup.SetUp;
 
@@ -14,10 +13,6 @@ public static By passwordTextBox = By.name("password");
 public static By loginBtn = By.name("loginbutton");
 public static By forgotLink = By.linkText("Forgot Password?");
 
-	// create constructor for initialization
-	public SignInPageObject() { 
-	}
-	
 	//to verify sign page title is present or not
 	public static boolean verifySignInPageTitle(){
 		WebElement pagetitle = driver.findElement(pageTitle);

@@ -6,11 +6,6 @@ import com.ams.pageobject.SignInPageObject;
 
 public class SignInTest extends SignInPageObject {			
 
-	//create constructor for initialization
-	public SignInTest() {
-		
-	}
-	
 	@Test
 	//check to pass login in page title
 	public void verifyLoginInPageTitle() {   
