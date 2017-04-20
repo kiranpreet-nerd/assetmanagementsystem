@@ -10,7 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class SetUp {
 		
 public static WebDriver driver;
-public static final String url= "http://localhost:8092/login"; 
+public static final String url= "http://localhost:8090/login"; 
 	/*
  	In order to use chrome driver
  	Go to: http://chromedriver.storage.googleapis.com/index.html?path=2.9/

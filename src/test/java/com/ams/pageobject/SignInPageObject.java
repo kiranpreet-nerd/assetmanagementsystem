@@ -14,10 +14,6 @@ public static By passwordTextBox = By.name("password");
 public static By loginBtn = By.name("loginbutton");
 public static By forgotLink = By.linkText("Forgot Password?");
 
-	public SignInPageObject(WebDriver Driver) {
-		SetUp.driver = Driver;
-	}
-	
 	// create constructor for initialization
 	public SignInPageObject() { 
 	}

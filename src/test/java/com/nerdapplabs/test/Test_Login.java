@@ -14,7 +14,7 @@ public class Test_Login extends SetUp {
 	public static By passwordTextBox = By.name("password");
 	public By loginBtn = By.name("loginbutton");
 	public By errorText = By.className(".login-panel.panel.panel-default"); 
-	public static By logout = By.tagName("a");
+	public static By logout = By.linkText("LOGOUT");
 
 	List<String[]> dataSource;
 	static String username;
