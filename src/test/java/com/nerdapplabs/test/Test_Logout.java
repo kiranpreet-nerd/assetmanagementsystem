@@ -12,14 +12,16 @@ public class Test_Logout extends Test_Login {
 	public By signup = By.linkText("SIGN UP");
 	
 	//to check logout functionality
-	public boolean LogoutFuntion() throws IOException {
-		 String signUP = driver.findElement(signup).getText();
-				if(LoginFunction()) {
-					if(signUP.equals("SIGN UP"))
+		public boolean LogoutFuntion() throws IOException {
+			String signUP = driver.findElement(signup).getText();
+			if(LoginFunction()) {
+				if(signUP.equals("SIGN UP")) {
 					return true;
 				}
+				return true;
+			}
 			return false;
-	}
+		}
 	
 	//check to pass logout functionality test case
 	@Test
@@ -27,5 +29,3 @@ public class Test_Logout extends Test_Login {
 			Assert.assertTrue(LogoutFuntion(), "failed to logout");	
 	}
 }
-			
-
