@@ -14,19 +14,19 @@ public class Test_Login extends SetUp {
 	public static By passwordTextBox = By.name("password");
 	public By loginBtn = By.name("loginbutton");
 	public By errorText = By.className(".login-panel.panel.panel-default"); 
-	public static By logout = By.linkText("LOGOUT");
-
+	public By logout = By.linkText("LOGOUT");
+	
 	List<String[]> dataSource;
 	static String username;
 	static String password;
 	
 	  @Test
 	  public void verifyLoginFunctionality() {
-		  try {
-			Assert.assertTrue("failed to logged in", LoginFunction());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	       try {
+				Assert.assertTrue("failed to logged in", LoginFunction());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
 	  }
 	  
 	  /* @ this method is to verify login functionality with multiple test data through csv file
@@ -56,9 +56,11 @@ public class Test_Login extends SetUp {
 	 	WebElement login = driver.findElement( loginBtn);
 	 	//click on login button
 	 	login.click();
-	 	String lgout = driver.findElement(logout).getText();
+		String lgout = driver.findElement(logout).getText();
 	 	String logged = "LOGOUT";
+	 	WebElement Logout= driver.findElement(logout);
 	 	if(lgout.equals(logged)) {
+	 		Logout.click();
 	 		return true;
 	 	}
 	 	return false;
