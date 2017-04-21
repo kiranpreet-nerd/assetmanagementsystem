@@ -67,15 +67,11 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="<c:url value="/register"/>">SIGN UP</a>
+					<li><a href = "/register"><span class="glyphicon glyphicon-user"></span>SIGN UP</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<div class="alert alert-info" <c:if test = "${param.message != null}" > <c:out value = "${param.message[0]}"/></c:if> >message</div>
-	<br></br>
-	<div class = "alert alert-info" <c:if test = "${param.error != null}"/>
-  <c:out value = "${session[SPRING_SECURITY_LAST_EXCEPTION]}"/>>error</div>
 	
 	<div class="container">
 		<div class="row">
@@ -85,7 +81,7 @@
 						<h3 class="panel-title">Please Sign In</h3>
 					</div>
 					   
-					${loginError}
+					<div class = "redalert">${loginError}</div>
 					<form:form  name = "form" action="/login" method="post" class="form-inline"
 						align="center" commandName="userform" onsubmit="return validate();">
 						<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -108,7 +104,7 @@
 						<br>
 						<br>
 						<button class="btn btn-success" type="submit" name="loginbutton"
-							value="submit"  align="center">LOGIN</button>
+							value="submit"  align="center" >LOGIN</button>
 						<br>
 						<br>
 						<a href="<c:url value="/forgotpassword"/>">Forgot Password?</a>

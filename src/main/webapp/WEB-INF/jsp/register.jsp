@@ -73,7 +73,7 @@
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">Role </label> <input
-								type="text" readonly="readonly" value="Employee" name="role"
+								type="text" readonly="readonly" value=" ROLE_USER" name="role"
 								class="form-control">
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
