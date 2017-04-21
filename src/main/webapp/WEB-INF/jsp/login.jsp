@@ -56,10 +56,6 @@
 	         }
 	     }
 	</script>
-	<%
-     String email=request.getParameter("email");
-     request.getSession().setAttribute("email", email);
-     %>
 
 </head>
 <body>
@@ -76,10 +72,6 @@
 			</div>
 		</div>
 	</nav>
-	<div class="alert alert-info" <c:if test = "${param.message != null}" > <c:out value = "${param.message[0]}"/></c:if> >message</div>
-	<br></br>
-	<div class = "alert alert-info" <c:if test = "${param.error != null}"/>
-  <c:out value = "${session[SPRING_SECURITY_LAST_EXCEPTION]}"/>>error</div>
 	
 	<div class="container">
 		<div class="row">
@@ -112,7 +104,7 @@
 						<br>
 						<br>
 						<button class="btn btn-success" type="submit" name="loginbutton"
-							value="submit"  align="center">LOGIN</button>
+							value="submit"  align="center" >LOGIN</button>
 						<br>
 						<br>
 						<a href="<c:url value="/forgotpassword"/>">Forgot Password?</a>
