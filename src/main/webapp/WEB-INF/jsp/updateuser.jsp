@@ -50,7 +50,6 @@
 					</div>
 				</div>
 					<br>
-					 <% out.println("hi"); %>
 					<form:form action = "/updateuser"  method = "post" class = "form-group" align = "center" commandName="user" >
 					<input type = "hidden" name = "${user.email}"/>
 					           <div class = "form-group" >
@@ -76,13 +75,13 @@
 					           <label class="col-sm-4 control-label" >Role </label> 
 					           <div class=" col-sm-3 checkbox checkbox-primary">
 					           <form:errors path="role"  />
-					           <input id="checkbox" type="checkbox" name = "${user.role}" value = " ROLE_SUPER"> Super Admin <br>
+					            <form:checkbox path="role"  value = "ROLE_SUPER"/> Super Admin <br>
 					           </div><br>
                                <div class=" col-sm-3 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "${user.role}" value = "ROLE_ADMIN"> Admin <br>
+					           <form:checkbox path="role"  value = "ROLE_ADMIN"/> Admin <br>
 					           </div><br>
 					           <div class="col-sm-1 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "${user.role}" value = "ROLE_USER"> Employee <br>
+					            <form:checkbox path="role"  value = "ROLE_USER"/> Employee <br>
 					           </div>
 					           </div><br> 
 					            <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success" onClick="updateUser()"> Update </button>

@@ -1,14 +1,14 @@
 package com.nerdapplabs.service;
 
 import java.util.List;
-
-import org.springframework.validation.Errors; 
-
+import javax.servlet.http.HttpSession;
 import com.nerdapplabs.model.*;
 
 public interface UserService{
 
 	void save(User registerUser);
+	
+	void saveAsset(AssetRequest requestasset, User user);
 
 	void delete(String email);
 
@@ -19,8 +19,16 @@ public interface UserService{
 	User getUser (String email);
 
 	List<User> list();
+	
+	List<User> listEmail();
+	
+	List<AssetRequest> listAssetsRequest(HttpSession session);
+	
+	List<AssetRequest> listAsset(User user);
 
 	User findByEmail(String email);
+	
+	AssetRequest findById(Long id);
 	
 	void sendEmail(String email);
 

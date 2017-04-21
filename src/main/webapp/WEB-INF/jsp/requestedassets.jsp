@@ -11,49 +11,49 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
-	 
+
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Snap-IT</a>
+				<a class="navbar-brand" href="#">Snap-It</a>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href='/logout'>LOGOUT</a></li>
-					<li><a href='/add'>ADD USER</a></li>
-				</ul>
-			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/logout">LOGOUT</a></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown">CREATE NEW <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#"> Asset</a></li>
+						<li><a href="#"> Accessory</a></li>
+						<li><a href="#"> Consumable</a></li>
+					</ul></li>
+			</ul>
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group" commandName = "user">
+		<form:form action="" class="form-group">
 			<table class="table table-striped">
 				<tr>
-					<th>Name</th>
 					<th>Email</th>
-					<th>Designation</th>
-					<th>Role</th>
+					<th>User Name</th>
 					<th>Actions</th>
 				</tr>
-				<c:forEach items="${listUsers}" var="user">
+
+				<c:forEach items="${listEmail}" var="user">
 					<tr>
-						<td>${user.firstname} ${user.lastname}</td>
 						<td>${user.email}</td>
-						<td>${user.designation}</td>
-						<td>${user.role}</td>
-						<td><a href="/deleteUser?email=${user.email}"> <span
-								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-							&nbsp; <a href="/getUser?email=${user.email}"> <span
-								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
-					</tr>
+						<td>${user.firstname}${user.lastname}</td>
+						<td><a href="/requestedassetslist?email=${user.email}">Check
+								Requests</a></td>
 				</c:forEach>
+
 			</table>
-  		</form:form>
+		</form:form>
 	</div>
+
 </body>
 </html>
