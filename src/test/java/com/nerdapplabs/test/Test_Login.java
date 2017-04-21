@@ -58,9 +58,7 @@ public class Test_Login extends SetUp {
 	 	login.click();
 		String lgout = driver.findElement(logout).getText();
 	 	String logged = "LOGOUT";
-	 	WebElement Logout= driver.findElement(logout);
 	 	if(lgout.equals(logged)) {
-	 		Logout.click();
 	 		return true;
 	 	}
 	 	return false;
