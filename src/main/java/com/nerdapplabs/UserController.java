@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.nerdapplabs.model.Asset;
 import com.nerdapplabs.model.AssetRequest;
 import com.nerdapplabs.model.User;
 import com.nerdapplabs.model.VerificationToken;
@@ -309,16 +311,21 @@ public class UserController {
 			@Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result,
 			Map<String, Object> model, Errors errors, HttpSession session, User user) {
 		session.getAttribute("email");
-
-		ModelAndView view = new ModelAndView("assetrequest");
+        ModelAndView view = new ModelAndView("assetrequest");
 		if (result.hasErrors()) {
 			return view;
 		}
-
-		userService.saveAsset(assetrequest, user);
+        userService.saveAsset(assetrequest, user);
 		ModelAndView modelview = new ModelAndView("redirect:/requested");
 		return modelview;
 
+	}
+	
+	@RequestMapping(value = "/asset", method = RequestMethod.POST)
+	public ModelAndView asset(@ModelAttribute("asset") Asset asset) {
+		userService.addAsset(asset);
+		ModelAndView model = new ModelAndView("requestedassets");
+		return model;
 	}
 
 	@RequestMapping(value = "/requested")

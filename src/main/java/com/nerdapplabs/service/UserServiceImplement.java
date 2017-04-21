@@ -158,12 +158,7 @@ public class UserServiceImplement implements UserService {
 	public VerificationToken getVerificationToken(String VerificationToken) {
 		return tokenRepository.findByToken(VerificationToken);
 	}
-
-	@Override
-	public AssetRequest findById(Long id) {
-		return assetDao.findById(id);
-	}
-
+	
 	@Override
 	public List<AssetRequest> listAsset(User user) {
 		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
@@ -223,5 +218,15 @@ public class UserServiceImplement implements UserService {
 			}
 		});
 		return listAssetsRequest;
+	}
+
+	@Override
+	public void addAsset(Asset asset) {
+		String sql = "INSERT INTO asset (company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity) VALUES ('"
+				+ asset.getCompany() + "','" + asset.getTag() + "','" + asset.getModel()
+				+ "','" + asset.getStatus() + "','" + asset.getSerialnumber() + "','" + asset.getPurchasedate()
+				+ "','" + asset.getSupplier() + "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() + "','" + asset.getQuantity() + "')";
+		jdbcTemplate.update(sql);
+		
 	}
 }

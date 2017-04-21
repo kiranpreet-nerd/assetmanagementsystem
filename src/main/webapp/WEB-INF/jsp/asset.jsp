@@ -58,29 +58,29 @@
 						<h3 class="panel-title">Create New Asset</h3>
 					</div>
 					<br>
-					<form:form action="" method="post" class="form-group"
-						align="center" >
+					<form:form action="/asset" method="post" class="form-group"
+						align="center" commandName = "asset">
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
-						    <select class = "form-control" >
+						    <select class = "form-control" name = "company">
 						        <option> MacBook Pro </option>
 						        <option> Dell </option>
 						    </select>
 						</div><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Asset Tag </label>
-					           <input type="text" name="assettag" value = ""  class="form-control" >
+					           <input type="text" name="tag" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
-						    <select class = "form-control" id = "sell">
+						    <select class = "form-control" id = "sell" name = "model">
 						        <option> model 1 </option>
 						        <option> model 2 </option>
 						    </select>
 						</div>&nbsp;<button type = "submit" value = "submit" name = "newmodelbutton" class="btn btn-success"> New </button><br>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "status" > Status </label>
-						    <select class = "form-control" id = "sell">
+						    <select class = "form-control" id = "sell" name = "status">
 						        <option> Ready To Deploy </option>
 						        <option> Pending </option>
 						        <option> Lost/Stolen  </option>
@@ -93,12 +93,12 @@
 					           <input type="text" name="serialnumber" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
-					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy"> Purchase Date </label>
+					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="yyyy-MM-dd"> Purchase Date </label>
 					           <input type="text" name="purchasedate" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "supplier"> Supplier </label>
-						    <select class = "form-control" id = "sell">
+						    <select class = "form-control" id = "sell" name = "supplier">
 						        <option> Supplier 1 </option>
 						        <option> Supplier 2 </option>
 						        <option> Supplier 3 </option>
@@ -106,7 +106,7 @@
 						</div>&nbsp; <button type = "submit" value = "submit" name = "newsupplierbutton" class="btn btn-success"> New </button><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Order Number </label>
-					           <input type="text" name="ordernumber" value = ""  class="form-control" >
+					           <input type="number" name="ordernumber" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Purchase cost(Per Asset Cost) </label>
@@ -115,11 +115,15 @@
 
  					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Warranty </label>
-					           <input type="text" name="warranty" value = "" placeholder = "enter value in months" class="form-control" >
+					           <input type="number" name="warranty" value = "" placeholder = "enter value in months" class="form-control" >
 					     </div><br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Quantity </label>
-					           <input type="text" name="quantity" value = "" placeholder = "enter value in months" class="form-control" >
+					           <input type="number" name="quantity" value = ""  class="form-control" >
+					     </div><br>
+					     <div class = "form-group" >
+					           <label class="col-sm-4 control-label">Total Cost </label>
+					           <input type="number" readonly = readonly name="totalcost" value = ""  class="form-control" >
 					     </div><br>
 					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success"> SAVE </button><
 

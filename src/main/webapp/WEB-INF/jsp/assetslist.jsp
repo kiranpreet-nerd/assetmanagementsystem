@@ -23,15 +23,7 @@
 				<a class="navbar-brand" href="#">Snap-It</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/logout">LOGOUT</a></li>
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown">CREATE NEW <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="/accessory"> Accessory</a></li>
-						<li><a href="/consumable"> Consumable</a></li>
-					</ul></li>
-	           <li class="active"><a href="/assetslist">ASSETS LIST</a></li>
-	           <li><a href="/asset"> Asset</a></li>
+				<li class="active"><a href="/requestedassets">BACK</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -39,17 +31,26 @@
 		<form:form action="" class="form-group">
 			<table class="table table-striped">
 				<tr>
-					<th>Email</th>
-					<th>User Name</th>
-					<th>Actions</th>
+					<th>Company</th>
+					<th>Asset Tag</th>
+					<th>Model</th>
+					<th>Status</th>
+					<th>Serial Number</th>
+					<th>Supplier</th>
+					<th>Order Number</th>
+					<th>Purchase Cost</th>
+					<th>Warranty</th>
+					<th>Quantity</th>
+					<th> Total Cost</th>
 				</tr>
-
-				<c:forEach items="${listEmail}" var="user">
+				<c:forEach items="${listAssets}" var="assetrequest">
 					<tr>
-						<td>${user.email}</td>
-						<td>${user.firstname}${user.lastname}</td>
-						<td><a href="/requestedassetslist?email=${user.email}">Check
-								Requests</a></td>
+						<td>${assetrequest.assettype}</td>
+						<td>${assetrequest.assetname}</td>
+						<td>${assetrequest.quantity}</td>
+						<td>${assetrequest.reason}</td>
+						<td>${assetrequest.requestdate}</td>
+						<td><a href="#">DELETE</a> &nbsp; <a href="#">UPDATE</a></td>
 				</c:forEach>
 
 			</table>

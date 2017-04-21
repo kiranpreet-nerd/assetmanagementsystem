@@ -9,6 +9,8 @@ public interface UserService{
 	void save(User registerUser);
 	
 	void saveAsset(AssetRequest requestasset, User user);
+	
+	void addAsset(Asset asset);
 
 	void delete(String email);
 
@@ -27,8 +29,6 @@ public interface UserService{
 	List<AssetRequest> listAsset(User user);
 
 	User findByEmail(String email);
-	
-	AssetRequest findById(Long id);
 	
 	void sendEmail(String email);
 

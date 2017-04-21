@@ -59,7 +59,7 @@
 					</div>
 					<br>
 					<form:form action="" method="post" class="form-group"
-						align="center">
+						align="center" commandName = "asset">
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
 						    <select class = "form-control" >
@@ -69,7 +69,7 @@
 						</div><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Accessory Tag </label>
-					           <input type="text" name="assettag" value = ""  class="form-control" >
+					           <input type="text" name="accessorytag" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
@@ -104,6 +104,7 @@
 					           <label class="col-sm-4 control-label">Order Number </label>
 					           <input type="text" name="ordernumber" value = ""  class="form-control" >
 					     </div> <br>
+					     
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Purchase cost(Per Accesssory Cost) </label>
 					           <input type="number" name="purchasecost" value = ""  class="form-control" >

@@ -2,10 +2,10 @@ package com.nerdapplabs.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.nerdapplabs.model.AssetRequest;
+import com.nerdapplabs.model.Asset;
 
-public interface AssetDao  extends CrudRepository<AssetRequest, Long> {
+public interface AssetDao  extends CrudRepository<Asset, Long> {
 	
-	public AssetRequest findById(Long id);
+	public Asset findById(Long id);
 
 }
