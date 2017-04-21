@@ -1,0 +1,33 @@
+package com.ams.pageobject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import com.ams.testsetup.SetUp;
+
+public class forgotUi extends SetUp {
+	By forgotlink = By.partialLinkText("Forgot");
+	By getpassword = By.name("forgotpasswordbutton");
+	By email = By.name("email");
+	By forgotTitle = By.cssSelector("legend[align = 'center']");
+
+	public boolean forgotTitle() {
+		String Title = driver.findElement(forgotTitle).getCssValue(" Forgot Password ");
+		if(Title.contains(" Forgot Password" )) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean forgotLinkIsPresent() {
+		if(driver.findElement(forgotlink).isDisplayed()) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean forgotLinkEnabled() {
+		if(driver.findElement(forgotlink).isEnabled()) {
+			return true;
+		}
+		return false;
+	}
+	

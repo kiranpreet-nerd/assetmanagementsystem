@@ -1,0 +1,30 @@
+package com.nerdapplabs.test;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.ams.pageobject.forgotUi;
+
+public class ForgotTest extends forgotUi {
+
+@Test
+public void verifyForgotLinkTitle() {
+	Assert.assertTrue("Forgot link title not found",forgotTitle() );
+}
+
+@Test
+public void verifyForgotLinkIsDisplayed() {
+	Assert.assertTrue("forgot link is not displayed",forgotLinkIsPresent());
+}
+
+@Test
+public void verifyForgotIsEnabled() {
+	Assert.assertTrue("forgot link is not enabled",forgotLinkEnabled());
+}
+
+@Test
+public void verifyForgotLinkIsClicked() {
+	Assert.assertTrue("forgot link is not clicked",forgotLinkClick());
+}
+
+}
