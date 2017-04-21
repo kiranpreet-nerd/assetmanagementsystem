@@ -52,7 +52,7 @@ public class UserServiceImplement implements UserService {
 	@Override
 	@Transactional
 	public void saveAsset(AssetRequest requestasset, User user) {
-		String sql = "insert into requestasset (assetname,assettype,quantity,reason,date,email)values('"
+		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email) VALUES ('"
 				+ requestasset.getAssetname() + "','" + requestasset.getAssettype() + "','" + requestasset.getQuantity()
 				+ "','" + requestasset.getReason() + "','" + requestasset.getRequestdate() + "','" + user.getEmail()
 				+ "')";
@@ -83,20 +83,20 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public User getUserByEmail(String email) {
-		String sql = "select * from user where email=?";
+		String sql = "SELECT * FROM user WHERE email=?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { email }, new BeanPropertyRowMapper<User>(User.class));
 	}
 
 	@Override
 	public int update(User user) {
-		String sql = "update user set firstname='" + user.getFirstname() + "',lastname='" + user.getLastname()
-				+ "', designation='" + user.getDesignation() + "', role='" + user.getRole() + "' where email ='"
+		String sql = "UPDATE user SET firstname='" + user.getFirstname() + "',lastname='" + user.getLastname()
+				+ "', designation='" + user.getDesignation() + "', role='" + user.getRole() + "' WHERE email ='"
 				+ user.getEmail() + "'";
 		return jdbcTemplate.update(sql);
 	}
 
 	public int softDelete(String email) {
-		String sql = "update user set status = 0 where email = '" + email + "'";
+		String sql = "UPDATE user SET status = 0 WHERE email = '" + email + "'";
 		return jdbcTemplate.update(sql);
 	}
 
@@ -106,7 +106,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<User> list() {
-		String sql = "select email,firstname,designation,role,lastname from user where status = 1";
+		String sql = "SELECT email,firstname,designation,role,lastname FROM user WHERE status = 1";
 		List<User> listUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
@@ -166,7 +166,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<AssetRequest> listAsset(User user) {
-		String sql = "select r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date from requestasset r where r.email = '"
+		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
 				+ user.getEmail() + "'";
 		List<AssetRequest> listAssets = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 
@@ -188,7 +188,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<User> listEmail() {
-		String sql = "select email, firstname , lastname from user";
+		String sql = "SELECT email, firstname , lastname FROM user";
 		List<User> listEmail = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
@@ -208,7 +208,7 @@ public class UserServiceImplement implements UserService {
 	@Override
 	public List<AssetRequest> listAssetsRequest(HttpSession session) {
 
-		String sql = "select assettype,assetname,quantity from requestasset  where date = CURDATE() && email = '"
+		String sql = "SELECT assettype,assetname,quantity FROM request_asset  WHERE date = CURDATE() && email = '"
 				+ session.getAttribute("email") + "'";
 		List<AssetRequest> listAssetsRequest = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 

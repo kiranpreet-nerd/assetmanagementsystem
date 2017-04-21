@@ -47,7 +47,7 @@
 					<tr>
 						<td>${user.email}</td>
 						<td>${user.firstname}${user.lastname}</td>
-						<td><a href="/requestassetslist?email=${user.email}">Check
+						<td><a href="/requestedassetslist?email=${user.email}">Check
 								Requests</a></td>
 				</c:forEach>
 

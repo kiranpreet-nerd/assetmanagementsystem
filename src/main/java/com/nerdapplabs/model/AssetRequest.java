@@ -10,12 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "requestasset")
+@Table(name = "request_asset")
 public class AssetRequest {
 	
 	@Id
@@ -23,18 +22,9 @@ public class AssetRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	
 	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "email", foreignKey = @ForeignKey(name = "FK_REQUEST_ASSET"))
     private User user;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	@NotEmpty(message = "required")
 	@Column(name = "assetname")
@@ -55,6 +45,14 @@ public class AssetRequest {
 	@NotEmpty(message = "required")
 	@Column(name = "date")
 	private String requestdate;
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public long getId() {
 		return id;
@@ -79,9 +77,6 @@ public class AssetRequest {
 	public void setAssettype(String assettype) {
 		this.assettype = assettype;
 	}
-
-	
-	
 
 	public String getQuantity() {
 		return quantity;

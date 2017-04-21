@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import com.nerdapplabs.registerEvent.OnRegistrationCompleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -57,19 +55,19 @@ public class UserController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/newasset", method = RequestMethod.GET)
-	public String newAsset() {
-		return "newasset";
+	@RequestMapping(value = "/asset", method = RequestMethod.GET)
+	public String asset() {
+		return "asset";
 	}
 
-	@RequestMapping(value = "/newaccessory", method = RequestMethod.GET)
-	public String newAccessory() {
-		return "newaccessory";
+	@RequestMapping(value = "/accessory", method = RequestMethod.GET)
+	public String accessory() {
+		return "accessory";
 	}
 
-	@RequestMapping(value = "/newconsummable", method = RequestMethod.GET)
-	public String newConsummable() {
-		return "newconsummable";
+	@RequestMapping(value = "/consumable", method = RequestMethod.GET)
+	public String consummable() {
+		return "consumable";
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -149,13 +147,13 @@ public class UserController {
 		return "updateuser";
 	}
 
-	@RequestMapping(value = "/requestassetslist{email}")
+	@RequestMapping(value = "/requestedassetslist{email}")
 	public ModelAndView listAssets(@ModelAttribute("user") User user, @RequestParam String email,
 			ModelAndView modelview) throws IOException {
 		user = userService.getUser(email);
 		List<AssetRequest> listAssets = service.listAsset(user);
 		modelview.addObject("listAssets", listAssets);
-		modelview.setViewName("requestassetslist");
+		modelview.setViewName("requestedassetslist");
 		return modelview;
 
 	}
