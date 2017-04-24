@@ -23,6 +23,7 @@
 	    });
 	 
 	 </script>
+	 <title> FORGOT PASSWORD</title>
 
 </head>
 <body>
@@ -39,7 +40,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<legend align="center"> Forgot Password </legend>
+		
 		<form:form action="/recoverypassword" method="post" class="form-signin" align="center" commandName = "passwordform">
 			<div class="form-group">
 				<label >Email </label> 

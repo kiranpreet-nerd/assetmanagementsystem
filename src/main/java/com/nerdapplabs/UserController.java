@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,8 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nerdapplabs.model.Asset;
 import com.nerdapplabs.model.AssetRequest;
-import com.nerdapplabs.model.User;
-import com.nerdapplabs.model.VerificationToken;
+import com.nerdapplabs.model.*;
 import com.nerdapplabs.service.*;
 
 @Controller
@@ -66,6 +66,22 @@ public class UserController {
 	public String accessory() {
 		return "accessory";
 	}
+	
+	@RequestMapping(value = "/newmodel", method = RequestMethod.GET)
+	public String newModel() {
+		return "addmodel";
+	}
+
+	@RequestMapping(value = "/newsupplier", method = RequestMethod.GET)
+	public String newSupplier() {
+		return "addsupplier";
+	}
+
+	@RequestMapping(value = "/newstatus", method = RequestMethod.GET)
+	public String newStatus() {
+		return "addstatus";
+	}
+
 
 	@RequestMapping(value = "/consumable", method = RequestMethod.GET)
 	public String consummable() {
@@ -142,7 +158,21 @@ public class UserController {
 
 		return model;
 	}
-
+	
+	@RequestMapping(value = "/newstatus", method = RequestMethod.POST)
+	public ModelAndView addStatus(@ModelAttribute("status") Status status) {
+		userService.addStatus(status);
+		ModelAndView model = new ModelAndView("asset");
+		return model;
+	}
+	
+	@RequestMapping(value = "/newsupplier", method = RequestMethod.POST)
+	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier) {
+		userService.addSupplier(supplier);
+		ModelAndView model = new ModelAndView("asset");
+		return model;
+	}
+	
 	@RequestMapping(value = "/getUser{email}")
 	public String view(@RequestParam String email, Model model) {
 		model.addAttribute("user", userService.getUser(email));
@@ -298,7 +328,7 @@ public class UserController {
 			String appUrl = request.getContextPath();
 			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, appUrl));
 		} catch (Exception e) {
-			((Model) model).addAttribute("emailError", "email already registered");
+			((Model) model).addAttribute("emailError", "error in sending email");
 			return modelandview;
 		}
 
@@ -327,6 +357,22 @@ public class UserController {
 		ModelAndView model = new ModelAndView("requestedassets");
 		return model;
 	}
+	
+	@RequestMapping(value = "/newmodel", method = RequestMethod.POST)
+	public ModelAndView addModel(@ModelAttribute("newmodel") NewModel newmodel) {
+		userService.addModel(newmodel);
+		ModelAndView model = new ModelAndView("redirect:/listmodel");
+		return model;
+	}
+
+	@RequestMapping(value = "/listmodel")
+	public ModelAndView listModel(@ModelAttribute("asset") Asset asset,ModelAndView model) throws IOException {
+		List<NewModel> listmodel = service.listModel();
+		model.addObject("listmodel", listmodel);
+		model.setViewName("asset");
+        return model;
+ }
+	
 
 	@RequestMapping(value = "/requested")
 	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session) throws IOException {
@@ -368,6 +414,16 @@ public class UserController {
 		List<User> listEmail = service.listEmail();
 		model.addObject("listEmail", listEmail);
 		model.setViewName("requestedassets");
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/assetslist")
+	public ModelAndView listAssets(ModelAndView model) throws IOException {
+
+		List<Asset> listAssets = service.listAssets();
+		model.addObject("listAssets", listAssets);
+		model.setViewName("assetslist");
 		return model;
 
 	}

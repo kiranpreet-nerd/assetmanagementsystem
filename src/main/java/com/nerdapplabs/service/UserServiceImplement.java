@@ -24,9 +24,6 @@ public class UserServiceImplement implements UserService {
 	@Autowired
 	private UserDao userDao;
 
-	@Autowired
-	private AssetDao assetDao;
-
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -229,4 +226,71 @@ public class UserServiceImplement implements UserService {
 		jdbcTemplate.update(sql);
 		
 	}
+
+	@Override
+	public void addModel(NewModel newmodel) {
+		String sql = "INSERT INTO model(modelname) VALUES ('"+newmodel.getModelname()+"')";
+		jdbcTemplate.update(sql);
+		
+	}
+
+	@Override
+	public void addSupplier(Supplier supplier) {
+		String sql = "INSERT INTO supplier(supplier) VALUES ('"+supplier.getSupplier()+"')";
+		jdbcTemplate.update(sql);
+		
+		
+	}
+
+	@Override
+	public void addStatus(Status status) {
+		String sql = "INSERT INTO status(status) VALUES ('"+status.getStatus()+"')";
+		jdbcTemplate.update(sql);
+		
+		
+	}
+
+	@Override
+	public List<NewModel> listModel() {
+		String sql = "SELECT modelname FROM model";
+		List<NewModel> listModel = jdbcTemplate.query(sql, new RowMapper<NewModel>() {
+
+			@Override
+			public NewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+				NewModel newmodel = new NewModel();
+
+				newmodel.setModelname(rs.getString("modelname"));
+				return newmodel;
+			}
+		});
+		return listModel;
+	}
+
+	@Override
+	public List<Asset> listAssets() {
+		String sql = "SELECT company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,totalcost FROM asset";
+		List<Asset> listAssets = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+
+			@Override
+			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Asset asset = new Asset();
+
+				asset.setCompany(rs.getString("company"));
+				asset.setTag(rs.getString("tag"));
+				asset.setModel(rs.getString("model"));
+				asset.setStatus(rs.getString("status"));
+				asset.setSerialnumber(rs.getString("serialnumber"));
+				asset.setPurchasedate(rs.getString("purchasedate"));
+				asset.setSupplier(rs.getString("supplier"));
+				asset.setOrdernumber(rs.getString("ordernumber"));
+				asset.setPurchasecost(rs.getString("purchasecost"));
+				asset.setWarranty(rs.getString("warranty"));
+				asset.setQuantity(rs.getString("quantity"));
+				asset.setTotalcost(rs.getString("totalcost"));
+				return asset;
+			}
+		});
+		return listAssets;
+	}
+
 }

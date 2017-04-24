@@ -45,7 +45,7 @@
 							<div>
 								<form:errors path="email"></form:errors>
 							</div>
-							<div>${emailError}</div>
+							<div class = "redalert">${emailError}</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">First Name </label> <input

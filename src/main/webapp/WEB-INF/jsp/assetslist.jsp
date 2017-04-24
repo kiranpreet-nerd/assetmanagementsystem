@@ -36,6 +36,7 @@
 					<th>Model</th>
 					<th>Status</th>
 					<th>Serial Number</th>
+					<th>Purchase Date</th>
 					<th>Supplier</th>
 					<th>Order Number</th>
 					<th>Purchase Cost</th>
@@ -43,14 +44,24 @@
 					<th>Quantity</th>
 					<th> Total Cost</th>
 				</tr>
-				<c:forEach items="${listAssets}" var="assetrequest">
+				<c:forEach items="${listAssets}" var="asset">
 					<tr>
-						<td>${assetrequest.assettype}</td>
-						<td>${assetrequest.assetname}</td>
-						<td>${assetrequest.quantity}</td>
-						<td>${assetrequest.reason}</td>
-						<td>${assetrequest.requestdate}</td>
-						<td><a href="#">DELETE</a> &nbsp; <a href="#">UPDATE</a></td>
+						<td>${asset.company}</td>
+						<td>${asset.tag}</td>
+						<td>${asset.model}</td>
+						<td>${asset.status}</td>
+						<td>${asset.serialnumber}</td>
+						<td>${asset.purchasedate}</td>
+						<td>${asset.supplier}</td>
+						<td>${asset.ordernumber}</td>
+						<td>${asset.purchasecost}</td>
+						<td>${asset.warranty}</td>
+						<td>${asset.quantity}</td>
+						<td>${asset.totalcost}</td>
+						<td><a href="#"> <span
+								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+							&nbsp; <a href="#"> <span
+								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 				</c:forEach>
 
 			</table>

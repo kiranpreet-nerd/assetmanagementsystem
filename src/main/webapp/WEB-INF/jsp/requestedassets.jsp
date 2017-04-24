@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -24,13 +24,12 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/logout">LOGOUT</a></li>
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown">CREATE NEW <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="/accessory"> Accessory</a></li>
-						<li><a href="/consumable"> Consumable</a></li>
-					</ul></li>
-	           <li class="active"><a href="/assetslist">ASSETS LIST</a></li>
+				<li><select onChange = "location = this.options[this.selectedIndex].value;">
+				     <option value = "/asset"> Asset </option>
+				     <option value = "/accessory"> Accessory </option>
+				     <option value = "/consumable"> consumable </option>
+			      </select></li>
+	           <li class="active"><a href="/assetslist">ASSETS LIST &nbsp;<span class="glyphicon glyphicon-th-list"></span></a></li>
 	           <li><a href="/asset"> Asset</a></li>
 			</ul>
 		</div>
@@ -48,8 +47,8 @@
 					<tr>
 						<td>${user.email}</td>
 						<td>${user.firstname}${user.lastname}</td>
-						<td><a href="/requestedassetslist?email=${user.email}">Check
-								Requests</a></td>
+						<td><a href="/requestedassetslist?email=${user.email}">
+								<span class="glyphicon glyphicon-check"></span></a></td>
 				</c:forEach>
 
 			</table>

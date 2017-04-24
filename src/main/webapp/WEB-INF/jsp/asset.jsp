@@ -73,28 +73,29 @@
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
-						    <select class = "form-control" id = "sell" name = "model">
-						        <option> model 1 </option>
-						        <option> model 2 </option>
+						    <select class = "form-control" id = "sell" name = "model" >
+						        <c:forEach var = "listmodel" items = "${listmodel}">
+						            <option value = "${listmodel.id}"> ${listmodel.modelname} </option>
+						        </c:forEach>
 						    </select>
-						</div>&nbsp;<button type = "submit" value = "submit" name = "newmodelbutton" class="btn btn-success"> New </button><br>
+						</div>&nbsp;  <a href = "/newmodel"> New <span class="glyphicon glyphicon-link"></span> </a><br>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "status" > Status </label>
 						    <select class = "form-control" id = "sell" name = "status">
 						        <option> Ready To Deploy </option>
 						        <option> Pending </option>
 						        <option> Lost/Stolen  </option>
-						        <option> Broken - can't be repaired </option>
+						        <option> Broken can't be repaired </option>
 						        <option>Out For Repair </option>
 						    </select>
-						</div>&nbsp; <button type = "submit" value = "submit" name = "newstatusbutton" class="btn btn-success"> New </button><br>
+						</div>&nbsp; <a href = "/newstatus"> New <span class="glyphicon glyphicon-link"></span></a><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Serial Number </label>
 					           <input type="text" name="serialnumber" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="yyyy-MM-dd"> Purchase Date </label>
-					           <input type="text" name="purchasedate" value = ""  class="form-control" >
+					           <input type="date" name="purchasedate" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "supplier"> Supplier </label>
@@ -103,7 +104,7 @@
 						        <option> Supplier 2 </option>
 						        <option> Supplier 3 </option>
 						    </select>
-						</div>&nbsp; <button type = "submit" value = "submit" name = "newsupplierbutton" class="btn btn-success"> New </button><br>
+						</div>&nbsp; <a href = "/newsupplier"> New <span class="glyphicon glyphicon-link"></span></a><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Order Number </label>
 					           <input type="number" name="ordernumber" value = ""  class="form-control" >

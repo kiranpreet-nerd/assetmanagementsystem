@@ -54,6 +54,14 @@ public class Asset {
 	@Column(name = "totalcost")
 	private String totalcost;
 
+	public String getTotalcost() {
+		return totalcost;
+	}
+
+	public void setTotalcost(String totalcost) {
+		this.totalcost = totalcost;
+	}
+
 	public long getId() {
 		return id;
 	}
