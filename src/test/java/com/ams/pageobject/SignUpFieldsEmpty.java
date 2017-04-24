@@ -21,11 +21,11 @@ public class SignUpFieldsEmpty extends SetUp {
 	public  boolean VerifyEmailEmpty() {
 		driver.findElement(signup).click();
 		WebElement emailEmpty = driver.findElement(email);
-			if(emailEmpty.getAttribute("value").isEmpty()){
-				return true;
-			}
-			return false;
+		if(emailEmpty.getAttribute("value").isEmpty()){
+			return true;
 		}
+		return false;
+	}
 	
 	//verify first name field is empty	    
 	public boolean VerifyFirstNameEmpty() {
