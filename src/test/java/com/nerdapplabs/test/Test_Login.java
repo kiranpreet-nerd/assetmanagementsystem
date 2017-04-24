@@ -53,7 +53,7 @@ public class Test_Login extends SetUp {
 	 	//find password text box and send password
 	 	driver.findElement(passwordTextBox).sendKeys(password);
 	 	//find login button 
-	 	WebElement login = driver.findElement( loginBtn);
+	 	WebElement login = driver.findElement(loginBtn);
 	 	//click on login button
 	 	login.click();
 		String lgout = driver.findElement(logout).getText();
