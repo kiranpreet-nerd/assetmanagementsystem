@@ -35,8 +35,8 @@ public class SignUp_Validations extends SetUp {
 			return false;
 		}
 	}
-	
-	//to verify error message on empty first name
+
+	// to verify error message on empty first name
 	public boolean verifyFirstNameValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
@@ -50,8 +50,8 @@ public class SignUp_Validations extends SetUp {
 			return false;
 		}
 	}
-	
-	//to verify error message on empty last name 
+
+	// to verify error message on empty last name
 	public boolean verifyLastNameValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
@@ -65,8 +65,8 @@ public class SignUp_Validations extends SetUp {
 			return false;
 		}
 	}
-	
-	//to validate error message on empty designation 
+
+	// to validate error message on empty designation
 	public boolean verifyDesignationValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
@@ -80,7 +80,7 @@ public class SignUp_Validations extends SetUp {
 			return false;
 		}
 	}
-	
+
 	// to validate error message on empty password
 	public boolean verifyPasswordValidate() {
 		driver.findElement(signup).click();
@@ -95,8 +95,8 @@ public class SignUp_Validations extends SetUp {
 			return false;
 		}
 	}
-	
-	//to validate error message on empty confirm password
+
+	// to validate error message on empty confirm password
 	public boolean verifyConfirmPwdValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
