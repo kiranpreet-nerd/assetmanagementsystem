@@ -14,19 +14,19 @@ public class SignUp_Validations extends SetUp {
 	By password_error = By.id("password.errors");
 	By confirmpwd_error = By.id("confirm.errors");
 	By email = By.name("email");
-	By Firstname = By.name("firstname");
-	By Lastname = By.name("lastname");
-	By Designation = By.name("designation");
-	By Role = By.name("role");
-	By Password = By.name("password");
-	By Confirmpwd = By.name("confirm");
+	By firstName = By.name("firstname");
+	By lastName = By.name("lastname");
+	By designation = By.name("designation");
+	By role = By.name("role");
+	By passwrd = By.name("password");
+	By confirmPwd = By.name("confirm");
 
 	// to verify error message on empty email
 	public boolean verifyEmailValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String EmailText = driver.findElement(email).getText();
-		if (EmailText.isEmpty()) {
+		String emailtext = driver.findElement(email).getText();
+		if (emailtext.isEmpty()) {
 			if (driver.findElement(email_error).isDisplayed())
 				return true;
 			else
@@ -40,8 +40,8 @@ public class SignUp_Validations extends SetUp {
 	public boolean verifyFirstNameValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String firstName = driver.findElement(Firstname).getText();
-		if (firstName.isEmpty()) {
+		String firstname = driver.findElement(firstName).getText();
+		if (firstname.isEmpty()) {
 			if (driver.findElement(firstname_error).isDisplayed())
 				return true;
 			else
@@ -55,8 +55,8 @@ public class SignUp_Validations extends SetUp {
 	public boolean verifyLastNameValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String lastName = driver.findElement(Lastname).getText();
-		if (lastName.isEmpty()) {
+		String lastname = driver.findElement(lastName).getText();
+		if (lastname.isEmpty()) {
 			if (driver.findElement(lastname_error).isDisplayed())
 				return true;
 			else
@@ -70,8 +70,8 @@ public class SignUp_Validations extends SetUp {
 	public boolean verifyDesignationValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String designationTxt = driver.findElement(Designation).getText();
-		if (designationTxt.isEmpty()) {
+		String designationtxt = driver.findElement(designation).getText();
+		if (designationtxt.isEmpty()) {
 			if (driver.findElement(designation_error).isDisplayed())
 				return true;
 			else
@@ -85,8 +85,8 @@ public class SignUp_Validations extends SetUp {
 	public boolean verifyPasswordValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String passwordTxt = driver.findElement(Password).getText();
-		if (passwordTxt.isEmpty()) {
+		String passwordtxt = driver.findElement(passwrd).getText();
+		if (passwordtxt.isEmpty()) {
 			if (driver.findElement(password_error).isDisplayed())
 				return true;
 			else
@@ -100,8 +100,8 @@ public class SignUp_Validations extends SetUp {
 	public boolean verifyConfirmPwdValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String confirmTxt = driver.findElement(Confirmpwd).getText();
-		if (confirmTxt.isEmpty()) {
+		String confirmtxt = driver.findElement(confirmPwd).getText();
+		if (confirmtxt.isEmpty()) {
 			if (driver.findElement(confirmpwd_error).isDisplayed())
 				return true;
 			else
