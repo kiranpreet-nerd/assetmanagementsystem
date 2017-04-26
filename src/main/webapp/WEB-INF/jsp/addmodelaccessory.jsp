@@ -58,8 +58,8 @@
 						<h3 class="panel-title">Create New Model</h3>
 					</div>
 					<br>
-					<form:form action="/newmodel" method="post" class="form-group"
-						align="center" commandName="newmodel">
+					<form:form action="/modelaccessory" method="post" class="form-group"
+						align="center" commandName="newmodelaccessory">
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Model Identifier </label> <input
 								type="text" name="model" value="" class="form-control">

@@ -14,6 +14,10 @@ public interface UserService{
 	
 	void addModel(NewModel newmodel);
 	
+	void addModelAccessory(ModelAccessory modelaccessory);
+	
+	void addModelConsumable(ModelConsumable modelconsumable);
+	
 	void addSupplier(Supplier supplier);
 	
 	void addStatus(Status status);
@@ -22,15 +26,29 @@ public interface UserService{
 
 	int update( User user);
 	
+	int updateAsset( Asset asset, Long id);
+	
     int softDelete(String email );
     
+    int deleteAsset(Long id );
+    
 	User getUser (String email);
+	
+	Asset getAsset (Long id);
 
 	List<User> list();
 	
 	List<User> listEmail();
 	
 	List<NewModel> listModel();
+	
+	List<ModelAccessory> listModelAccessory();
+	
+	List<ModelConsumable> listModelConsumable();
+	
+	List<Supplier> listSupplier();
+	
+	List<Status> listStatus();
 	
 	List<AssetRequest> listAssetsRequest(HttpSession session);
 	

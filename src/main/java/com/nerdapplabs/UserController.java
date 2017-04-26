@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +29,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nerdapplabs.model.Asset;
 import com.nerdapplabs.model.AssetRequest;
+import com.nerdapplabs.dao.AssetDao;
 import com.nerdapplabs.model.*;
 import com.nerdapplabs.service.*;
 
 @Controller
-@SessionAttributes("email")
+@SessionAttributes("email, tag")
 public class UserController {
 
 	@Autowired
@@ -40,6 +42,10 @@ public class UserController {
 
 	@Autowired
 	UserService service;
+	
+
+	@Autowired
+	AssetDao assetDao;
 
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
@@ -58,19 +64,35 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/asset", method = RequestMethod.GET)
-	public String asset() {
-		return "asset";
-	}
-
-	@RequestMapping(value = "/accessory", method = RequestMethod.GET)
-	public String accessory() {
-		return "accessory";
+	public ModelAndView asset() {
+			ModelAndView model = new ModelAndView();
+			
+			    List<NewModel> listmodelname = service.listModel();
+				model.addObject("listmodelname", listmodelname);
+				List<Supplier> listsupplier = service.listSupplier();
+				model.addObject("listsupplier", listsupplier);
+				List<Status> liststatus = service.listStatus();
+				model.addObject("liststatus", liststatus);
+				 model.setViewName("asset");
+					return model;
+			   
 	}
 	
 	@RequestMapping(value = "/newmodel", method = RequestMethod.GET)
-	public String newModel() {
+	public String newModelAccessory() {
 		return "addmodel";
 	}
+	
+	@RequestMapping(value = "/newmodelaccessory", method = RequestMethod.GET)
+	public String newModelConsumable() {
+		return "addmodelaccessory";
+	}
+
+	@RequestMapping(value = "/newmodelconsumable", method = RequestMethod.GET)
+	public String newModel() {
+		return "addmodelconsumable";
+	}
+
 
 	@RequestMapping(value = "/newsupplier", method = RequestMethod.GET)
 	public String newSupplier() {
@@ -81,18 +103,7 @@ public class UserController {
 	public String newStatus() {
 		return "addstatus";
 	}
-
-
-	@RequestMapping(value = "/consumable", method = RequestMethod.GET)
-	public String consummable() {
-		return "consumable";
-	}
-
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String welcome() {
-		return "welcome";
-	}
-
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(User user, @RequestParam String email, @RequestParam String password, HttpSession session,
 			Model model, HttpServletRequest request) {
@@ -159,24 +170,53 @@ public class UserController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/newstatus", method = RequestMethod.POST)
-	public ModelAndView addStatus(@ModelAttribute("status") Status status) {
-		userService.addStatus(status);
-		ModelAndView model = new ModelAndView("asset");
-		return model;
-	}
-	
-	@RequestMapping(value = "/newsupplier", method = RequestMethod.POST)
-	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier) {
-		userService.addSupplier(supplier);
-		ModelAndView model = new ModelAndView("asset");
-		return model;
-	}
-	
 	@RequestMapping(value = "/getUser{email}")
 	public String view(@RequestParam String email, Model model) {
 		model.addAttribute("user", userService.getUser(email));
 		return "updateuser";
+	}
+
+	@RequestMapping(value = "/editasset{id}", method = RequestMethod.GET)
+	public ModelAndView updateAsset() {
+			ModelAndView model = new ModelAndView();
+			
+			    List<NewModel> listmodelname = service.listModel();
+				model.addObject("listmodelname", listmodelname);
+				List<Supplier> listsupplier = service.listSupplier();
+				model.addObject("listsupplier", listsupplier);
+				List<Status> liststatus = service.listStatus();
+				model.addObject("liststatus", liststatus);
+				 model.setViewName("updateasset");
+					return model;
+			   
+	}
+	
+	@RequestMapping(value = "/getAsset{id}")
+	public ModelAndView EditAsset( Model model,HttpServletRequest request) {
+		
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
+		model.addAttribute("updateasset", userService.getAsset(id));
+		ModelAndView modelview = new ModelAndView();
+		
+		List<NewModel> listmodelname = service.listModel();
+		modelview.addObject("listmodelname", listmodelname);
+		List<Supplier> listsupplier = service.listSupplier();
+		modelview.addObject("listsupplier", listsupplier);
+		List<Status> liststatus = service.listStatus();
+		modelview.addObject("liststatus", liststatus);
+		modelview.setViewName("updateasset");
+		
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/updateasset", method = RequestMethod.POST)
+	public String updateAsset(@ModelAttribute("updateasset") Asset asset, HttpServletRequest request) {
+
+		    Long id = (long) Integer.parseInt(request.getParameter("id"));
+			userService.updateAsset(asset,id);
+			return "redirect:/assetslist";
+	
+
 	}
 
 	@RequestMapping(value = "/requestedassetslist{email}")
@@ -195,6 +235,13 @@ public class UserController {
 		String email = request.getParameter("email");
 		userService.softDelete(email);
 		return new ModelAndView("redirect:/users");
+	}
+	
+	@RequestMapping(value = "/deleteAsset", method = RequestMethod.GET)
+	public ModelAndView deleteAsset(HttpServletRequest request) {
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
+		userService.deleteAsset(id);
+		return new ModelAndView("redirect:/assetslist");
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -352,12 +399,26 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/asset", method = RequestMethod.POST)
-	public ModelAndView asset(@ModelAttribute("asset") Asset asset) {
+	public ModelAndView Asset(@ModelAttribute("asset") Asset asset) {
 		userService.addAsset(asset);
 		ModelAndView model = new ModelAndView("requestedassets");
 		return model;
 	}
 	
+	@RequestMapping(value = "/modelaccessory", method = RequestMethod.POST)
+	public ModelAndView addModelAccessory(@ModelAttribute("newmodelaccessory") ModelAccessory modelaccessory) {
+		userService.addModelAccessory(modelaccessory);
+		ModelAndView model = new ModelAndView("redirect:/listmodelaccessory");
+		return model;
+	}
+	
+	@RequestMapping(value = "/modelconsumable", method = RequestMethod.POST)
+	public ModelAndView addModelConsumable(@ModelAttribute("newmodelconsumable") ModelConsumable modelconsumable) {
+		userService.addModelConsumable(modelconsumable);
+		ModelAndView model = new ModelAndView("redirect:/listmodelconsumable");
+		return model;
+	}
+
 	@RequestMapping(value = "/newmodel", method = RequestMethod.POST)
 	public ModelAndView addModel(@ModelAttribute("newmodel") NewModel newmodel) {
 		userService.addModel(newmodel);
@@ -366,13 +427,59 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/listmodel")
-	public ModelAndView listModel(@ModelAttribute("asset") Asset asset,ModelAndView model) throws IOException {
+	public ModelAndView listModel(ModelAndView model) throws IOException {
 		List<NewModel> listmodel = service.listModel();
 		model.addObject("listmodel", listmodel);
-		model.setViewName("asset");
-        return model;
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
  }
 	
+	@RequestMapping(value = "/listmodelaccessory")
+	public ModelAndView listModelAccessory(ModelAndView model) throws IOException {
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		model.addObject("listmodelaccessory", listmodelaccessory);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+ }
+	
+	@RequestMapping(value = "/listmodelconsumable")
+	public ModelAndView listModelConsumable(ModelAndView model) throws IOException {
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		model.addObject("listmodelconsumable", listmodelconsumable);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+ }
+	
+	
+	@RequestMapping(value = "/newsupplier", method = RequestMethod.POST)
+	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier) {
+		userService.addSupplier(supplier);
+		ModelAndView model = new ModelAndView("redirect:/listsupplier");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listsupplier")
+	public ModelAndView listSupplier(ModelAndView model) throws IOException {
+		List<Supplier> listsupplier = service.listSupplier();
+		model.addObject("listsupplier", listsupplier);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/newstatus", method = RequestMethod.POST)
+	public ModelAndView addStatus(@ModelAttribute("status") Status status) {
+		userService.addStatus(status);
+		ModelAndView model = new ModelAndView("redirect:/liststatus");
+		return model;
+	}
+	
+	@RequestMapping(value = "/liststatus")
+	public ModelAndView listStatus(ModelAndView model) throws IOException {
+		List<Status> liststatus = service.listStatus();
+		model.addObject("liststatus", liststatus);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
 
 	@RequestMapping(value = "/requested")
 	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session) throws IOException {
@@ -439,7 +546,7 @@ public class UserController {
 		User tempuser = userService.findByEmail(user.getEmail());
 		if (tempuser != null && tempuser.getStatus() == 1) {
 			userService.sendEmail(email);
-			model.addAttribute("emailError", "email successfully send");
+			model.addAttribute("emailError", "email send successfully");
 			return "forgotpassword";
 		} else if (tempuser == null) {
 			model.addAttribute("emailError", "valid email required");

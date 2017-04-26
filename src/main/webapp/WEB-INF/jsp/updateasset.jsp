@@ -42,44 +42,32 @@ Dropdown hover
 <link href="css/bootstrap-dropdownhover.min.css" rel="stylesheet">
 
  -->
- 
-<!-- <script type="text/javascript">
- 	     function configureDropDownLists(ddl1,ddl2) {
- 	    	 
- 	    	 switch(ddl1.value) {
- 	    	 case 'asset':
- 	    		 ddl2.options.length = 0;
- 	    		 for(i=0; i < asset.length; i++) {
- 	    			 createOption(ddl2, ${listmodel.modelname}, ${listmodel.modelname});
- 	    		 }
- 	    		 break;
- 	    	 case 'Accessory':
- 	    		 ddl2.options.length = 0;
- 	    		 for(i=0; i < accessory.length; i++) {
- 	    			 createOption(ddl2, ${listmodelaccessory.modelname}, ${listmodelaccessory.modelname});
- 	    		 }
- 	    		 break;
- 	    	 case 'Consumable':
- 	    		 ddl2.options.length = 0;
- 	    		 for(i=0; i < consumable.length; i++) {
- 	    			 createOption(ddl2, ${listmodelconsumable.modelname}, ${listmodelconsumable.modelname});
- 	    		 }
- 	    		 break;
- 	    		 default:
- 	    			 ddl2.options.length = 0;
- 	    		 break;
- 	    	 }
- 	     }
- 	 
- 	     function createOption(ddl, text, value) {
- 	    	 var opt = document.createElement('option');
- 	    	 opt.value = value;
- 	    	 opt.text = text;
- 	    	 ddl.options.add(opt);
- 	     }
- 	  
- 	 
- 	 </script>-->
+  <%
+     String company=request.getParameter("company");
+     request.getSession().setAttribute("company", company);
+     String assettype=request.getParameter("assettype");
+     request.getSession().setAttribute("assettype", assettype);
+     String tag=request.getParameter("tag");
+     request.getSession().setAttribute("tag", tag);
+     String serialnumber=request.getParameter("serialnumber");
+     request.getSession().setAttribute("serialnumber", serialnumber);
+     String purchasedate=request.getParameter("purchasedate");
+     request.getSession().setAttribute("purchasedate", purchasedate);
+     String suppliercontact=request.getParameter("suppliercontact");
+     request.getSession().setAttribute("suppliercontact", suppliercontact);
+     String ordernumber=request.getParameter("ordernumber");
+     request.getSession().setAttribute("ordernumber", ordernumber);
+     String purchasecost=request.getParameter("purchasecost");
+     request.getSession().setAttribute("purchasecost", purchasecost);
+     String warranty=request.getParameter("warranty");
+     request.getSession().setAttribute("warranty", warranty);
+     String quantity=request.getParameter("quantity");
+     request.getSession().setAttribute("quantity", quantity);
+     String totalcost=request.getParameter("totalcost");
+     request.getSession().setAttribute("totalcost", totalcost);
+     
+     
+     %>
  
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -101,37 +89,38 @@ Dropdown hover
 			<div class="col-md-6 col-md-offset-4">
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Create New Asset</h3>
+						<h3 class="panel-title"> Update Asset</h3>
 					</div>
 					<br>
-					<form:form action="/asset" method="post" class="form-group"
-						align="center" commandName = "asset">
+					<form:form action="/updateasset" method="post" class="form-group"
+						align="center" commandName = "updateasset">
+						<div><form:hidden  path="id" /></div>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
-						    <select class = "form-control" name = "company">
-						        <option> MacBook Pro </option>
-						        <option> Dell </option>
-						    </select>
+						    <form:select class = "form-control" name = "company" path = "company" value = "${asset.company}">
+						        <option > MacBook Pro </option>
+						        <option > Dell </option>
+						    </form:select>
 						</div><br>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "assettype" > Asset Type </label>
-						    <select class = "form-control" name = "assettype">
+						    <form:select class = "form-control" name = "assettype" path = "assettype">
 						        <option value = "asset">Asset </option>
 						        <option value = "accessory"> Accessory </option>
 						        <option value = "consumable"> Consumable </option>
-						    </select>
+						    </form:select>
 						</div><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Asset Tag </label>
-					           <input type="text" name="tag" value = ""  class="form-control" >
+					           <form:input type="text" name="tag" path = "tag" value = "${asset.tag}"  class="form-control" />
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
-						<select class = "form-control" id = "sell" name = "model">
+						<form:select class = "form-control" id = "sell" name = "model" path = "model">
 						        <c:forEach var = "listmodelname" items = "${listmodelname}">
 						            <option value = "${listmodelname.model}"> ${listmodelname.model} </option>
 						        </c:forEach> 
-						    </select>
+						    </form:select>
 						    <div class="dropdown">
 						     <a id="dlabel" data-toggle="dropdown" data-hover = "dropdown">
 						       New <span class="caret"></span></a>
@@ -144,52 +133,52 @@ Dropdown hover
 						</div>&nbsp;
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "status" > Status </label>
-						    <select class = "form-control" id = "sell" name = "status">
+						    <form:select class = "form-control" id = "sell" name = "status" path = "status">
 						        <c:forEach var = "liststatus" items = "${liststatus}">
 						            <option value = "${liststatus.status}"> ${liststatus.status} </option>
 						        </c:forEach>
-						    </select>
+						    </form:select>
 						</div>&nbsp; <a href = "/newstatus"> New <span class="glyphicon glyphicon-link"></span></a><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Serial Number </label>
-					           <input type="text" name="serialnumber" value = ""  class="form-control" >
+					           <form:input type="text" name="serialnumber" path = "serialnumber" value = "${asset.serialnumber}"  class="form-control" />
 					     </div> <br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="yyyy-MM-dd"> Purchase Date </label>
-					           <input type="date" name="purchasedate" value = ""  class="form-control" >
+					           <form:input type="date" name="purchasedate" path = "purchasedate" value = "${asset.purchasedate}"  class="form-control" />
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "supplier"> Supplier </label>
-						    <select class = "form-control" id = "sell" name = "supplier">
+						    <form:select class = "form-control" id = "sell" name = "supplier" path = "supplier">
 						         <c:forEach var = "listsupplier" items = "${listsupplier}">
 						            <option value = "${listsupplier.supplier}"> ${listsupplier.supplier} </option>
 						        </c:forEach>
-						    </select>
+						    </form:select>
 						</div>&nbsp; <a href = "/newsupplier"> New <span class="glyphicon glyphicon-link"></span></a><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Supplier contact number </label>
-					           <input type="number" name="suppliercontact" value = ""  class="form-control" maxlength = "10" >
+					           <form:input type="number" name="suppliercontact" path = "suppliercontact" value = "${asset.suppliercontact}"  class="form-control" maxlength = "10" />
 					     </div> <br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Order Number </label>
-					           <input type="number" name="ordernumber" value = ""  class="form-control" >
+					           <form:input type="number" name="ordernumber" path = "ordernumber" value = "${asset.ordernumber}"  class="form-control" />
 					     </div> <br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Purchase cost(Per Asset Cost) </label>
-					           <input type="number" name="purchasecost" value = ""  class="form-control" >
+					           <form:input type="number" name="purchasecost" path = "purchasecost" value = "${asset.purchasecost}"  class="form-control" />
 					     </div> <br>
 
  					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Warranty </label>
-					           <input type="number" name="warranty" value = "" placeholder = "enter value in months" class="form-control" >
+					           <form:input type="number" name="warranty" value = "${asset.warranty}" path = "warranty" placeholder = "enter value in months" class="form-control" />
 					     </div><br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Quantity </label>
-					           <input type="number" name="quantity" value = ""  class="form-control" >
+					           <form:input type="number" name="quantity" path = "quantity" value = "${asset.quantity}"  class="form-control" />
 					     </div><br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Total Cost </label>
-					           <input type="number" readonly = readonly name="totalcost" value = ""  class="form-control" >
+					           <form:input type="number" name="totalcost" path = "totalcost" value = "${asset.totalcost}"  class="form-control" />
 					     </div><br>
 					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success"> SAVE </button>
 

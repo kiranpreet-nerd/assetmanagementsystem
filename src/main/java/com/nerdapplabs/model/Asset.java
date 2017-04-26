@@ -21,6 +21,9 @@ public class Asset {
 	@Column(name = "company")
 	private String company;
 	
+	@Column(name = "assettype")
+	private String assettype;
+	
 	@Column(name = "tag")
 	private String tag;
 	
@@ -39,6 +42,9 @@ public class Asset {
 	@Column(name = "supplier")
 	private String supplier;
 	
+	@Column(name = "suppliercontact")
+	private String suppliercontact;
+	
 	@Column(name = "ordernumber")
 	private String ordernumber;
 	
@@ -53,6 +59,9 @@ public class Asset {
 	
 	@Column(name = "totalcost")
 	private String totalcost;
+	
+	@Column(name = "assetmode")
+	private Integer assetmode;
 
 	public String getTotalcost() {
 		return totalcost;
@@ -60,6 +69,22 @@ public class Asset {
 
 	public void setTotalcost(String totalcost) {
 		this.totalcost = totalcost;
+	}
+
+	public String getSuppliercontact() {
+		return suppliercontact;
+	}
+
+	public void setSuppliercontact(String suppliercontact) {
+		this.suppliercontact = suppliercontact;
+	}
+
+	public String getAssettype() {
+		return assettype;
+	}
+
+	public void setAssettype(String assettype) {
+		this.assettype = assettype;
 	}
 
 	public long getId() {
@@ -156,5 +181,13 @@ public class Asset {
 
 	public void setQuantity(String quantity) {
 		this.quantity = quantity;
+	}
+
+	public Integer getAssetmode() {
+		return assetmode;
+	}
+
+	public void setAssetmode(Integer assetmode) {
+		this.assetmode = assetmode;
 	}
 }
