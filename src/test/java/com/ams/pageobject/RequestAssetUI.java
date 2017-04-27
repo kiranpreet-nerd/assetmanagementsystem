@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import com.ams.testsetup.SetUp;
 import com.nerdapplabs.test.TestDataReader;
 
-public class Test_RequestAssetUI extends SetUp {
+public class RequestAssetUI extends SetUp {
 
 	static By emailTextBox = By.name("email");
 	static By passwordTextBox = By.name("password");
