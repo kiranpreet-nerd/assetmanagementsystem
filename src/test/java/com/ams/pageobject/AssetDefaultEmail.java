@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
 import com.ams.testsetup.SetUp;
 import com.nerdapplabs.test.TestDataReader;
 
-public class Test_AssetDefaultEmail extends SetUp {
+public class AssetDefaultEmail extends SetUp {
 
 	static By emailTextBox = By.name("email");
 	static By passwordTextBox = By.name("password");

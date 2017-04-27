@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ams.pageobject.Test_RequestAssetUI;
+import com.ams.pageobject.RequestAssetUI;
 
-public class Test_RequestAssetUITest extends Test_RequestAssetUI {
+public class RequestAssetUITest extends RequestAssetUI {
 
 	@Test
 	public void verifyEmailFiedOnReqAssetIsVisible() throws IOException {
