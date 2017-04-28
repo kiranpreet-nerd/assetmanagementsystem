@@ -1,7 +1,5 @@
 package com.nerdapplabs.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +15,7 @@ public class Asset {
 	@Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	
 	@Column(name = "company")
 	private String company;

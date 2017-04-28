@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 import javax.validation.Valid;
 import com.nerdapplabs.registerEvent.OnRegistrationCompleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import com.nerdapplabs.model.*;
 import com.nerdapplabs.service.*;
 
 @Controller
-@SessionAttributes("email, tag")
+@SessionAttributes("email")
 public class UserController {
 
 	@Autowired
@@ -69,6 +70,8 @@ public class UserController {
 			
 			    List<NewModel> listmodelname = service.listModel();
 				model.addObject("listmodelname", listmodelname);
+				List<Company> listcompany = service.listCompany();
+				model.addObject("listcompany", listcompany);
 				List<Supplier> listsupplier = service.listSupplier();
 				model.addObject("listsupplier", listsupplier);
 				List<Status> liststatus = service.listStatus();
@@ -81,6 +84,11 @@ public class UserController {
 	@RequestMapping(value = "/newmodel", method = RequestMethod.GET)
 	public String newModelAccessory() {
 		return "addmodel";
+	}
+	
+	@RequestMapping(value = "/newcompany", method = RequestMethod.GET)
+	public String newCompany() {
+		return "addcompany";
 	}
 	
 	@RequestMapping(value = "/newmodelaccessory", method = RequestMethod.GET)
@@ -254,18 +262,12 @@ public class UserController {
 	public ModelAndView addUser(@Valid @ModelAttribute("adduser") User user, BindingResult result,
 			Map<String, Object> model, Errors errors) {
 		ModelAndView modelandview = new ModelAndView("add");
-		if (result.hasErrors() || user.getPassword().isEmpty() || user.getConfirm().isEmpty()) {
-			errors.rejectValue("password", "required.password", "password is required");
-			errors.rejectValue("confirm", "required.password", "confirm password is required");
+		if (result.hasErrors()) {
 			return modelandview;
 		}
 		User tempUser = userService.findByEmail(user.getEmail());
 		if (tempUser != null) {
 			((Model) model).addAttribute("emailError", "email already registered");
-			return modelandview;
-		}
-		if (!(user.getPassword().equals(user.getConfirm()))) {
-			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
 
@@ -276,24 +278,7 @@ public class UserController {
 				errors.rejectValue("email", "domainmatch.email", "domain name must be @nerdapplabs.com");
 				return modelandview;
 			}
-
-			if (!(user.getFirstname().isEmpty())) {
-				Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
-				Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
-				if (!matcherFirstName.matches()) {
-					errors.rejectValue("firstname", "nonchar.firstname", "First name should contain only alphabets");
-					return modelandview;
-				}
-			}
-			if (!(user.getLastname().isEmpty())) {
-				Pattern patternLastName = Pattern.compile(STRING_PATTERN);
-				Matcher matcherLastName = patternLastName.matcher(user.getLastname());
-				if (!matcherLastName.matches()) {
-					errors.rejectValue("lastname", "nonchar.lastname", "Last name should contain only alphabets");
-					return modelandview;
-				}
-			}
-			if (!(user.getPassword().isEmpty())) {
+		if (!(user.getPassword().isEmpty())) {
 				Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
 				Matcher matcherPassword = patternPassword.matcher(user.getPassword());
 				if (!matcherPassword.matches()) {
@@ -319,19 +304,9 @@ public class UserController {
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
 			Map<String, Object> model, Errors errors, WebRequest request) {
 		ModelAndView modelandview = new ModelAndView("register");
-		if (result.hasErrors() || user.getPassword().isEmpty() || user.getConfirm().isEmpty()) {
-			errors.rejectValue("password", "required.password", "password is required");
-			errors.rejectValue("confirm", "required.password", "confirm password is required");
-			return modelandview;
-		}
 		User tempUser = userService.findByEmail(user.getEmail());
 		if (tempUser != null) {
 			((Model) model).addAttribute("emailError", "email already registered");
-			return modelandview;
-		}
-
-		if (!(user.getPassword().equals(user.getConfirm()))) {
-			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
 
@@ -340,22 +315,6 @@ public class UserController {
 			Matcher matcher = pattern.matcher(user.getEmail());
 			if (!matcher.matches()) {
 				errors.rejectValue("email", "domainmatch.email", "domain name must be @nerdapplabs.com");
-				return modelandview;
-			}
-		}
-		if (!(user.getFirstname().isEmpty())) {
-			Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
-			Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
-			if (!matcherFirstName.matches()) {
-				errors.rejectValue("firstname", "nonchar.firstname", "First name should contain only alphabets");
-				return modelandview;
-			}
-		}
-		if (!(user.getLastname().isEmpty())) {
-			Pattern patternLastName = Pattern.compile(STRING_PATTERN);
-			Matcher matcherLastName = patternLastName.matcher(user.getLastname());
-			if (!matcherLastName.matches()) {
-				errors.rejectValue("lastname", "nonchar.lastname", "Last name should contain only alphabets");
 				return modelandview;
 			}
 		}
@@ -399,10 +358,24 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/asset", method = RequestMethod.POST)
-	public ModelAndView Asset(@ModelAttribute("asset") Asset asset) {
+	public ModelAndView Asset(@ModelAttribute("asset") Asset asset, HttpServletRequest request, Model model,@RequestParam String serialnumber,@RequestParam String tag, @RequestParam String ordernumber) {
+		
+		List<Asset> assetAttributesList = userService.uniqueAttribute();
+		for(int i=0; i < assetAttributesList.size(); i++) {
+			if(assetAttributesList.get(i).getSerialnumber().equals(serialnumber)){
+			model.addAttribute("serialError","serial number already exsist");
+			return new ModelAndView("redirect:/asset");
+			} else if(assetAttributesList.get(i).getTag().equals(tag)) {
+				model.addAttribute("tagError","Asset Tag already exsist");
+				return new ModelAndView("redirect:/asset");
+			} else if(assetAttributesList.get(i).getOrdernumber().equals(ordernumber)) {
+				model.addAttribute("orderError","Order Number already exsist");
+				return new ModelAndView("redirect:/asset");
+			}
+		}
 		userService.addAsset(asset);
-		ModelAndView model = new ModelAndView("requestedassets");
-		return model;
+		ModelAndView modelview = new ModelAndView("redirect:/requestedassets");
+		return modelview;
 	}
 	
 	@RequestMapping(value = "/modelaccessory", method = RequestMethod.POST)
@@ -477,6 +450,21 @@ public class UserController {
 	public ModelAndView listStatus(ModelAndView model) throws IOException {
 		List<Status> liststatus = service.listStatus();
 		model.addObject("liststatus", liststatus);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/newcompany", method = RequestMethod.POST)
+	public ModelAndView addCompany(@ModelAttribute("newcompany") Company company) {
+		userService.addCompany(company);
+		ModelAndView model = new ModelAndView("redirect:/listcompany");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listcompany")
+	public ModelAndView listCompany(ModelAndView model) throws IOException {
+		List<Company> listcompany = service.listCompany();
+		model.addObject("listcompany", listcompany);
 		ModelAndView modelview = new ModelAndView("redirect:/asset");
 		return modelview;
 	}

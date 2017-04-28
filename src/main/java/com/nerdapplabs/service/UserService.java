@@ -14,6 +14,8 @@ public interface UserService{
 	
 	void addModel(NewModel newmodel);
 	
+	void addCompany(Company company);
+	
 	void addModelAccessory(ModelAccessory modelaccessory);
 	
 	void addModelConsumable(ModelConsumable modelconsumable);
@@ -28,6 +30,9 @@ public interface UserService{
 	
 	int updateAsset( Asset asset, Long id);
 	
+	List<Asset> uniqueAttribute();
+	//Asset uniqueSerialNumber(String serialnumber);
+	
     int softDelete(String email );
     
     int deleteAsset(Long id );
@@ -41,6 +46,8 @@ public interface UserService{
 	List<User> listEmail();
 	
 	List<NewModel> listModel();
+	
+	List<Company> listCompany();
 	
 	List<ModelAccessory> listModelAccessory();
 	

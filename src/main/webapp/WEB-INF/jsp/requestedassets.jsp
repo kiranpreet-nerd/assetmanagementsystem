@@ -24,13 +24,8 @@ s<!DOCTYPE html>
 			</div>
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/logout">LOGOUT</a></li>
-				<li><select onChange = "location = this.options[this.selectedIndex].value;">
-				     <option value = "/asset"> Asset </option>
-				     <option value = "/accessory"> Accessory </option>
-				     <option value = "/consumable"> consumable </option>
-			      </select></li>
 	           <li class="active"><a href="/assetslist">ASSETS LIST &nbsp;<span class="glyphicon glyphicon-th-list"></span></a></li>
-	           <li><a href="/asset"> Asset</a></li>
+	           <li class = "active"><a href="/asset"> ADD ASSET</a></li>
 			</ul>
 		</div>
 	</nav>

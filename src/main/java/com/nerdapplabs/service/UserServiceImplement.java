@@ -376,9 +376,7 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public Asset getAsset(Long id) {
-		 // String sql="select company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,suppliercontact,assettype,assetmode,totalcost from asset where id=?";  
-		  //  return jdbcTemplate.queryForObject(sql, new Object[]{id},new BeanPropertyRowMapper<Asset>(Asset.class));  
+	public Asset getAsset(Long id) {  
 		return assetDao.findOne(id);
 	}
 
@@ -395,9 +393,50 @@ return jdbcTemplate.update(sql);
 		String sql = "INSERT INTO asset (company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,suppliercontact,assettype,assetmode,totalcost) VALUES ('"
 				+ asset.getCompany() + "','" + asset.getTag() + "','" + asset.getModel()
 				+ "','" + asset.getStatus() + "','" + asset.getSerialnumber() + "','" + asset.getPurchasedate()
-				+ "','" + asset.getSupplier() + "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() + "','" + asset.getQuantity() + "','"+asset.getSuppliercontact()+"','"+asset.getAssettype()+"',1,'"+asset.getTotalcost()+"')";
+				+ "','" + asset.getSupplier() + "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() 
+				+ "','" + asset.getQuantity() + "','"+asset.getSuppliercontact()+"','"+asset.getAssettype()+"',1,'"+asset.getTotalcost()+"')";
 		jdbcTemplate.update(sql);
 		
 	}
 
+	@Override
+	public List<Asset> uniqueAttribute() {
+		String sql = "SELECT serialnumber,tag,ordernumber FROM asset";
+		List<Asset> uniqueNumbersList = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+
+			@Override
+			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Asset asset = new Asset();
+
+				asset.setSerialnumber(rs.getString("serialnumber"));
+				asset.setTag(rs.getString("tag"));
+				asset.setOrdernumber(rs.getString("ordernumber"));
+				return asset;
+			}
+		});
+		return uniqueNumbersList;
+	}
+
+	@Override
+	public void addCompany(Company company) {
+		String sql = "INSERT INTO company(company) VALUES ('"+company.getCompany()+"')";
+		jdbcTemplate.update(sql);
+		
+	}
+
+	@Override
+	public List<Company> listCompany() {
+		String sql = "SELECT company FROM company";
+		List<Company> listCompany = jdbcTemplate.query(sql, new RowMapper<Company>() {
+
+			@Override
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Company company = new Company();
+
+				company.setCompany(rs.getString("company"));
+				return company;
+			}
+		});
+		return listCompany;
+	}
 }

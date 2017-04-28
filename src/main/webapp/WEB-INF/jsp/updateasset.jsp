@@ -68,6 +68,81 @@ Dropdown hover
      
      
      %>
+     
+     <script type="text/javascript">
+ 	        function calculateTotalCost() {
+ 	        	var purchasecost = document.getElementById('purchasecost').value;
+ 	        	var quantity = document.getElementById('quantity').value;
+ 	        	var result = parseInt(purchasecost) * parseInt(quantity);
+ 	        	if(!isNaN(result)) {
+ 	        		document.getElementById('totalcost').value = result;
+ 	        	}
+ 	        }
+ 	 
+ 	 
+ 	 </script>
+ 	 <script>
+	     function validate() {
+	    	 if (document.form.tag.value == "") {
+	             alert("tag required");
+	             document.form.tag.focus();
+	             return false;
+	         }
+	         if (document.form.serialnumber.value == "") {
+	             alert("serial number required");
+	             document.form.serialnumber.focus();
+	             return false;
+	         }
+	         if (document.form.purchasedate.value == "") {
+	             alert("purchase date required");
+	             document.form.purchasedate.focus();
+	             return false;
+	         }
+	         if (document.form.suppliercontact.value == "") {
+	             alert("supplier contact required");
+	             document.form.suppliercontact.focus();
+	             return false;
+	         }
+	         if(document.form.suppliercontact.value.length != 10) {
+	        	 alert("length must be 10 of contact number");
+	        	 document.form.suppliercontact.focus();
+	        	 return false;
+	         }
+	         if(!(document.form.suppliercontact.value.match(/^[0-9]+$/))) {
+	        	 alert("only numbers are allowed");
+	        	 document.form.suppliercontact.focus();
+	        	 return false;
+	         }
+	         if (document.form.ordernumber.value == "") {
+	             alert("order number required");
+	             document.form.ordernumber.focus();
+	             return false;
+	         }
+	         if (document.form.purchasecost.value == "") {
+	             alert("purchase cost required");
+	             document.form.purchasecost.focus();
+	             return false;
+	         }
+	         if (document.form.warranty.value == "") {
+	             alert("warranty required");
+	             document.form.warranty.focus();
+	             return false;
+	         }
+	         if (document.form.quantity.value == "") {
+	             alert("quantity required");
+	             document.form.quantity.focus();
+	             return false;
+	         }
+	         if (document.form.totalcost.value == "") {
+	             alert("totalcost required");
+	             document.form.totalcost.focus();
+	             return false;
+	         }
+	         
+	     }
+	</script>
+ 	 
+ 
  
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -92,8 +167,8 @@ Dropdown hover
 						<h3 class="panel-title"> Update Asset</h3>
 					</div>
 					<br>
-					<form:form action="/updateasset" method="post" class="form-group"
-						align="center" commandName = "updateasset">
+					<form:form name = "form" action="" method="post" class="form-group"
+						align="center" commandName = "updateasset" onsubmit = "return validate();">
 						<div><form:hidden  path="id" /></div>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
@@ -157,7 +232,7 @@ Dropdown hover
 						</div>&nbsp; <a href = "/newsupplier"> New <span class="glyphicon glyphicon-link"></span></a><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Supplier contact number </label>
-					           <form:input type="number" name="suppliercontact" path = "suppliercontact" value = "${asset.suppliercontact}"  class="form-control" maxlength = "10" />
+					           <form:input type="text" name="suppliercontact" path = "suppliercontact" value = "${asset.suppliercontact}"  class="form-control" maxlength = "10" />
 					     </div> <br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Order Number </label>
@@ -165,7 +240,7 @@ Dropdown hover
 					     </div> <br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Purchase cost(Per Asset Cost) </label>
-					           <form:input type="number" name="purchasecost" path = "purchasecost" value = "${asset.purchasecost}"  class="form-control" />
+					           <form:input type="number" name="purchasecost" id = "purchasecost" path = "purchasecost" value = "${asset.purchasecost}"  class="form-control" onkeyup = "return calculateTotalCost();" />
 					     </div> <br>
 
  					     <div class = "form-group" >
@@ -174,16 +249,14 @@ Dropdown hover
 					     </div><br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Quantity </label>
-					           <form:input type="number" name="quantity" path = "quantity" value = "${asset.quantity}"  class="form-control" />
+					           <form:input type="number" name="quantity" path = "quantity" id = "quantity" value = "${asset.quantity}"  class="form-control" onkeyup = "return calculateTotalCost();"/>
 					     </div><br>
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Total Cost </label>
-					           <form:input type="number" name="totalcost" path = "totalcost" value = "${asset.totalcost}"  class="form-control" />
+					           <form:input type="number" name="totalcost" path = "totalcost" id= "totalcost" value = "${asset.totalcost}"  class="form-control" />
 					     </div><br>
-					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success"> SAVE </button>
-
-
-					</form:form>
+					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success" onClick = "updateAsset()"> SAVE </button>
+                  </form:form>
 				</div>
 			</div>
 		</div>
