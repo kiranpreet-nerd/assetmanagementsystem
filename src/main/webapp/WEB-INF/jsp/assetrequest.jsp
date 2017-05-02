@@ -9,10 +9,8 @@
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-<!-- 
-	<spring:url value="/css/main.css" var="springCss" />
+<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
-	 -->
 
 
 <script type="text/javascript">
@@ -55,7 +53,42 @@
 	 
 	 
 	 </script>
-
+	<!--  <script>
+	      function validate() {
+	    	  if (document.form.email.value == "") {
+	 		             alert("email required");
+	 		             document.form.email.focus();
+	 		             return false;
+	 		         }
+	    	  if (document.form.assettype.value == "") {
+	 		             alert("asset type required");
+	 		             document.form.assettype.focus();
+	 		             return false;
+	 		         }
+	    	  if (document.form.assetname.value == "") {
+	 		             alert("asset name required");
+	 		             document.form.assetname.focus();
+	 		             return false;
+	 		         }
+	    	  if (document.form.quantity.value == "") {
+	 		             alert("quantity required");
+	 		             document.form.quantity.focus();
+	 		             return false;
+	 		         }
+	    	  if (document.form.reason.value == "") {
+	 		             alert("reason required");
+	 		             document.form.reason.focus();
+	 		             return false;
+	 		         }
+	    	  if (document.form.requestdate.value == "") {
+	 		             alert("request date required");
+	 		             document.form.requestdate.focus();
+	 		             return false;
+	 		         }
+	      }
+	 
+	 </script>
+	  -->
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -82,12 +115,12 @@
 			<div class="col-md-5 col-md-offset-1">
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title" align="right">Request Asset,
-							Accessory, Consumable</h3>
+						<h3 class="panel-title" align="center">REQUEST ASSET</h3>
 					</div>
 					<br>
-					<form:form action="/assetrequest" method="post" class="form-group"
+					<form:form name = "form" action="/assetrequest" method="post" class="form-group"
 						align="center" commandName="assetrequest">
+						
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Email </label> <input
 								type="text" readonly="readonly" name="email" value="${email}"
@@ -97,6 +130,7 @@
 							</div>
 						</div>
 						<br>
+						
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label" for="type"> Type </label>
 							<select class="form-control" name="assettype" id="ddl"
@@ -156,7 +190,7 @@
 
 			</div>
 			<div style='float: left'>
-				<form:form action="" class="form-group">
+				<form:form action="/assetrequest" class="form-group" commandName = "assetrequest">
 					<table class="table table-striped" style="width: 40%">
 						<tr>
 							<th>Type</th>
@@ -169,6 +203,8 @@
 								<td>${listAssetsRequest.assettype}</td>
 								<td>${listAssetsRequest.assetname}</td>
 								<td>${listAssetsRequest.quantity}</td>
+								<td> <a href ="/deleterequestedassets?id=${listAssetsRequest.id}"><span
+								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 						</c:forEach>
 
 					</table>

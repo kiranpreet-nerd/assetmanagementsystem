@@ -52,10 +52,10 @@ public class UserServiceImplement implements UserService {
 	@Override
 	@Transactional
 	public void saveAsset(AssetRequest requestasset, User user) {
-		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email) VALUES ('"
+		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email,requestmode) VALUES ('"
 				+ requestasset.getAssetname() + "','" + requestasset.getAssettype() + "','" + requestasset.getQuantity()
 				+ "','" + requestasset.getReason() + "','" + requestasset.getRequestdate() + "','" + user.getEmail()
-				+ "')";
+				+ "',1)";
 		jdbcTemplate.update(sql);
 	}
 
@@ -163,7 +163,7 @@ public class UserServiceImplement implements UserService {
 	@Override
 	public List<AssetRequest> listAsset(User user) {
 		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
-				+ user.getEmail() + "'";
+				+ user.getEmail() + "' && r.requestmode = 1";
 		List<AssetRequest> listAssets = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 
 			@Override
@@ -204,8 +204,8 @@ public class UserServiceImplement implements UserService {
 	@Override
 	public List<AssetRequest> listAssetsRequest(HttpSession session) {
 
-		String sql = "SELECT assettype,assetname,quantity FROM request_asset  WHERE date = CURDATE() && email = '"
-				+ session.getAttribute("email") + "'";
+		String sql = "SELECT id, assettype,assetname,quantity FROM request_asset  WHERE date = CURDATE() && email = '"
+				+ session.getAttribute("email") + "' && requestmode = 1";
 		List<AssetRequest> listAssetsRequest = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 
 			@Override
@@ -215,6 +215,7 @@ public class UserServiceImplement implements UserService {
 				assetRequest.setAssettype(rs.getString("assettype"));
 				assetRequest.setAssetname(rs.getString("assetname"));
 				assetRequest.setQuantity(rs.getString("quantity"));
+				assetRequest.setId(Long.parseLong(rs.getString("id")));
 				return assetRequest;
 			}
 		});
@@ -438,5 +439,11 @@ return jdbcTemplate.update(sql);
 			}
 		});
 		return listCompany;
+	}
+
+	@Override
+	public int deleteAssetRequest(Long id) {
+		String sql = "UPDATE request_asset SET requestmode = 0 WHERE id = '" + id + "'";
+		return jdbcTemplate.update(sql);
 	}
 }

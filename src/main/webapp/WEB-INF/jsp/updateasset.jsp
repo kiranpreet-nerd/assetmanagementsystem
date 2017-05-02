@@ -167,7 +167,7 @@ Dropdown hover
 						<h3 class="panel-title"> Update Asset</h3>
 					</div>
 					<br>
-					<form:form name = "form" action="" method="post" class="form-group"
+					<form:form name = "form" action="/updateasset" method="post" class="form-group"
 						align="center" commandName = "updateasset" onsubmit = "return validate();">
 						<div><form:hidden  path="id" /></div>
 						<div class = "form-group" >
@@ -255,7 +255,7 @@ Dropdown hover
 					           <label class="col-sm-4 control-label">Total Cost </label>
 					           <form:input type="number" name="totalcost" path = "totalcost" id= "totalcost" value = "${asset.totalcost}"  class="form-control" />
 					     </div><br>
-					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success" onClick = "updateAsset()"> SAVE </button>
+					     <button type = "submit" value = "submit" name = "saveassetbutton" class="btn btn-success" > SAVE </button>
                   </form:form>
 				</div>
 			</div>

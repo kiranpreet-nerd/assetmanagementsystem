@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html lang="en">
 <head>
 
@@ -43,26 +44,35 @@ Dropdown hover
 
  -->
  
-<!-- <script type="text/javascript">
+ <script type="text/javascript">
  	     function configureDropDownLists(ddl1,ddl2) {
- 	    	 
+ 	    	var size = ${fn:length(listmodelname)}
+	    	var accessory = ['laptop'];
+	    	var consumable = ['printerink'];
+	    	
+   			alert(size);
  	    	 switch(ddl1.value) {
  	    	 case 'asset':
  	    		 ddl2.options.length = 0;
- 	    		 for(i=0; i < asset.length; i++) {
- 	    			 createOption(ddl2, ${listmodel.modelname}, ${listmodel.modelname});
- 	    		 }
+ 	    		<c:forEach var = "listmodelname" items = "${listmodelname}">
+ 	    		    createOption(ddl2, ${listmodelname.model}, "${listmodelname.model}");
+ 	    		//<c:out value = "${listmodelname.model}"> ${listmodelname.model} </c:out>
+	             </c:forEach> 
+ 	    		/*  for(i=0; i < ${listmodelname}){
+ 	    			 createOption(ddl2, ${listmodelname.model}, "${listmodelname[i].model}");
+ 	    		  }*/
+ 	    			  
  	    		 break;
- 	    	 case 'Accessory':
+ 	    	 case 'accessory':
  	    		 ddl2.options.length = 0;
  	    		 for(i=0; i < accessory.length; i++) {
- 	    			 createOption(ddl2, ${listmodelaccessory.modelname}, ${listmodelaccessory.modelname});
+ 	    			 createOption(ddl2, accessory[i], accessory[i]);
  	    		 }
  	    		 break;
- 	    	 case 'Consumable':
+ 	    	 case 'consumable':
  	    		 ddl2.options.length = 0;
  	    		 for(i=0; i < consumable.length; i++) {
- 	    			 createOption(ddl2, ${listmodelconsumable.modelname}, ${listmodelconsumable.modelname});
+ 	    			 createOption(ddl2, consumable[i].consumable[i]);
  	    		 }
  	    		 break;
  	    		 default:
@@ -79,7 +89,7 @@ Dropdown hover
  	     }
  	  
  	 
- 	 </script>-->
+ 	 </script>
  	 <script type="text/javascript">
  	        function calculateTotalCost() {
  	        	var purchasecost = document.getElementById('purchasecost').value;
@@ -190,7 +200,7 @@ Dropdown hover
 						</div><br>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "assettype" > Asset Type </label>
-						    <select class = "form-control" name = "assettype">
+						    <select class = "form-control" id ="ddl" name = "assettype" onChange="configureDropDownLists(this,document.getElementById('ddl2'))">
 						        <option value = "asset">Asset </option>
 						        <option value = "accessory"> Accessory </option>
 						        <option value = "consumable"> Consumable </option>
@@ -206,10 +216,8 @@ Dropdown hover
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
-						<select class = "form-control" id = "sell" name = "model">
-						        <c:forEach var = "listmodelname" items = "${listmodelname}">
-						            <option value = "${listmodelname.model}"> ${listmodelname.model} </option>
-						        </c:forEach> 
+						<select class = "form-control" id = "ddl2" name = "model">
+						       
 						    </select>
 						    <div class="dropdown">
 						     <a id="dlabel" data-toggle="dropdown" data-hover = "dropdown">

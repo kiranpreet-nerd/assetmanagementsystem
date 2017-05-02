@@ -190,6 +190,8 @@ public class UserController {
 			
 			    List<NewModel> listmodelname = service.listModel();
 				model.addObject("listmodelname", listmodelname);
+				List<Company> listcompany = service.listCompany();
+				model.addObject("listcompany", listcompany);
 				List<Supplier> listsupplier = service.listSupplier();
 				model.addObject("listsupplier", listsupplier);
 				List<Status> liststatus = service.listStatus();
@@ -213,7 +215,6 @@ public class UserController {
 		List<Status> liststatus = service.listStatus();
 		modelview.addObject("liststatus", liststatus);
 		modelview.setViewName("updateasset");
-		
 		return modelview;
 	}
 	
@@ -243,6 +244,13 @@ public class UserController {
 		String email = request.getParameter("email");
 		userService.softDelete(email);
 		return new ModelAndView("redirect:/users");
+	}
+	
+	@RequestMapping(value = "/deleterequestedassets", method = RequestMethod.GET)
+	public ModelAndView deleteRequestedAssets(HttpServletRequest request) {
+		 Long id = (long) Integer.parseInt(request.getParameter("id"));
+		userService.deleteAssetRequest(id);
+		return new ModelAndView("redirect:/requested");
 	}
 	
 	@RequestMapping(value = "/deleteAsset", method = RequestMethod.GET)
@@ -340,21 +348,6 @@ public class UserController {
 
 		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
-	}
-
-	@RequestMapping(value = "/assetrequest", method = RequestMethod.POST)
-	public ModelAndView requestAsset(@RequestParam String email,
-			@Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result,
-			Map<String, Object> model, Errors errors, HttpSession session, User user) {
-		session.getAttribute("email");
-        ModelAndView view = new ModelAndView("assetrequest");
-		if (result.hasErrors()) {
-			return view;
-		}
-        userService.saveAsset(assetrequest, user);
-		ModelAndView modelview = new ModelAndView("redirect:/requested");
-		return modelview;
-
 	}
 	
 	@RequestMapping(value = "/asset", method = RequestMethod.POST)
@@ -469,13 +462,33 @@ public class UserController {
 		return modelview;
 	}
 
-	@RequestMapping(value = "/requested")
-	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session) throws IOException {
+	@RequestMapping(value = "/requested", method = RequestMethod.GET)
+	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session, Model modelview) throws IOException {
 		session.getAttribute("email");
 		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
 		model.addObject("listAssetsRequest", listAssetsRequest);
 		model.setViewName("assetrequest");
 		return model;
+	}
+	
+	@RequestMapping(value = "/assetrequest", method = RequestMethod.POST)
+	public ModelAndView requestAsset(@RequestParam String email,
+			@Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result,
+			Map<String, Object> model, Errors errors, HttpSession session, User user) {
+		session.getAttribute("email");
+        ModelAndView view = new ModelAndView("assetrequest");
+		if (result.hasErrors()) {
+			List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+			view.addObject("listAssetsRequest", listAssetsRequest);
+			view.setViewName("assetrequest");
+			return view;
+		}
+		userService.saveAsset(assetrequest, user);
+		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+		view.addObject("listAssetsRequest", listAssetsRequest);
+		view.setViewName("assetrequest");
+		return view;
+
 	}
 
 	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)

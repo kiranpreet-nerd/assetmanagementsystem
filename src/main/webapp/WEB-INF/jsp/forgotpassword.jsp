@@ -46,7 +46,7 @@
 				<label >Email </label> 
 				<input type="text" name="email"
 					placeholder="enter email"><br>
-				<br> ${emailError} 
+				<br> <div class = "redalert">${emailError} </div>
 			</div>
 			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button><br><br>
 		</form:form>

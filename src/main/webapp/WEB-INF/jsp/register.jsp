@@ -98,6 +98,7 @@ function validate() {
 					<br>
 					<form:form name = "form" action="" method="post" commandName="userform"
 						class="form-group" align="center" onsubmit = "return validate();">
+						<div class = "redalert">${emailError}</div>
 						<div class="form-group " ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label ">Email<span class = "required"> * </span></label> <input
 								type="text" name="email" placeholder="enter email"
@@ -105,7 +106,6 @@ function validate() {
 							<div>
 								<form:errors path="email"></form:errors>
 							</div>
-							<div class = "redalert">${emailError}</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label class="col-sm-4 control-label">First Name </label> <input
