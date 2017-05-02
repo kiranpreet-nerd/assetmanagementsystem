@@ -36,6 +36,15 @@
 <link
 	href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css" />
+	<script>
+	     function validate() {
+	          if (document.form.company.value == "") {
+	             alert("Comapny name required");
+	             document.form.company.focus();
+	             return false;
+	          }
+	     }
+	 </script>
 
 </head>
 <body>
@@ -46,6 +55,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+				<li><a href = "/asset">BACK</a>
 				</ul>
 			</div>
 		</div>
@@ -58,8 +68,8 @@
 						<h3 class="panel-title">Create New Company</h3>
 					</div>
 					<br>
-					<form:form action="/newcompany" method="post" class="form-group"
-						align="center" commandName="newcompany">
+					<form:form name = "form" action="/newcompany" method="post" class="form-group"
+						align="center" commandName="newcompany" onsubmit = "return validate();">
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Company Name </label> <input
 								type="text" name="company" value="" class="form-control">

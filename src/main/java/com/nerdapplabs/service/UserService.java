@@ -31,7 +31,6 @@ public interface UserService{
 	int updateAsset( Asset asset, Long id);
 	
 	List<Asset> uniqueAttribute();
-	//Asset uniqueSerialNumber(String serialnumber);
 	
     int softDelete(String email);
     

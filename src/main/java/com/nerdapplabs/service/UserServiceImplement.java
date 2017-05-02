@@ -248,13 +248,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<NewModel> listModel() {
-		String sql = "SELECT model FROM model";
+		String sql = "SELECT id,model FROM model";
 		List<NewModel> listmodel = jdbcTemplate.query(sql, new RowMapper<NewModel>() {
 
 			@Override
 			public NewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 				NewModel newmodel = new NewModel();
-
+                
+				newmodel.setId(Integer.parseInt(rs.getString("id")));
 				newmodel.setModel(rs.getString("model"));
 				return newmodel;
 			}
@@ -340,13 +341,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<ModelAccessory> listModelAccessory() {
-		String sql = "SELECT model FROM modelaccessory";
+		String sql = "SELECT id,model FROM modelaccessory";
 		List<ModelAccessory> listModel = jdbcTemplate.query(sql, new RowMapper<ModelAccessory>() {
 
 			@Override
 			public ModelAccessory mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ModelAccessory modelaccessory = new ModelAccessory();
 
+				modelaccessory.setId(Integer.parseInt(rs.getString("id")));
 				modelaccessory.setModel(rs.getString("model"));
 				return modelaccessory;
 			}
@@ -356,13 +358,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<ModelConsumable> listModelConsumable() {
-		String sql = "SELECT model FROM modelconsumable";
+		String sql = "SELECT id,model FROM modelconsumable";
 		List<ModelConsumable> listModel = jdbcTemplate.query(sql, new RowMapper<ModelConsumable>() {
 
 			@Override
 			public ModelConsumable mapRow(ResultSet rs, int rowNum) throws SQLException {
 				ModelConsumable modelconsumable = new ModelConsumable();
 
+				modelconsumable.setId(Integer.parseInt(rs.getString("id")));
 				modelconsumable.setModel(rs.getString("model"));
 				return modelconsumable;
 			}

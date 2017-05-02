@@ -10,32 +10,35 @@
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
 <spring:url value="/css/main.css" var="springCss" />
-	<link href="${springCss}" rel="stylesheet" />
+<link href="${springCss}" rel="stylesheet" />
 
 
 <script type="text/javascript">
 	     function configureDropDownLists(ddl1,ddl2) {
-	    	 var Asset = ['laptop','monitor'];
-	    	 var Accessory = ['mouse', 'keyboard'];
-	    	 var Consumable = ['printerink','paper'];
 	    	 
 	    	 switch(ddl1.value) {
-	    	 case 'Asset':
+	    	 case 'asset':
 	    		 ddl2.options.length = 0;
-	    		 for(i=0; i < Asset.length; i++) {
-	    			 createOption(ddl2, Asset[i], Asset[i]);
-	    		 }
+	    		 var myMap = {<c:forEach items="${listmodelname}" var="item"> ${item.id}: '${item.model}' ${not loop.last ? ',' : ''} </c:forEach>};  
+ 	    		 // Object.keys(myMap).length
+ 	    		 for(key in myMap){		 
+ 	    			 createOption(ddl2, myMap[key], myMap[key]);
+ 	    		  }
 	    		 break;
-	    	 case 'Accessory':
+	    	 case 'accessory':
 	    		 ddl2.options.length = 0;
-	    		 for(i=0; i < Accessory.length; i++) {
-	    			 createOption(ddl2, Accessory[i], Accessory[i]);
-	    		 }
+	    		 var myMap1 = { <c:forEach items="${listmodelaccessory}" var="item1"> ${item1.id}: '${item1.model}' ${not loop.last ? ',' : ''} </c:forEach>}; 
+ 	    		 // Object.keys(myMap).length
+	    		 for(key in myMap1){		 
+	    			 createOption(ddl2, myMap1[key], myMap1[key]);
+	    		  }
 	    		 break;
-	    	 case 'Consumable':
+	    	 case 'consumable':
 	    		 ddl2.options.length = 0;
-	    		 for(i=0; i < Consumable.length; i++) {
-	    			 createOption(ddl2, Consumable[i], Consumable[i]);
+	    		 var myMap2 = { <c:forEach items="${listmodelconsumable}" var="item2"> ${item2.id}: '${item2.model}' ${not loop.last ? ',' : ''} </c:forEach>};  
+	    		 // Object.keys(myMap).length
+	    		 for(key in myMap2){		 
+	    			 createOption(ddl2, myMap2[key], myMap2[key]);
 	    		 }
 	    		 break;
 	    		 default:
@@ -53,7 +56,7 @@
 	 
 	 
 	 </script>
-	<!--  <script>
+<script>
 	      function validate() {
 	    	  if (document.form.email.value == "") {
 	 		             alert("email required");
@@ -85,10 +88,15 @@
 	 		             document.form.requestdate.focus();
 	 		             return false;
 	 		         }
+	    	  var quantity = document.getElementById('quantity').value;
+	    	  if(quantity <= 0) {
+	    		  alert("quantity must be greater than zero");
+	    		  document.form.quantity.focus();
+	    		  return false;
+	    	  }
 	      }
 	 
 	 </script>
-	  -->
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -118,9 +126,10 @@
 						<h3 class="panel-title" align="center">REQUEST ASSET</h3>
 					</div>
 					<br>
-					<form:form name = "form" action="/assetrequest" method="post" class="form-group"
-						align="center" commandName="assetrequest">
-						
+					<form:form name="form" action="/assetrequest" method="post"
+						class="form-group" align="center" commandName="assetrequest"
+						onsubmit="return validate();">
+
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Email </label> <input
 								type="text" readonly="readonly" name="email" value="${email}"
@@ -130,15 +139,15 @@
 							</div>
 						</div>
 						<br>
-						
+
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label" for="type"> Type </label>
-							<select class="form-control" name="assettype" id="ddl"
+							<label class="col-sm-4 control-label" for="type"> Type </label> <select
+								class="form-control" name="assettype" id="ddl"
 								onChange="configureDropDownLists(this,document.getElementById('ddl2'))">
 								<option value="">None</option>
-								<option value="Asset">Asset</option>
-								<option value="Accessory">Accessory</option>
-								<option value="Consumable">Consumable</option>
+								<option value="asset">Asset</option>
+								<option value="accessory">Accessory</option>
+								<option value="consumable">Consumable</option>
 							</select>
 							<div>
 								<form:errors path="assettype"></form:errors>
@@ -156,8 +165,8 @@
 
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Number of assets
-								needed </label> <input type="number" name="quantity" value=""
-								class="form-control">
+								needed </label> <input type="number" name="quantity" id="quantity"
+								value="" class="form-control">
 							<div>
 								<form:errors path="quantity"></form:errors>
 							</div>
@@ -190,7 +199,8 @@
 
 			</div>
 			<div style='float: left'>
-				<form:form action="/assetrequest" class="form-group" commandName = "assetrequest">
+				<form:form action="/assetrequest" class="form-group"
+					commandName="assetrequest">
 					<table class="table table-striped" style="width: 40%">
 						<tr>
 							<th>Type</th>
@@ -203,8 +213,9 @@
 								<td>${listAssetsRequest.assettype}</td>
 								<td>${listAssetsRequest.assetname}</td>
 								<td>${listAssetsRequest.quantity}</td>
-								<td> <a href ="/deleterequestedassets?id=${listAssetsRequest.id}"><span
-								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+								<td><a
+									href="/deleterequestedassets?id=${listAssetsRequest.id}"><span
+										class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 						</c:forEach>
 
 					</table>
