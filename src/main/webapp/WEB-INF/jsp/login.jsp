@@ -107,7 +107,7 @@
 							value="submit"  align="center" >LOGIN</button>
 						<br>
 						<br>
-						<a href="<c:url value="/forgotpassword"/>">Forgot Password?</a>
+						<a href="<c:url value="/forgotpassword"/>">Forgot Password<span class = "glyphicon glyphicon-question-sign"></</span></a>
 						<br>
 						<br>
 						<br>
