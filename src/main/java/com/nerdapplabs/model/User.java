@@ -21,11 +21,10 @@ public class User {
 	@Email
 	private String email;
 
-	@NotEmpty(message = "first name required")
+	
 	@Column(name = "firstname")
 	private String firstname;
 
-	@NotEmpty(message = "last name required")
 	@Column(name = "lastname")
 	private String lastname;
 	
@@ -55,11 +54,9 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	@NotEmpty(message = " designation required")
 	@Column(name = "designation")
 	private String designation;
     
-	@NotEmpty(message = "role required")
 	@Column(name = "role")
 	private String role;
 

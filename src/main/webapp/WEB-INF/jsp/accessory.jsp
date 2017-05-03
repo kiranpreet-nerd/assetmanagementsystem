@@ -59,7 +59,7 @@
 					</div>
 					<br>
 					<form:form action="" method="post" class="form-group"
-						align="center">
+						align="center" commandName = "asset">
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
 						    <select class = "form-control" >
@@ -69,25 +69,25 @@
 						</div><br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Accessory Tag </label>
-					           <input type="text" name="assettag" value = ""  class="form-control" >
+					           <input type="text" name="accessorytag" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
 						    <select class = "form-control" id = "sell">
-						        <option> model 1 </option>
-						        <option> model 2 </option>
+						        <c:forEach var = "listmodelaccessory" items = "${listModelAccessory}">
+						            <option value = "${listmodelaccessory.modelname}"> ${listmodelaccessory.modelname} </option>
+						        </c:forEach>
 						    </select>
-						</div>&nbsp;<button type = "submit" value = "submit" name = "newmodelbutton" class="btn btn-success"> New </button><br>
+						</div>&nbsp;  <a href = "/newmodel"> New <span class="glyphicon glyphicon-link"></span> </a><br>
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "status" > Status </label>
 						    <select class = "form-control" id = "sell">
-						        <option> In working order </option>
-						        <option> Not Working </option>
-						        <option> needs Repair  </option>
-						        <option> Broken - can't be repaired </option>
-						        <option> Out For Repair </option>
+						        <c:forEach var = "liststatus" items = "${liststatus}">
+						            <option value = "${liststatus.status}"> ${liststatus.status} </option>
+						        </c:forEach>
 						    </select>
-						</div>&nbsp; <button type = "submit" value = "submit" name = "newstatusbutton" class="btn btn-success"> New </button><br>
+						    </div>&nbsp; <a href = "/newstatus"> New <span class="glyphicon glyphicon-link"></span></a><br>
+						  
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy"> Purchase Date </label>
 					           <input type="text" name="purchasedate" value = ""  class="form-control" >
@@ -95,15 +95,20 @@
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "supplier"> Supplier </label>
 						    <select class = "form-control" id = "sell">
-						        <option> Supplier 1 </option>
-						        <option> Supplier 2 </option>
-						        <option> Supplier 3 </option>
+						        <c:forEach var = "listsupplier" items = "${listsupplier}">
+						            <option value = "${listsupplier.supplier}"> ${listsupplier.supplier} </option>
+						        </c:forEach>
 						    </select>
-						</div>&nbsp; <button type = "submit" value = "submit" name = "newsupplierbutton" class="btn btn-success"> New </button><br>
+						 </div>&nbsp; <a href = "/newsupplier"> New <span class="glyphicon glyphicon-link"></span></a><br>
+						<div class = "form-group" >
+					           <label class="col-sm-4 control-label">Supplier contact number </label>
+					           <input type="number" name="suppliercontact" value = ""  class="form-control" maxlength = "10" >
+					     </div> <br>
 						<div class = "form-group" >
 					           <label class="col-sm-4 control-label">Order Number </label>
 					           <input type="text" name="ordernumber" value = ""  class="form-control" >
 					     </div> <br>
+					     
 					     <div class = "form-group" >
 					           <label class="col-sm-4 control-label">Purchase cost(Per Accesssory Cost) </label>
 					           <input type="number" name="purchasecost" value = ""  class="form-control" >

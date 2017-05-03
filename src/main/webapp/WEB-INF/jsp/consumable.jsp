@@ -60,7 +60,7 @@
 					</div>
 					<br>
 					<form:form action="" method="post" class="form-group"
-						align="center" commandName="userform">
+						align="center" commandName="asset">
 						<div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "company" > Company </label>
 						    <select class = "form-control" >
@@ -69,8 +69,8 @@
 						    </select>
 						</div><br>
 						<div class = "form-group" >
-					           <label class="col-sm-4 control-label">Consummable Name </label>
-					           <input type="text" name="consummablename" value = ""  class="form-control" >
+					           <label class="col-sm-4 control-label">Consummable Tag</label>
+					           <input type="text" name="consummabletag" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "model" > Model </label>
@@ -93,8 +93,8 @@
 					           <input type="text" name="itemnumber" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
-					           <label class="col-sm-4 control-label input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy"> Purchase Date </label>
-					           <input type="text" name="purchasedate" value = ""  class="form-control" >
+					           <label class="col-sm-4 control-label" data-provide="datepicker" data-date-format="yyyy-MM-dd"> Purchase Date </label>
+					           <input type="date" name="purchasedate" value = ""  class="form-control" >
 					     </div> <br>
 					     <div class = "form-group" >
 						    <label class="col-sm-4 control-label" for = "supplier"> Supplier </label>
