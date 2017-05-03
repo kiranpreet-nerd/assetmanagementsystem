@@ -46,6 +46,17 @@ public class AssetRequest {
 	@Column(name = "date")
 	private String requestdate;
 	
+	@Column(name = "requestmode")
+	private Boolean requestmode;
+	
+	public Boolean getRequestmode() {
+		return requestmode;
+	}
+
+	public void setRequestmode(Boolean requestmode) {
+		this.requestmode = requestmode;
+	}
+
 	public User getUser() {
 		return user;
 	}

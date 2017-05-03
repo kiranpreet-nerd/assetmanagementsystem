@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.nerdapplabs.model.Asset;
 import com.nerdapplabs.model.AssetRequest;
-import com.nerdapplabs.model.User;
-import com.nerdapplabs.model.VerificationToken;
+import com.nerdapplabs.dao.AssetDao;
+import com.nerdapplabs.model.*;
 import com.nerdapplabs.service.*;
 
 @Controller
@@ -40,6 +42,9 @@ public class UserController {
 	UserService service;
 
 	@Autowired
+	AssetDao assetDao;
+
+	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
 	@Autowired
@@ -47,7 +52,6 @@ public class UserController {
 
 	int count = 0;
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
-	private static final String STRING_PATTERN = "[a-zA-Z]+";
 	private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -56,23 +60,54 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/asset", method = RequestMethod.GET)
-	public String asset() {
-		return "asset";
+	public ModelAndView asset(@ModelAttribute("asset") Asset asset) {
+		ModelAndView model = new ModelAndView();
+
+		List<NewModel> listmodelname = service.listModel();
+		model.addObject("listmodelname", listmodelname);
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		model.addObject("listmodelaccessory", listmodelaccessory);
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		model.addObject("listmodelconsumable", listmodelconsumable);
+		List<Company> listcompany = service.listCompany();
+		model.addObject("listcompany", listcompany);
+		List<Supplier> listsupplier = service.listSupplier();
+		model.addObject("listsupplier", listsupplier);
+		List<Status> liststatus = service.listStatus();
+		model.addObject("liststatus", liststatus);
+		model.setViewName("asset");
+		return model;
+
 	}
 
-	@RequestMapping(value = "/accessory", method = RequestMethod.GET)
-	public String accessory() {
-		return "accessory";
+	@RequestMapping(value = "/newmodel", method = RequestMethod.GET)
+	public String newModelAccessory() {
+		return "addmodel";
 	}
 
-	@RequestMapping(value = "/consumable", method = RequestMethod.GET)
-	public String consummable() {
-		return "consumable";
+	@RequestMapping(value = "/newcompany", method = RequestMethod.GET)
+	public String newCompany() {
+		return "addcompany";
 	}
 
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String welcome() {
-		return "welcome";
+	@RequestMapping(value = "/newmodelaccessory", method = RequestMethod.GET)
+	public String newModelConsumable() {
+		return "addmodelaccessory";
+	}
+
+	@RequestMapping(value = "/newmodelconsumable", method = RequestMethod.GET)
+	public String newModel() {
+		return "addmodelconsumable";
+	}
+
+	@RequestMapping(value = "/newsupplier", method = RequestMethod.GET)
+	public String newSupplier() {
+		return "addsupplier";
+	}
+
+	@RequestMapping(value = "/newstatus", method = RequestMethod.GET)
+	public String newStatus() {
+		return "addstatus";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -94,6 +129,7 @@ public class UserController {
 				return "redirect:/requestedassets";
 			} else if (user.getRole().contains("ROLE_USER")) {
 				session.setAttribute("email", email);
+				session.setMaxInactiveInterval(600);
 				return "redirect:/requested";
 			} else {
 				return "login";
@@ -147,15 +183,78 @@ public class UserController {
 		return "updateuser";
 	}
 
+	@RequestMapping(value = "/getAsset{id}")
+	public ModelAndView editAsset(Model model, HttpServletRequest request) {
+
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
+		model.addAttribute("asset", userService.getAsset(id));
+		ModelAndView modelview = new ModelAndView();
+
+		List<NewModel> listmodelname = service.listModel();
+		modelview.addObject("listmodelname", listmodelname);
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		modelview.addObject("listmodelaccessory", listmodelaccessory);
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		modelview.addObject("listmodelconsumable", listmodelconsumable);
+		List<Company> listcompany = service.listCompany();
+		modelview.addObject("listcompany", listcompany);
+		List<Supplier> listsupplier = service.listSupplier();
+		modelview.addObject("listsupplier", listsupplier);
+		List<Status> liststatus = service.listStatus();
+		modelview.addObject("liststatus", liststatus);
+		modelview.setViewName("asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/asset", method = RequestMethod.POST)
+	public ModelAndView asset(@ModelAttribute("asset") Asset asset, HttpServletRequest request, Model model,
+			@RequestParam Long id) {
+
+		List<Asset> assetAttributesList = userService.uniqueAttribute();
+		List<Asset> registeredAttributesList = userService.registeredAttribute(id);
+
+		if (asset.getId() != id) {
+			for (int i = 0; i < assetAttributesList.size(); i++) {
+				if (assetAttributesList.get(i).getSerialnumber().equals(asset.getSerialnumber())) {
+					model.addAttribute("serialError", "serial number already exsist");
+					return new ModelAndView("redirect:/asset");
+				} else if (assetAttributesList.get(i).getTag().equals(asset.getTag())) {
+					model.addAttribute("tagError", "Asset Tag already exsist");
+					return new ModelAndView("redirect:/asset");
+				} else if (assetAttributesList.get(i).getOrdernumber().equals(asset.getOrdernumber())) {
+					model.addAttribute("orderError", "Order Number already exsist");
+					return new ModelAndView("redirect:/asset");
+				}
+			}
+			userService.addAsset(asset);
+			ModelAndView modelview = new ModelAndView("redirect:/requestedassets");
+			return modelview;
+		} else {
+			for (int i = 0; i < registeredAttributesList.size(); i++) {
+				if (registeredAttributesList.get(i).getSerialnumber().equals(asset.getSerialnumber())) {
+					model.addAttribute("serialError", "serial number already exsist");
+					return new ModelAndView("redirect:/getAsset?id=" + asset.getId());
+				} else if (registeredAttributesList.get(i).getOrdernumber().equals(asset.getOrdernumber())) {
+					model.addAttribute("orderError", "order number already exsist");
+					return new ModelAndView("redirect:/getAsset?id=" + asset.getId());
+				} else if (registeredAttributesList.get(i).getTag().equals(asset.getTag())) {
+					model.addAttribute("tagError", "Asset Tag already exsist");
+					return new ModelAndView("redirect:/getAsset?id=" + asset.getId());
+				}
+			}
+			userService.updateAsset(asset, id);
+			return new ModelAndView("redirect:/assetslist");
+		}
+	}
+
 	@RequestMapping(value = "/requestedassetslist{email}")
-	public ModelAndView listAssets(@ModelAttribute("user") User user, @RequestParam String email,
+	public ModelAndView listAssets(@ModelAttribute("user") User user,
 			ModelAndView modelview) throws IOException {
-		user = userService.getUser(email);
+		user = userService.getUser(user.getEmail());
 		List<AssetRequest> listAssets = service.listAsset(user);
 		modelview.addObject("listAssets", listAssets);
 		modelview.setViewName("requestedassetslist");
 		return modelview;
-
 	}
 
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -163,6 +262,20 @@ public class UserController {
 		String email = request.getParameter("email");
 		userService.softDelete(email);
 		return new ModelAndView("redirect:/users");
+	}
+
+	@RequestMapping(value = "/deleterequestedassets", method = RequestMethod.GET)
+	public ModelAndView deleteRequestedAssets(HttpServletRequest request) {
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
+		userService.deleteAssetRequest(id);
+		return new ModelAndView("redirect:/requested");
+	}
+
+	@RequestMapping(value = "/deleteAsset", method = RequestMethod.GET)
+	public ModelAndView deleteAsset(HttpServletRequest request) {
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
+		userService.deleteAsset(id);
+		return new ModelAndView("redirect:/assetslist");
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -175,18 +288,12 @@ public class UserController {
 	public ModelAndView addUser(@Valid @ModelAttribute("adduser") User user, BindingResult result,
 			Map<String, Object> model, Errors errors) {
 		ModelAndView modelandview = new ModelAndView("add");
-		if (result.hasErrors() || user.getPassword().isEmpty() || user.getConfirm().isEmpty()) {
-			errors.rejectValue("password", "required.password", "password is required");
-			errors.rejectValue("confirm", "required.password", "confirm password is required");
+		if (result.hasErrors()) {
 			return modelandview;
 		}
 		User tempUser = userService.findByEmail(user.getEmail());
 		if (tempUser != null) {
 			((Model) model).addAttribute("emailError", "email already registered");
-			return modelandview;
-		}
-		if (!(user.getPassword().equals(user.getConfirm()))) {
-			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
 
@@ -196,23 +303,6 @@ public class UserController {
 			if (!matcher.matches()) {
 				errors.rejectValue("email", "domainmatch.email", "domain name must be @nerdapplabs.com");
 				return modelandview;
-			}
-
-			if (!(user.getFirstname().isEmpty())) {
-				Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
-				Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
-				if (!matcherFirstName.matches()) {
-					errors.rejectValue("firstname", "nonchar.firstname", "First name should contain only alphabets");
-					return modelandview;
-				}
-			}
-			if (!(user.getLastname().isEmpty())) {
-				Pattern patternLastName = Pattern.compile(STRING_PATTERN);
-				Matcher matcherLastName = patternLastName.matcher(user.getLastname());
-				if (!matcherLastName.matches()) {
-					errors.rejectValue("lastname", "nonchar.lastname", "Last name should contain only alphabets");
-					return modelandview;
-				}
 			}
 			if (!(user.getPassword().isEmpty())) {
 				Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
@@ -240,19 +330,9 @@ public class UserController {
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
 			Map<String, Object> model, Errors errors, WebRequest request) {
 		ModelAndView modelandview = new ModelAndView("register");
-		if (result.hasErrors() || user.getPassword().isEmpty() || user.getConfirm().isEmpty()) {
-			errors.rejectValue("password", "required.password", "password is required");
-			errors.rejectValue("confirm", "required.password", "confirm password is required");
-			return modelandview;
-		}
 		User tempUser = userService.findByEmail(user.getEmail());
 		if (tempUser != null) {
 			((Model) model).addAttribute("emailError", "email already registered");
-			return modelandview;
-		}
-
-		if (!(user.getPassword().equals(user.getConfirm()))) {
-			errors.rejectValue("confirm", "notmatch.password", "passwords doesnt match");
 			return modelandview;
 		}
 
@@ -261,22 +341,6 @@ public class UserController {
 			Matcher matcher = pattern.matcher(user.getEmail());
 			if (!matcher.matches()) {
 				errors.rejectValue("email", "domainmatch.email", "domain name must be @nerdapplabs.com");
-				return modelandview;
-			}
-		}
-		if (!(user.getFirstname().isEmpty())) {
-			Pattern patternFirstName = Pattern.compile(STRING_PATTERN);
-			Matcher matcherFirstName = patternFirstName.matcher(user.getFirstname());
-			if (!matcherFirstName.matches()) {
-				errors.rejectValue("firstname", "nonchar.firstname", "First name should contain only alphabets");
-				return modelandview;
-			}
-		}
-		if (!(user.getLastname().isEmpty())) {
-			Pattern patternLastName = Pattern.compile(STRING_PATTERN);
-			Matcher matcherLastName = patternLastName.matcher(user.getLastname());
-			if (!matcherLastName.matches()) {
-				errors.rejectValue("lastname", "nonchar.lastname", "Last name should contain only alphabets");
 				return modelandview;
 			}
 		}
@@ -296,12 +360,163 @@ public class UserController {
 			String appUrl = request.getContextPath();
 			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, appUrl));
 		} catch (Exception e) {
-			((Model) model).addAttribute("emailError", "email already registered");
+			((Model) model).addAttribute("emailError", "error in sending email");
 			return modelandview;
 		}
-
 		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
+	}
+
+	@RequestMapping(value = "/modelaccessory", method = RequestMethod.POST)
+	public ModelAndView addModelAccessory(@ModelAttribute("newmodelaccessory") ModelAccessory modelaccessory,
+			Model modelObject) {
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		for (int i = 0; i < listmodelaccessory.size(); i++) {
+			if (listmodelaccessory.get(i).getModel().equals(modelaccessory.getModel())) {
+				modelObject.addAttribute("model", "model name already exsist");
+				return new ModelAndView("redirect:/modelaccessory");
+			}
+		}
+		userService.addModelAccessory(modelaccessory);
+		ModelAndView modelview = new ModelAndView("redirect:/listmodelaccessory");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/modelconsumable", method = RequestMethod.POST)
+	public ModelAndView addModelConsumable(@ModelAttribute("newmodelconsumable") ModelConsumable modelconsumable,
+			Model modelObject) {
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		for (int i = 0; i < listmodelconsumable.size(); i++) {
+			if (listmodelconsumable.get(i).getModel().equals(modelconsumable.getModel())) {
+				modelObject.addAttribute("model", "model name already exsist");
+				return new ModelAndView("redirect:/modelconsumable");
+			}
+		}
+		userService.addModelConsumable(modelconsumable);
+		ModelAndView modelview = new ModelAndView("redirect:/listmodelconsumable");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/newmodel", method = RequestMethod.POST)
+	public ModelAndView addModel(@ModelAttribute("newmodel") NewModel newmodel, Model modelObject) {
+		List<NewModel> listmodel = service.listModel();
+		for (int i = 0; i < listmodel.size(); i++) {
+			if (listmodel.get(i).getModel().equals(newmodel.getModel())) {
+				modelObject.addAttribute("model", "model name already exsist");
+				return new ModelAndView("redirect:/newmodel");
+			}
+		}
+		userService.addModel(newmodel);
+		ModelAndView modelview = new ModelAndView("redirect:/listmodel");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/listmodel")
+	public ModelAndView listModel(ModelAndView model) throws IOException {
+		List<NewModel> listmodel = service.listModel();
+		model.addObject("listmodel", listmodel);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/listmodelaccessory")
+	public ModelAndView listModelAccessory(ModelAndView model) throws IOException {
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		model.addObject("listmodelaccessory", listmodelaccessory);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/listmodelconsumable")
+	public ModelAndView listModelConsumable(ModelAndView model) throws IOException {
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		model.addObject("listmodelconsumable", listmodelconsumable);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/newsupplier", method = RequestMethod.POST)
+	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier,
+			Model model) {
+		List<Supplier> listsupplier = service.listSupplier();
+		for (int i = 0; i < listsupplier.size(); i++) {
+			if (listsupplier.get(i).getSupplier().equals(supplier.getSupplier())) {
+				model.addAttribute("supplier", "supplier already exsist");
+				return new ModelAndView("redirect:/newsupplier");
+			}
+		}
+		userService.addSupplier(supplier);
+		ModelAndView modelview = new ModelAndView("redirect:/listsupplier");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/listsupplier")
+	public ModelAndView listSupplier(ModelAndView model) throws IOException {
+		List<Supplier> listsupplier = service.listSupplier();
+		model.addObject("listsupplier", listsupplier);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/newstatus", method = RequestMethod.POST)
+	public ModelAndView addStatus(@ModelAttribute("status") Status status,
+			Model model) {
+		List<Status> liststatus = service.listStatus();
+		for (int i = 0; i < liststatus.size(); i++) {
+			if (liststatus.get(i).getStatus().equals(status.getStatus())) {
+				model.addAttribute("status", "status already exsist");
+				return new ModelAndView("redirect:/newstatus");
+			}
+		}
+		userService.addStatus(status);
+		ModelAndView modelview = new ModelAndView("redirect:/liststatus");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/liststatus")
+	public ModelAndView listStatus(ModelAndView model) throws IOException {
+		List<Status> liststatus = service.listStatus();
+		model.addObject("liststatus", liststatus);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/newcompany", method = RequestMethod.POST)
+	public ModelAndView addCompany(@ModelAttribute("newcompany") Company company,
+			Model model) {
+		List<Company> listcompany = service.listCompany();
+		for (int i = 0; i < listcompany.size(); i++) {
+			if (listcompany.get(i).getCompany().equals(company.getCompany())) {
+				model.addAttribute("company", "company name already exsist");
+				return new ModelAndView("redirect:/newcompany");
+			}
+		}
+		userService.addCompany(company);
+		ModelAndView modelview = new ModelAndView("redirect:/listcompany");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/listcompany")
+	public ModelAndView listCompany(ModelAndView model) throws IOException {
+		List<Company> listcompany = service.listCompany();
+		model.addObject("listcompany", listcompany);
+		ModelAndView modelview = new ModelAndView("redirect:/asset");
+		return modelview;
+	}
+
+	@RequestMapping(value = "/requested", method = RequestMethod.GET)
+	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session, Model modelview) throws IOException {
+		session.getAttribute("email");
+		List<NewModel> listmodelname = service.listModel();
+		model.addObject("listmodelname", listmodelname);
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		model.addObject("listmodelaccessory", listmodelaccessory);
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		model.addObject("listmodelconsumable", listmodelconsumable);
+		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+		model.addObject("listAssetsRequest", listAssetsRequest);
+		model.setViewName("assetrequest");
+		return model;
 	}
 
 	@RequestMapping(value = "/assetrequest", method = RequestMethod.POST)
@@ -309,25 +524,25 @@ public class UserController {
 			@Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result,
 			Map<String, Object> model, Errors errors, HttpSession session, User user) {
 		session.getAttribute("email");
-
 		ModelAndView view = new ModelAndView("assetrequest");
+		List<NewModel> listmodelname = service.listModel();
+		view.addObject("listmodelname", listmodelname);
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		view.addObject("listmodelaccessory", listmodelaccessory);
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		view.addObject("listmodelconsumable", listmodelconsumable);
+
 		if (result.hasErrors()) {
+			List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+			view.addObject("listAssetsRequest", listAssetsRequest);
+			view.setViewName("assetrequest");
 			return view;
 		}
-
 		userService.saveAsset(assetrequest, user);
-		ModelAndView modelview = new ModelAndView("redirect:/requested");
-		return modelview;
-
-	}
-
-	@RequestMapping(value = "/requested")
-	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session) throws IOException {
-		session.getAttribute("email");
 		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
-		model.addObject("listAssetsRequest", listAssetsRequest);
-		model.setViewName("assetrequest");
-		return model;
+		view.addObject("listAssetsRequest", listAssetsRequest);
+		view.setViewName("assetrequest");
+		return view;
 	}
 
 	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)
@@ -339,20 +554,16 @@ public class UserController {
 			model.addAttribute("message", message);
 			return "redirect:/baduser";
 		}
-
 		User user = verificationToken.getUser();
 		Calendar cal = Calendar.getInstance();
 		if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 			String messageValue = messages.getMessage("auth.message.expired", null, null);
 			model.addAttribute("message", messageValue);
 			return "redirect:/baduser";
-
 		}
-
 		user.setStatus(1);
 		userService.save(user);
 		return "redirect:/login";
-
 	}
 
 	@RequestMapping(value = "/requestedassets")
@@ -365,18 +576,27 @@ public class UserController {
 
 	}
 
+	@RequestMapping(value = "/assetslist")
+	public ModelAndView listAssets(ModelAndView model) throws IOException {
+
+		List<Asset> listAssets = service.listAssets();
+		model.addObject("listAssets", listAssets);
+		model.setViewName("assetslist");
+		return model;
+
+	}
+
 	@RequestMapping(value = "/forgotpassword")
 	public String forgotPassword() {
 		return "forgotpassword";
 	}
 
 	@RequestMapping(value = "/recoverypassword", method = RequestMethod.POST)
-	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model, @RequestParam String email) {
-		System.out.println("in controller");
+	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model) {
 		User tempuser = userService.findByEmail(user.getEmail());
 		if (tempuser != null && tempuser.getStatus() == 1) {
-			userService.sendEmail(email);
-			model.addAttribute("emailError", "email successfully send");
+			userService.sendEmail(user.getEmail());
+			model.addAttribute("emailError", "email send successfully");
 			return "forgotpassword";
 		} else if (tempuser == null) {
 			model.addAttribute("emailError", "valid email required");
@@ -389,5 +609,4 @@ public class UserController {
 			return "forgotpassword";
 		}
 	}
-
 }
