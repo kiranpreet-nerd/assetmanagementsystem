@@ -16,7 +16,6 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	
 	@Column(name = "company")
 	private String company;
 	

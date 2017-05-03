@@ -23,7 +23,7 @@ public class UserServiceImplement implements UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private AssetDao assetDao;
 
@@ -103,7 +103,6 @@ public class UserServiceImplement implements UserService {
 	public User getUser(String email) {
 		return userDao.findOne(email);
 	}
-	
 
 	@Override
 	public List<User> list() {
@@ -159,7 +158,7 @@ public class UserServiceImplement implements UserService {
 	public VerificationToken getVerificationToken(String VerificationToken) {
 		return tokenRepository.findByToken(VerificationToken);
 	}
-	
+
 	@Override
 	public List<AssetRequest> listAsset(User user) {
 		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
@@ -169,7 +168,7 @@ public class UserServiceImplement implements UserService {
 			@Override
 			public AssetRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
 				AssetRequest asset = new AssetRequest();
-			
+
 				asset.setAssetname(rs.getString("assetname"));
 				asset.setAssettype(rs.getString("assettype"));
 				asset.setReason(rs.getString("reason"));
@@ -222,28 +221,25 @@ public class UserServiceImplement implements UserService {
 		return listAssetsRequest;
 	}
 
-	
 	@Override
 	public void addModel(NewModel newmodel) {
-		String sql = "INSERT INTO model(model) VALUES ('"+newmodel.getModel()+"')";
+		String sql = "INSERT INTO model(model) VALUES ('" + newmodel.getModel() + "')";
 		jdbcTemplate.update(sql);
-		
+
 	}
 
 	@Override
 	public void addSupplier(Supplier supplier) {
-		String sql = "INSERT INTO supplier(supplier) VALUES ('"+supplier.getSupplier()+"')";
+		String sql = "INSERT INTO supplier(supplier) VALUES ('" + supplier.getSupplier() + "')";
 		jdbcTemplate.update(sql);
-		
-		
+
 	}
 
 	@Override
 	public void addStatus(Status status) {
-		String sql = "INSERT INTO status(status) VALUES ('"+status.getStatus()+"')";
+		String sql = "INSERT INTO status(status) VALUES ('" + status.getStatus() + "')";
 		jdbcTemplate.update(sql);
-		
-		
+
 	}
 
 	@Override
@@ -254,7 +250,7 @@ public class UserServiceImplement implements UserService {
 			@Override
 			public NewModel mapRow(ResultSet rs, int rowNum) throws SQLException {
 				NewModel newmodel = new NewModel();
-                
+
 				newmodel.setId(Integer.parseInt(rs.getString("id")));
 				newmodel.setModel(rs.getString("model"));
 				return newmodel;
@@ -271,7 +267,7 @@ public class UserServiceImplement implements UserService {
 			@Override
 			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Asset asset = new Asset();
-                
+
 				asset.setId(rs.getLong("id"));
 				asset.setCompany(rs.getString("company"));
 				asset.setAssettype(rs.getString("assettype"));
@@ -316,7 +312,7 @@ public class UserServiceImplement implements UserService {
 
 			@Override
 			public Status mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Status status = new Status();
+				Status status = new Status();
 
 				status.setStatus(rs.getString("status"));
 				return status;
@@ -327,16 +323,16 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public void addModelAccessory(ModelAccessory modelaccessory) {
-		String sql = "INSERT INTO modelaccessory(model) VALUES ('"+modelaccessory.getModel()+"')";
+		String sql = "INSERT INTO modelaccessory(model) VALUES ('" + modelaccessory.getModel() + "')";
 		jdbcTemplate.update(sql);
-		
+
 	}
 
 	@Override
 	public void addModelConsumable(ModelConsumable modelconsumable) {
-		String sql = "INSERT INTO modelconsumable(model) VALUES ('"+modelconsumable.getModel()+"')";
+		String sql = "INSERT INTO modelconsumable(model) VALUES ('" + modelconsumable.getModel() + "')";
 		jdbcTemplate.update(sql);
-		
+
 	}
 
 	@Override
@@ -380,38 +376,44 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public Asset getAsset(Long id) {  
+	public Asset getAsset(Long id) {
 		return assetDao.findOne(id);
 	}
 
 	@Override
-	public int updateAsset(Asset asset,Long id) {
-		String sql = "UPDATE asset SET company='" + asset.getCompany() + "',tag='" + asset.getTag()
-		+ "', model='" + asset.getModel() + "', status='" + asset.getStatus()  + "', serialnumber='" + asset.getSerialnumber() + "',purchasedate='" + asset.getPurchasedate() + "',supplier='" + asset.getSupplier()  + "',ordernumber='" + asset.getOrdernumber() + "',purchasecost='" + asset.getPurchasecost()  + "',warranty='" + asset.getWarranty()  + "', quantity='" + asset.getQuantity()  + "',suppliercontact='" + asset.getSuppliercontact()  + "',assettype='" + asset.getAssettype()  + "',totalcost='" + asset.getTotalcost()  + "'WHERE id='"
-		+ id + "'";
-return jdbcTemplate.update(sql);
+	public int updateAsset(Asset asset, Long id) {
+		String sql = "UPDATE asset SET company='" + asset.getCompany() + "',tag='" + asset.getTag() + "', model='"
+				+ asset.getModel() + "', status='" + asset.getStatus() + "', serialnumber='" + asset.getSerialnumber()
+				+ "',purchasedate='" + asset.getPurchasedate() + "',supplier='" + asset.getSupplier()
+				+ "',ordernumber='" + asset.getOrdernumber() + "',purchasecost='" + asset.getPurchasecost()
+				+ "',warranty='" + asset.getWarranty() + "', quantity='" + asset.getQuantity() + "',suppliercontact='"
+				+ asset.getSuppliercontact() + "',assettype='" + asset.getAssettype() + "',totalcost='"
+				+ asset.getTotalcost() + "'WHERE id='" + id + "'";
+		return jdbcTemplate.update(sql);
 	}
-	
+
 	@Override
 	public void addAsset(Asset asset) {
 		String sql = "INSERT INTO asset (company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,suppliercontact,assettype,assetmode,totalcost) VALUES ('"
-				+ asset.getCompany() + "','" + asset.getTag() + "','" + asset.getModel()
-				+ "','" + asset.getStatus() + "','" + asset.getSerialnumber() + "','" + asset.getPurchasedate()
-				+ "','" + asset.getSupplier() + "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() 
-				+ "','" + asset.getQuantity() + "','"+asset.getSuppliercontact()+"','"+asset.getAssettype()+"',1,'"+asset.getTotalcost()+"')";
+				+ asset.getCompany() + "','" + asset.getTag() + "','" + asset.getModel() + "','" + asset.getStatus()
+				+ "','" + asset.getSerialnumber() + "','" + asset.getPurchasedate() + "','" + asset.getSupplier()
+				+ "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() + "','"
+				+ asset.getQuantity() + "','" + asset.getSuppliercontact() + "','" + asset.getAssettype() + "',1,'"
+				+ asset.getTotalcost() + "')";
 		jdbcTemplate.update(sql);
-		
+
 	}
 
 	@Override
 	public List<Asset> uniqueAttribute() {
-		String sql = "SELECT serialnumber,tag,ordernumber FROM asset";
+		String sql = "SELECT id,serialnumber,tag,ordernumber FROM asset";
 		List<Asset> uniqueNumbersList = jdbcTemplate.query(sql, new RowMapper<Asset>() {
 
 			@Override
 			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Asset asset = new Asset();
 
+				asset.setId(Integer.parseInt(rs.getString("id")));
 				asset.setSerialnumber(rs.getString("serialnumber"));
 				asset.setTag(rs.getString("tag"));
 				asset.setOrdernumber(rs.getString("ordernumber"));
@@ -423,9 +425,9 @@ return jdbcTemplate.update(sql);
 
 	@Override
 	public void addCompany(Company company) {
-		String sql = "INSERT INTO company(company) VALUES ('"+company.getCompany()+"')";
+		String sql = "INSERT INTO company(company) VALUES ('" + company.getCompany() + "')";
 		jdbcTemplate.update(sql);
-		
+
 	}
 
 	@Override
@@ -448,5 +450,24 @@ return jdbcTemplate.update(sql);
 	public int deleteAssetRequest(Long id) {
 		String sql = "UPDATE request_asset SET requestmode = 0 WHERE id = '" + id + "'";
 		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public List<Asset> registeredAttribute(Long id) {
+		String sql = "SELECT id,serialnumber,tag,ordernumber FROM asset where id != '" + id + "'";
+		List<Asset> uniqueNumbersList = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+
+			@Override
+			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Asset asset = new Asset();
+
+				asset.setId(Integer.parseInt(rs.getString("id")));
+				asset.setSerialnumber(rs.getString("serialnumber"));
+				asset.setTag(rs.getString("tag"));
+				asset.setOrdernumber(rs.getString("ordernumber"));
+				return asset;
+			}
+		});
+		return uniqueNumbersList;
 	}
 }
