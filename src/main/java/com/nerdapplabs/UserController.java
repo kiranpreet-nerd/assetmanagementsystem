@@ -248,9 +248,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/requestedassetslist{email}")
-	public ModelAndView listAssets(@ModelAttribute("user") User user, @RequestParam String email,
+	public ModelAndView listAssets(@ModelAttribute("user") User user,
 			ModelAndView modelview) throws IOException {
-		user = userService.getUser(email);
+		user = userService.getUser(user.getEmail());
 		List<AssetRequest> listAssets = service.listAsset(user);
 		modelview.addObject("listAssets", listAssets);
 		modelview.setViewName("requestedassetslist");
@@ -369,10 +369,10 @@ public class UserController {
 
 	@RequestMapping(value = "/modelaccessory", method = RequestMethod.POST)
 	public ModelAndView addModelAccessory(@ModelAttribute("newmodelaccessory") ModelAccessory modelaccessory,
-			Model modelObject, @RequestParam String model) {
+			Model modelObject) {
 		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
 		for (int i = 0; i < listmodelaccessory.size(); i++) {
-			if (listmodelaccessory.get(i).getModel().equals(model)) {
+			if (listmodelaccessory.get(i).getModel().equals(modelaccessory.getModel())) {
 				modelObject.addAttribute("model", "model name already exsist");
 				return new ModelAndView("redirect:/modelaccessory");
 			}
@@ -384,10 +384,10 @@ public class UserController {
 
 	@RequestMapping(value = "/modelconsumable", method = RequestMethod.POST)
 	public ModelAndView addModelConsumable(@ModelAttribute("newmodelconsumable") ModelConsumable modelconsumable,
-			Model modelObject, @RequestParam String model) {
+			Model modelObject) {
 		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
 		for (int i = 0; i < listmodelconsumable.size(); i++) {
-			if (listmodelconsumable.get(i).getModel().equals(model)) {
+			if (listmodelconsumable.get(i).getModel().equals(modelconsumable.getModel())) {
 				modelObject.addAttribute("model", "model name already exsist");
 				return new ModelAndView("redirect:/modelconsumable");
 			}
@@ -398,11 +398,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/newmodel", method = RequestMethod.POST)
-	public ModelAndView addModel(@ModelAttribute("newmodel") NewModel newmodel, Model modelObject,
-			@RequestParam String model) {
+	public ModelAndView addModel(@ModelAttribute("newmodel") NewModel newmodel, Model modelObject) {
 		List<NewModel> listmodel = service.listModel();
 		for (int i = 0; i < listmodel.size(); i++) {
-			if (listmodel.get(i).getModel().equals(model)) {
+			if (listmodel.get(i).getModel().equals(newmodel.getModel())) {
 				modelObject.addAttribute("model", "model name already exsist");
 				return new ModelAndView("redirect:/newmodel");
 			}
@@ -437,16 +436,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/newsupplier", method = RequestMethod.POST)
-	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier suppliername, @RequestParam String supplier,
+	public ModelAndView addSupplier(@ModelAttribute("supplier") Supplier supplier,
 			Model model) {
 		List<Supplier> listsupplier = service.listSupplier();
 		for (int i = 0; i < listsupplier.size(); i++) {
-			if (listsupplier.get(i).getSupplier().equals(supplier)) {
+			if (listsupplier.get(i).getSupplier().equals(supplier.getSupplier())) {
 				model.addAttribute("supplier", "supplier already exsist");
 				return new ModelAndView("redirect:/newsupplier");
 			}
 		}
-		userService.addSupplier(suppliername);
+		userService.addSupplier(supplier);
 		ModelAndView modelview = new ModelAndView("redirect:/listsupplier");
 		return modelview;
 	}
@@ -460,16 +459,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/newstatus", method = RequestMethod.POST)
-	public ModelAndView addStatus(@ModelAttribute("status") Status statusname, @RequestParam String status,
+	public ModelAndView addStatus(@ModelAttribute("status") Status status,
 			Model model) {
 		List<Status> liststatus = service.listStatus();
 		for (int i = 0; i < liststatus.size(); i++) {
-			if (liststatus.get(i).getStatus().equals(status)) {
+			if (liststatus.get(i).getStatus().equals(status.getStatus())) {
 				model.addAttribute("status", "status already exsist");
 				return new ModelAndView("redirect:/newstatus");
 			}
 		}
-		userService.addStatus(statusname);
+		userService.addStatus(status);
 		ModelAndView modelview = new ModelAndView("redirect:/liststatus");
 		return modelview;
 	}
@@ -483,16 +482,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/newcompany", method = RequestMethod.POST)
-	public ModelAndView addCompany(@ModelAttribute("newcompany") Company companyname, @RequestParam String company,
+	public ModelAndView addCompany(@ModelAttribute("newcompany") Company company,
 			Model model) {
 		List<Company> listcompany = service.listCompany();
 		for (int i = 0; i < listcompany.size(); i++) {
-			if (listcompany.get(i).getCompany().equals(company)) {
+			if (listcompany.get(i).getCompany().equals(company.getCompany())) {
 				model.addAttribute("company", "company name already exsist");
 				return new ModelAndView("redirect:/newcompany");
 			}
 		}
-		userService.addCompany(companyname);
+		userService.addCompany(company);
 		ModelAndView modelview = new ModelAndView("redirect:/listcompany");
 		return modelview;
 	}
@@ -593,11 +592,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/recoverypassword", method = RequestMethod.POST)
-	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model, @RequestParam String email) {
-		System.out.println("in controller");
+	public String recoverPassword(@ModelAttribute("passwordform") User user, Model model) {
 		User tempuser = userService.findByEmail(user.getEmail());
 		if (tempuser != null && tempuser.getStatus() == 1) {
-			userService.sendEmail(email);
+			userService.sendEmail(user.getEmail());
 			model.addAttribute("emailError", "email send successfully");
 			return "forgotpassword";
 		} else if (tempuser == null) {
