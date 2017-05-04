@@ -1,6 +1,9 @@
 package com.ams.pageobject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -17,6 +20,8 @@ public class RequestAsset_DropDown extends SetUp {
 	static By logout = By.linkText("LOGOUT");
 	static By type = By.id("ddl");
 	static By name = By.name("assetname");
+	static By date = By.name("requestdate");
+	static By textArea = By.name("reason");
 
 	static List<String[]> dataSource;
 	static String username;
@@ -137,6 +142,32 @@ public class RequestAsset_DropDown extends SetUp {
 			e.printStackTrace();
 		}
 
+		return false;
+	}
+
+	// to verify date field having current date
+	public boolean verifyDateFieldContainsCurrentDate() {
+		try {
+			loginFunction();
+			
+			//to find date value from date filed and store into string variable
+			String assetDate = driver.findElement(date).getAttribute("value");
+			
+			//create object of dateFormat class and pass required format as argument
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//to get current date make object of Date class
+			Date currentDate = new Date();
+			
+			// to access current date in required format and store into string variable
+			String currentdate = dateFormat.format(currentDate);
+			
+			if (assetDate.equals(currentdate)) {
+				return true;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 }

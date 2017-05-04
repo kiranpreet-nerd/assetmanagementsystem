@@ -32,4 +32,8 @@ public class RequestAsset_DropDownTest extends RequestAsset_DropDown {
 		Assert.assertTrue("None option of assetType drop-down imapct the asset name drop-down",verifyNoneOptionImpactOnNameDropDown());	
 	}
 	
+	@Test
+	public void  verifyDateFieldContainCurrentDate()  {
+		Assert.assertTrue("Request-Asset date field doesn't comtains current date",verifyDateFieldContainsCurrentDate() );	
+	}
 }
