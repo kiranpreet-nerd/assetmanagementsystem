@@ -113,6 +113,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+				    <li><a href="/statusassetslist?email=${email}">Assets Request List</a></li>
 					<li><a href="/logout">LOGOUT</a></li>
 				</ul>
 			</div>

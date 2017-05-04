@@ -29,6 +29,10 @@ public interface UserService {
 	int update(User user);
 
 	int updateAsset(Asset asset, Long id);
+	
+	int updateAssignRequest(AssetRequest assetrequest, Long id);
+	
+	int updateCancelRequest(AssetRequest assetrequest, Long id);
 
 	List<Asset> uniqueAttribute();
 
@@ -63,7 +67,7 @@ public interface UserService {
 	List<AssetRequest> listAssetsRequest(HttpSession session);
 
 	List<AssetRequest> listAsset(User user);
-
+	
 	List<Asset> listAssets();
 
 	User findByEmail(String email);

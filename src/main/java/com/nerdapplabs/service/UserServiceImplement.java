@@ -52,10 +52,10 @@ public class UserServiceImplement implements UserService {
 	@Override
 	@Transactional
 	public void saveAsset(AssetRequest requestasset, User user) {
-		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email,requestmode) VALUES ('"
+		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email,requestmode,status) VALUES ('"
 				+ requestasset.getAssetname() + "','" + requestasset.getAssettype() + "','" + requestasset.getQuantity()
 				+ "','" + requestasset.getReason() + "','" + requestasset.getRequestdate() + "','" + user.getEmail()
-				+ "',1)";
+				+ "',1,'pending')";
 		jdbcTemplate.update(sql);
 	}
 
@@ -161,14 +161,17 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<AssetRequest> listAsset(User user) {
-		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
+		String sql = "SELECT r.status,r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date,r.id FROM request_asset r WHERE r.email = '"
 				+ user.getEmail() + "' && r.requestmode = 1";
 		List<AssetRequest> listAssets = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 
 			@Override
 			public AssetRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
 				AssetRequest asset = new AssetRequest();
-
+                
+				user.setEmail(rs.getString("email"));
+				asset.setId(Integer.parseInt(rs.getString("id")));
+				asset.setStatus(rs.getString("status"));
 				asset.setAssetname(rs.getString("assetname"));
 				asset.setAssettype(rs.getString("assettype"));
 				asset.setReason(rs.getString("reason"));
@@ -469,5 +472,17 @@ public class UserServiceImplement implements UserService {
 			}
 		});
 		return uniqueNumbersList;
+	}
+
+	@Override
+	public int updateAssignRequest(AssetRequest assetrequest, Long id) {
+		String sql = "UPDATE request_asset SET status = 'ASSIGNED' where id = '"+ id + "'";
+return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateCancelRequest(AssetRequest assetrequest, Long id) {
+		String sql = "UPDATE request_asset SET status = 'CANCELLED' where id = '"+ id + "'";
+		return jdbcTemplate.update(sql);
 	}
 }

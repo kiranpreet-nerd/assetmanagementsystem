@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,9 @@ public class UserController {
 	int count = 0;
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
-
+    private Long temp;
+    private int value;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "login";
@@ -130,7 +133,7 @@ public class UserController {
 			} else if (user.getRole().contains("ROLE_USER")) {
 				session.setAttribute("email", email);
 				session.setMaxInactiveInterval(600);
-				return "redirect:/requested";
+				return "redirect:/assetrequest";
 			} else {
 				return "login";
 
@@ -212,8 +215,12 @@ public class UserController {
 
 		List<Asset> assetAttributesList = userService.uniqueAttribute();
 		List<Asset> registeredAttributesList = userService.registeredAttribute(id);
+		for(int i=0; i < assetAttributesList.size(); i++) {
+			if(assetAttributesList.get(i).getId() == id)
+				temp = id;
+		}
 
-		if (asset.getId() != id) {
+		if (temp == null) {
 			for (int i = 0; i < assetAttributesList.size(); i++) {
 				if (assetAttributesList.get(i).getSerialnumber().equals(asset.getSerialnumber())) {
 					model.addAttribute("serialError", "serial number already exsist");
@@ -247,16 +254,6 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/requestedassetslist{email}")
-	public ModelAndView listAssets(@ModelAttribute("user") User user,
-			ModelAndView modelview) throws IOException {
-		user = userService.getUser(user.getEmail());
-		List<AssetRequest> listAssets = service.listAsset(user);
-		modelview.addObject("listAssets", listAssets);
-		modelview.setViewName("requestedassetslist");
-		return modelview;
-	}
-
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
 	public ModelAndView deleteUser(HttpServletRequest request) {
 		String email = request.getParameter("email");
@@ -268,7 +265,7 @@ public class UserController {
 	public ModelAndView deleteRequestedAssets(HttpServletRequest request) {
 		Long id = (long) Integer.parseInt(request.getParameter("id"));
 		userService.deleteAssetRequest(id);
-		return new ModelAndView("redirect:/requested");
+		return new ModelAndView("redirect:/assetrequest");
 	}
 
 	@RequestMapping(value = "/deleteAsset", method = RequestMethod.GET)
@@ -504,8 +501,8 @@ public class UserController {
 		return modelview;
 	}
 
-	@RequestMapping(value = "/requested", method = RequestMethod.GET)
-	public ModelAndView listAssetsRequest(ModelAndView model, HttpSession session, Model modelview) throws IOException {
+	@RequestMapping(value = "/assetrequest", method = RequestMethod.GET)
+	public ModelAndView listAssetsRequest(@ModelAttribute("assetrequest") AssetRequest assetrequest,ModelAndView model, HttpSession session, Model modelview) throws IOException {
 		session.getAttribute("email");
 		List<NewModel> listmodelname = service.listModel();
 		model.addObject("listmodelname", listmodelname);
@@ -543,6 +540,74 @@ public class UserController {
 		view.addObject("listAssetsRequest", listAssetsRequest);
 		view.setViewName("assetrequest");
 		return view;
+	}
+	
+
+	@RequestMapping(value = "/statusassetslist{email}", method = RequestMethod.GET)
+	public ModelAndView statusAsset(@ModelAttribute("user") User user,
+			ModelAndView modelview,HttpSession session,AssetRequest assetrequest) throws IOException {
+		user = userService.getUser(user.getEmail());
+		List<AssetRequest> listAssets = service.listAsset(user);
+		modelview.addObject("listAssets", listAssets);
+		modelview.setViewName("statusassetslist");
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/statusAssignRequest{id}{email}",method = RequestMethod.GET)
+	public ModelAndView statusAssignRequest(@ModelAttribute("user") User user,
+			ModelAndView modelview,AssetRequest assetrequest,@RequestParam Long id,@RequestParam String email) throws IOException {
+		user = userService.getUser(email);
+		
+		List<AssetRequest> listAssets = service.listAsset(user);
+		for(int i=0; i < listAssets.size(); i++) {
+			if(listAssets.get(i).getId() == id)
+				temp = id;
+		}
+		if(temp != null) {
+			userService.updateAssignRequest(assetrequest,id);
+		    listAssets = service.listAsset(user);
+			modelview.addObject("listAssets", listAssets);
+			modelview.setViewName("requestedassetslist");
+			return modelview;
+		} 
+	    listAssets = service.listAsset(user);
+		modelview.addObject("listAssets", listAssets);
+		modelview.setViewName("requestedassetslist");
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/statusCancelRequest{id}{email}",method = RequestMethod.GET)
+	public ModelAndView statusCancelRequest(@ModelAttribute("user") User user,
+			ModelAndView modelview,AssetRequest assetrequest,@RequestParam Long id,@RequestParam String email) throws IOException {
+		user = userService.getUser(email);
+		
+		List<AssetRequest> listAssets = service.listAsset(user);
+		for(int i=0; i < listAssets.size(); i++) {
+			if(listAssets.get(i).getId() == id)
+				temp = id;
+		}
+		if(temp != null) {
+			userService.updateCancelRequest(assetrequest,id);
+		    listAssets = service.listAsset(user);
+			modelview.addObject("listAssets", listAssets);
+			modelview.setViewName("requestedassetslist");
+			return modelview;
+		} 
+	    listAssets = service.listAsset(user);
+		modelview.addObject("listAssets", listAssets);
+		modelview.setViewName("requestedassetslist");
+		return modelview;
+	}
+	
+	@RequestMapping(value = "/requestedassetslist{email}")
+	public ModelAndView listAssets(@ModelAttribute("user") User user,
+			ModelAndView modelview,HttpSession session) throws IOException {
+		session.getAttribute("email");
+		user = userService.getUser(user.getEmail());
+		List<AssetRequest> listAssets = service.listAsset(user);
+		modelview.addObject("listAssets", listAssets);
+		modelview.setViewName("requestedassetslist");
+		return modelview;
 	}
 
 	@RequestMapping(value = "/registrationconfirm", method = RequestMethod.GET)

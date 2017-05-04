@@ -11,28 +11,7 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
-	 <script type="text/javascript">
-	 function disableLink()
-     {
 
-     document.getElementById('Link1').disabled=true;
-     document.getElementById('Link1').removeAttribute('href');    
-     document.getElementById('Link1').style.textDecoration = 'none';
-     document.getElementById('Link1').style.cursor = 'default';
-     }
-
-     function showLink()
-     {
-         document.getElementById('Link1').disabled=false;
-     //assign href dynamically
-     document.getElementById('Link1').href = "/statusAssignRequest?id=${assetrequest.id}&email=${user.email}";
-     document.getElementById("Link1").style.textDecoration = "underline";
-     document.getElementById("Link1").style.cursor = "hand";
-     }
-
-	 
-	 </script>
-	
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -44,13 +23,13 @@
 				<a class="navbar-brand" href="#">Snap-It</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/requestedassets">BACK</a></li>
+				<li class="active"><a href="/assetrequest">BACK</a></li>
 				
 			</ul>
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group">
+		<form:form action="" class="form-group" commandName = "statusasset">
 			<table class="table table-striped">
 				<tr>
 					<th>Type</th>
@@ -58,7 +37,7 @@
 					<th>Quantity</th>
 					<th>Reason</th>
 					<th>Request Date</th>
-					<th>Actions</th>
+					<th>Status</th>
 				</tr>
 				<c:forEach items="${listAssets}" var="assetrequest">
 					<tr>
@@ -67,7 +46,7 @@
 						<td>${assetrequest.quantity}</td>
 						<td>${assetrequest.reason}</td>
 						<td>${assetrequest.requestdate}</td>
-						<td><a href="/statusAssignRequest?id=${assetrequest.id}&email=${user.email}">ASSIGN</a> &nbsp; <a href="/statusCancelRequest?id=${assetrequest.id}&email=${user.email}">CANCEL</a></td>
+						<td>${assetrequest.status}</td>
 				</c:forEach>
 
 			</table>
