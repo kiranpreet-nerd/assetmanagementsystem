@@ -150,7 +150,7 @@ public class RequestAsset_DropDown extends SetUp {
 		try {
 			loginFunction();
 			
-			//to find date value from date filed and store into string variable
+			//to find date value from date field and store into string variable
 			String assetDate = driver.findElement(date).getAttribute("value");
 			
 			//create object of dateFormat class and pass required format as argument
