@@ -57,7 +57,6 @@ public class UserController {
 
 	int count = 0;
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
-	private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
     private Long temp;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -131,7 +130,6 @@ public class UserController {
 				model.addAttribute("loginError", "Error Loggin in , please try again");
 				return "login";
 			}
-
 			if (user.getRole().contains("ROLE_SUPER")) {
 				session.setAttribute("email", email);
 				session.setMaxInactiveInterval(600);
@@ -409,6 +407,7 @@ public class UserController {
 		}
 		//redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", messageSource.getMessage("Registered_successfully", new String[] {user.getEmail()},null));
 		user.setStatus(0);
+		user.setIs_approved(false);
 		userService.save(user);
 		try {
 			String appUrl = request.getContextPath();
@@ -616,10 +615,7 @@ public class UserController {
 		return model;
 	}
 
-
-
-	
-	@RequestMapping(value = "/assetrequest", method = RequestMethod.GET)
+    @RequestMapping(value = "/assetrequest", method = RequestMethod.GET)
 	public ModelAndView listAssetsRequest(@ModelAttribute("assetrequest") AssetRequest assetrequest,ModelAndView model, HttpSession session, Model modelview) throws IOException {
 		session.getAttribute("email");
 		List<NewModel> listmodelname = service.listModel();
@@ -749,6 +745,13 @@ public class UserController {
 		modelview.setViewName("requestedassetslist");
 		return modelview;
 	}
+	
+	@RequestMapping(value = "/approveUser{email}", method = RequestMethod.GET)
+	public ModelAndView approveUser(@RequestParam String email){
+		userService.updateRegisteredStatus(email);
+		return new ModelAndView("redirect:/listOfRegisteredUsers");
+		
+	}
 
 	@RequestMapping(value = "/requestedassetslist{email}")
 	public ModelAndView listAssets(@ModelAttribute("user") User user,
@@ -777,7 +780,7 @@ public class UserController {
 			model.addAttribute("message", messageValue);
 			return "redirect:/baduser";
 		}
-		user.setStatus(1);
+		user.setIs_approved(true);
 		userService.save(user);
 		return "redirect:/login";
 	}
@@ -789,6 +792,16 @@ public class UserController {
 		List<User> listEmail = service.listEmail();
 		model.addObject("listEmail", listEmail);
 		model.setViewName("requestedassets");
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/listOfRegisteredUsers", method = RequestMethod.GET)
+	public ModelAndView listOfRegisteredUsers(ModelAndView model) throws IOException {
+        
+		List<User> listRegisteredUsers = service.listRegisteredUsers();
+		model.addObject("listRegisteredUsers", listRegisteredUsers);
+		model.setViewName("registereduserslist");
 		return model;
 
 	}

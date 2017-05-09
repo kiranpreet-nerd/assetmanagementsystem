@@ -69,6 +69,17 @@ public class User {
 	@Column(name = "status")
 	private Integer status;
 	
+	@Column(name = "is_approved")
+	private Boolean is_approved;
+	
+	public Boolean getIs_approved() {
+		return is_approved;
+	}
+
+	public void setIs_approved(Boolean is_approved) {
+		this.is_approved = is_approved;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}

@@ -39,6 +39,12 @@
 	
 	<script>
 	     function validate() {
+	    	 var numeric = /(?=.*[!@#$%^&*])/;
+	       	 if(numeric.test(form.model.value)) {
+	       		 alert("It must be alpha numeric");
+	       		 document.form.model.focus();
+	       		 return false;
+	       	 }
 	          if (document.form.model.value == "") {
 	             alert("Model name required");
 	             document.form.model.focus();

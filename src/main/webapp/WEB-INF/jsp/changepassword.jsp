@@ -25,8 +25,8 @@
     	        document.form.newpassword.focus();
     	        return false;
     		 }
-    	 var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
-    	 if(!re.test(form.newpassword.value)) {
+    	 var passwordpattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
+    	 if(!passwordpattern.test(form.newpassword.value)) {
     		 alert("password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
     		 document.form.newpassword.focus();
     		 return false;

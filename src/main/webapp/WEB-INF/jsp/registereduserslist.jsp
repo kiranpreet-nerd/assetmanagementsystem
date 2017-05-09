@@ -24,10 +24,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href='/listOfRegisteredUsers'>REGISTERED USERS</a></li>
-					<li><a href='/add'>ADD USER</a></li>
-					<li><a href='/changePassword?email=${email}'>CHANGE PASSWORD</a></li>
-					<li><a href='/logout'>LOGOUT</a></li>
+					<li><a href='/users'>BACK</a></li>
 				</ul>
 			</div>
 		</div>
@@ -42,16 +39,13 @@
 					<th>Role</th>
 					<th>Actions</th>
 				</tr>
-				<c:forEach items="${listUsers}" var="user">
+				<c:forEach items="${listRegisteredUsers}" var="user">
 					<tr>
 						<td>${user.firstname} ${user.lastname}</td>
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
-						<td><a href="/deleteUser?email=${user.email}"> <span
-								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-							&nbsp; <a href="/getUser?email=${user.email}"> <span
-								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+						<td><a href="/approveUser?email=${user.email}"> APPROVE </a></td>
 					</tr>
 				</c:forEach>
 			</table>

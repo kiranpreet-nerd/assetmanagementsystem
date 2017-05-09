@@ -47,6 +47,12 @@ function validate() {
     	 document.form.lastname.focus();
     	 return false;
      }
+	 var numeric = /(?=.*[!@#$%^&*])/;
+   	 if(numeric.test(form.designation.value)) {
+   		 alert("It must be alpha numeric");
+   		 document.form.designation.focus();
+   		 return false;
+   	 }
 	 if (document.form.designation.value == "") {
 	        alert("designation required");
 	        document.form.designation.focus();

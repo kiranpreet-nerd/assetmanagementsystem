@@ -28,7 +28,7 @@
 			</div>
 			
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/logout">LOGOUT</a></li>
+				
 	           <li class="active"><a href="/assetslist">ASSETS LIST &nbsp;<span class="glyphicon glyphicon-th-list"></span></a></li>
 	           <li class = "active"><a href="/asset"> ADD ASSET</a></li>
 	           <li class = "active"><a href="/changePassword?email=${email}"> CHANGE PASSWORD</a></li>
@@ -42,6 +42,7 @@
 									<li><a href="/listOfCompanies">Company</a></li>
 								</ul>
 								</li> 
+			  <li class="active"><a href="/logout">LOGOUT</a></li>
 								
 			</ul>
 		</div>

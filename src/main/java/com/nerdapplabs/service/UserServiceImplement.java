@@ -96,7 +96,7 @@ public class UserServiceImplement implements UserService {
 	}
 
 	public int softDelete(String email) {
-		String sql = "UPDATE user SET status = 0 WHERE email = '" + email + "'";
+		String sql = "UPDATE user SET status = 0 && is_approved = 0 WHERE email = '" + email + "'";
 		return jdbcTemplate.update(sql);
 	}
 
@@ -552,4 +552,32 @@ return jdbcTemplate.update(sql);
 		});
 		return listExistedAttributes;
 	}
+
+	@Override
+	public List<User> listRegisteredUsers() {
+		String sql = "SELECT email,firstname,designation,role,lastname FROM user WHERE is_approved = 1 && status = 0";
+		List<User> listRegisteredUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User aUser = new User();
+
+				aUser.setEmail(rs.getString("email"));
+				aUser.setFirstname(rs.getString("firstname"));
+				aUser.setLastname(rs.getString("lastname"));
+				aUser.setDesignation(rs.getString("designation"));
+				aUser.setRole(rs.getString("role"));
+
+				return aUser;
+			}
+		});
+		return listRegisteredUsers;
+	}
+
+	@Override
+	public int updateRegisteredStatus(String email) {
+		String sql = "UPDATE user SET status = 1 where email = '"+ email + "'";
+		return jdbcTemplate.update(sql);
+	}
+
 }

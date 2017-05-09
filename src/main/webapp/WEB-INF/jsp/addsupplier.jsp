@@ -39,6 +39,12 @@
 	
 	<script>
 	     function validate() {
+	    	 var numeric = /(?=.*[!@#$%^&*])/;
+	       	 if(numeric.test(form.supplier.value)) {
+	       		 alert("It must be alpha numeric");
+	       		 document.form.supplier.focus();
+	       		 return false;
+	       	 }
 	          if (document.form.supplier.value == "") {
 	             alert("supplier name required");
 	             document.form.supplier.focus();

@@ -35,8 +35,10 @@ public interface UserService {
 	int deleteAccessoryModel(long id);
 	
 	int deleteConsumableModel(long id);
-
+	
 	int update(User user);
+	
+	int updateRegisteredStatus(String email);
 	
 	int updatePassword(String email,String newpassword);
 
@@ -67,6 +69,8 @@ public interface UserService {
 	List<User> list();
 
 	List<User> listEmail();
+	
+	List<User> listRegisteredUsers();
 
 	List<NewModel> listModel();
 

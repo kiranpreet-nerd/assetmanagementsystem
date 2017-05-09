@@ -97,9 +97,21 @@ Dropdown hover
 		}
 	}
 </script>
-
+    
 <script>
-	function validate() {
+	function validate() {  
+      var today = new Date();
+      var purchasedate = document.getElementById("purchasedate");
+      if(purchasedate > today){
+    	  alert("invalid date");
+    	  document.form.purchasedate.focus();
+    	  return false;
+      }
+	 var re = /(?=.*[!@#$%^&*])/;
+   	 if(re.test(form.serialnumber.value)) {
+   		 alert("It must be alpha numeric");
+   		 return false;
+   	 }
 		if (document.form.company.value == "") {
 			alert("company required");
 			document.form.company.focus();
@@ -182,17 +194,6 @@ Dropdown hover
 			return false;
 		}
 	}
-</script>
-<c:if test="${not empty serialError}">
-  <script>alert("serial number already registered");
-</script></c:if>
-<script>
-
-$(document).ready(function(){ 
-$("#company").val("${requestScope.selectedcompany}").attr('selected', 'selected'); 
-}); 
-
-
 </script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
@@ -310,7 +311,7 @@ $("#company").val("${requestScope.selectedcompany}").attr('selected', 'selected'
 							<label class="col-sm-4 control-label input-group date"
 								data-provide="datepicker" data-date-format="yyyy-MM-dd">
 								Purchase Date </label>
-							<form:input type="date" name="purchasedate" path="purchasedate"
+							<form:input type="date" name="purchasedate" id = "purchasedate" path="purchasedate"
 								value="${asset.purchasedate}" class="form-control" />
 							<div>
 								<form:errors path="purchasedate"></form:errors>
@@ -385,9 +386,9 @@ $("#company").val("${requestScope.selectedcompany}").attr('selected', 'selected'
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Total Cost </label>
-							<form:input type="number" readonly="readonly" name="totalcost"
-								id="totalcost" path="totalcost" value="${asset.totalcost}"
-								class="form-control" />
+							<input type="number" readonly=readonly name="totalcost"
+								id="totalcost"  value="${asset.totalcost}"
+								class="form-control" >
 							<div>
 								<form:errors path="totalcost"></form:errors>
 							</div>
