@@ -35,10 +35,5 @@ public class Create_Asset_ValidationTest extends Create_Asset_Validations {
 	@Test
 	public void verifyPurchaseDateFieldValidation() {
 		Assert.assertTrue("On purchase date field there is no validation",verifyPurchaseDateValidation());
-	}
-	
-	
-	
-	
-	
+	}	
 }
