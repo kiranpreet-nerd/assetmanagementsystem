@@ -26,6 +26,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href='/logout'>LOGOUT</a></li>
 					<li><a href='/add'>ADD USER</a></li>
+					<li><a href='/changePassword?email=${email}'>CHANGE PASSWORD</a></li>
 				</ul>
 			</div>
 		</div>

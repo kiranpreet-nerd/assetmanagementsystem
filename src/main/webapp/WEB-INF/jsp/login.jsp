@@ -56,7 +56,7 @@
 	         }
 	     }
 	</script>
-
+	
 </head>
 <body>
 
@@ -116,6 +116,7 @@
 			</div>
 		</div>
 	</div>
+	
 
 	<!-- jQuery -->
 	<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/jquery.js"></script>

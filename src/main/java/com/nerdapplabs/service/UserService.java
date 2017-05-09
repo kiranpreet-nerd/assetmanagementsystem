@@ -25,16 +25,32 @@ public interface UserService {
 	void addStatus(Status status);
 
 	void delete(String email);
+	
+	int deleteCompany(long id);
+	
+	int deleteSupplier(long id);
+	
+	int deleteAssetModel(long id);
+	
+	int deleteAccessoryModel(long id);
+	
+	int deleteConsumableModel(long id);
 
 	int update(User user);
+	
+	int updatePassword(String email,String newpassword);
 
 	int updateAsset(Asset asset, Long id);
 	
 	int updateAssignRequest(AssetRequest assetrequest, Long id);
 	
 	int updateCancelRequest(AssetRequest assetrequest, Long id);
+	
+	int updateCompleteRequest(AssetRequest assetrequest, Long id);
 
 	List<Asset> uniqueAttribute();
+	
+	List<Asset> existedAttributes();
 
 	List<Asset> registeredAttribute(Long id);
 

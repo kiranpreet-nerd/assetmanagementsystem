@@ -62,6 +62,12 @@ function validate() {
         document.form.password.focus();
         return false;
 	 }
+	 var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
+	 if(!re.test(form.password.value)) {
+		 alert("password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
+		 document.form.password.focus();
+		 return false;
+	 }
 	 if (document.form.confirm.value == "") {
 	        alert("confirm password required");
 	        document.form.confirm.focus();
@@ -74,6 +80,7 @@ function validate() {
 	 }
 }
 </script>
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -160,7 +167,10 @@ function validate() {
 			</div>
 			</div>
 			</div>
-			
+			<c:if test="${SUCCESS_MESSAGE != null}">
+			  <div id="status_message">${SUCCESS_MESSAGE}</div>
+			</c:if>
 			
 </body>
+
 </html>

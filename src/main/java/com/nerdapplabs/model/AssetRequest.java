@@ -52,6 +52,28 @@ public class AssetRequest {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "is_deleted")
+	private Boolean is_deleted;
+	
+	@Column(name = "cause")
+	private String cause;
+	
+	public String getCause() {
+		return cause;
+	}
+
+	public void setCause(String cause) {
+		this.cause = cause;
+	}
+
+	public Boolean getIs_deleted() {
+		return is_deleted;
+	}
+
+	public void setIs_deleted(Boolean is_deleted) {
+		this.is_deleted = is_deleted;
+	}
+
 	public String getStatus() {
 		return status;
 	}

@@ -12,26 +12,29 @@
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
 	 <script type="text/javascript">
-	 function disableLink()
-     {
 
-     document.getElementById('Link1').disabled=true;
-     document.getElementById('Link1').removeAttribute('href');    
-     document.getElementById('Link1').style.textDecoration = 'none';
-     document.getElementById('Link1').style.cursor = 'default';
-     }
+    var link,color;
+ function disable_link(id) { 
+	 alert("#"+id);
+	 $(id).click (function(e){
+		 alert("*"+id);
+	       e.preventDefault();
+	})
+  //link = document.getElementById('Link1').href;
 
-     function showLink()
-     {
-         document.getElementById('Link1').disabled=false;
-     //assign href dynamically
-     document.getElementById('Link1').href = "/statusAssignRequest?id=${assetrequest.id}&email=${user.email}";
-     document.getElementById("Link1").style.textDecoration = "underline";
-     document.getElementById("Link1").style.cursor = "hand";
-     }
+ // document.getElementById('Link1').removeAttribute('href');
+  //document.getElementById('testlink').style.color = "grey";
 
-	 
-	 </script>
+   } 
+
+
+ function enable_link() { 
+
+  document.getElementById('Link1').setAttribute("href",link);
+
+   } 
+
+</script>
 	
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
@@ -67,7 +70,11 @@
 						<td>${assetrequest.quantity}</td>
 						<td>${assetrequest.reason}</td>
 						<td>${assetrequest.requestdate}</td>
-						<td><a href="/statusAssignRequest?id=${assetrequest.id}&email=${user.email}">ASSIGN</a> &nbsp; <a href="/statusCancelRequest?id=${assetrequest.id}&email=${user.email}">CANCEL</a></td>
+						<td><a href="/statusAssignRequest?id=${assetrequest.id}&email=${user.email}"
+						id ="${assetrequest.id}" onclick="disable_link(${assetrequest.id});">ASSIGN</a> &nbsp; 
+						<a href="/statusCancelRequest?id=${assetrequest.id}&email=${user.email}" id = "Link2" >CANCEL</a>&nbsp;
+						<a href="/statusCompleteRequest?id=${assetrequest.id}&email=${user.email}"
+						id = "Link2">DELETE</a></td>
 				</c:forEach>
 
 			</table>

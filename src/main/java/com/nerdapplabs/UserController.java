@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nerdapplabs.model.Asset;
 import com.nerdapplabs.model.AssetRequest;
@@ -47,6 +48,9 @@ public class UserController {
 
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
+	
+	@Autowired
+    private MessageSource messageSource;
 
 	@Autowired
 	private MessageSource messages;
@@ -55,7 +59,6 @@ public class UserController {
 	private static final String EMAIL_PATTERN = ".+@+nerdapplabs+.com";
 	private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{6,20}$";
     private Long temp;
-    private int value;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
@@ -86,6 +89,11 @@ public class UserController {
 	@RequestMapping(value = "/newmodel", method = RequestMethod.GET)
 	public String newModelAccessory() {
 		return "addmodel";
+	}
+
+	@RequestMapping(value = "/changePassword{email}", method = RequestMethod.GET)
+	public String changePasssword(@ModelAttribute("changepassword") User user) {
+		return "changepassword";
 	}
 
 	@RequestMapping(value = "/newcompany", method = RequestMethod.GET)
@@ -125,11 +133,13 @@ public class UserController {
 			}
 
 			if (user.getRole().contains("ROLE_SUPER")) {
-				session.setAttribute("loggedInUser", user);
-				return "redirect:/users";
+				session.setAttribute("email", email);
+				session.setMaxInactiveInterval(600);
+				return "redirect:/users?email="+email;
 			} else if (user.getRole().contains("ROLE_ADMIN")) {
 				session.setAttribute("email", email);
-				return "redirect:/requestedassets";
+				session.setMaxInactiveInterval(600);
+				return "redirect:/requestedassets?email="+email;
 			} else if (user.getRole().contains("ROLE_USER")) {
 				session.setAttribute("email", email);
 				session.setMaxInactiveInterval(600);
@@ -159,8 +169,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
-	public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
-
+	public String updateUser(@Valid @ModelAttribute("user") User user, HttpSession session,BindingResult result) {
+  
 		if (result.hasErrors()) {
 			return "updateuser";
 		} else {
@@ -171,8 +181,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/users")
-	public ModelAndView listUsers(ModelAndView model) throws IOException {
-
+	public ModelAndView listUsers(ModelAndView model,HttpSession session) throws IOException {
+        session.getAttribute("email");
 		List<User> listUsers = service.list();
 		model.addObject("listUsers", listUsers);
 		model.setViewName("userslist");
@@ -260,6 +270,72 @@ public class UserController {
 		userService.softDelete(email);
 		return new ModelAndView("redirect:/users");
 	}
+	
+	@RequestMapping(value = "/deleteCompany{id}{company}", method = RequestMethod.GET)
+	public ModelAndView deleteCompany(@RequestParam Long id,@RequestParam String company,Model model) {
+		List<Asset> listExistedAttributes = userService.existedAttributes();
+		for(int i = 0;i < listExistedAttributes.size(); i++){
+			if(listExistedAttributes.get(i).getCompany().equals(company)){
+				model.addAttribute("companyError","Can't delete this record as it exists in asset record");
+		        return new ModelAndView("redirect:/listOfCompanies");
+			}
+		}
+		userService.deleteCompany(id);
+		return new ModelAndView("redirect:/listOfCompanies");
+	}
+	
+	@RequestMapping(value = "/deleteSupplier{id}{supplier}", method = RequestMethod.GET)
+	public ModelAndView deleteSupplier(@RequestParam Long id,@RequestParam String supplier,Model model) {
+		List<Asset> listExistedAttributes = userService.existedAttributes();
+		for(int i = 0;i < listExistedAttributes.size(); i++){
+			if(listExistedAttributes.get(i).getSupplier().equals(supplier)){
+				model.addAttribute("supplierError","Can't delete this record as it exists in asset record");
+		        return new ModelAndView("redirect:/listOfSuppliers");
+			}
+		}
+		userService.deleteSupplier(id);
+		return new ModelAndView("redirect:/listOfSuppliers");
+	}
+	
+	@RequestMapping(value = "/deleteAssetModel{id}{model}", method = RequestMethod.GET)
+	public ModelAndView deleteAssetModel(@RequestParam Long id,@RequestParam String model, Model modelname) {
+		List<Asset> listExistedAttributes = userService.existedAttributes();
+		for(int i = 0;i < listExistedAttributes.size(); i++){
+			if(listExistedAttributes.get(i).getModel().equals(model)){
+				modelname.addAttribute("modelError","Can't delete this record as it exists in asset record");
+		        return new ModelAndView("redirect:/listOfAssetModels");
+			}
+		}
+		userService.deleteAssetModel(id);
+		return new ModelAndView("redirect:/listOfAssetModels");
+	}
+	
+	@RequestMapping(value = "/deleteAccessoryModel{id}{model}", method = RequestMethod.GET)
+	public ModelAndView deleteAccessoryModel(@RequestParam Long id,@RequestParam String model, Model modelname) {
+		List<Asset> listExistedAttributes = userService.existedAttributes();
+		for(int i = 0;i < listExistedAttributes.size(); i++){
+			if(listExistedAttributes.get(i).getModel().equals(model)){
+				modelname.addAttribute("modelError","Can't delete this record as it exists in asset record");
+		        return new ModelAndView("redirect:/listOfAcessoryModels");
+			}
+		}
+		userService.deleteAccessoryModel(id);
+		return new ModelAndView("redirect:/listOfAccessoryModels");
+	}
+	
+	@RequestMapping(value = "/deleteConsumableModel{id}{model}", method = RequestMethod.GET)
+	public ModelAndView deleteConsumableModel(@RequestParam Long id,@RequestParam String model,Model modelname) {
+		List<Asset> listExistedAttributes = userService.existedAttributes();
+		for(int i = 0;i < listExistedAttributes.size(); i++){
+			if(listExistedAttributes.get(i).getModel().equals(model)){
+				modelname.addAttribute("modelError","Can't delete this record as it exists in asset record");
+		        return new ModelAndView("redirect:/listOfConsumableModels");
+			}
+		}
+		userService.deleteConsumableModel(id);
+		return new ModelAndView("redirect:/listOfConsumableModels");
+	}
+
 
 	@RequestMapping(value = "/deleterequestedassets", method = RequestMethod.GET)
 	public ModelAndView deleteRequestedAssets(HttpServletRequest request) {
@@ -301,16 +377,6 @@ public class UserController {
 				errors.rejectValue("email", "domainmatch.email", "domain name must be @nerdapplabs.com");
 				return modelandview;
 			}
-			if (!(user.getPassword().isEmpty())) {
-				Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
-				Matcher matcherPassword = patternPassword.matcher(user.getPassword());
-				if (!matcherPassword.matches()) {
-					errors.rejectValue("password", "special.password",
-							"password should contain atleast one capital letter, one numeric value , one small letter ,special symbol and password length must be between 6 to 20 characters");
-					return modelandview;
-				}
-			}
-
 			user.setStatus(1);
 			userService.save(user);
 			return new ModelAndView("redirect:/users");
@@ -325,7 +391,7 @@ public class UserController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView registration(@Valid @ModelAttribute("userform") User user, BindingResult result,
-			Map<String, Object> model, Errors errors, WebRequest request) {
+			Map<String, Object> model, Errors errors, WebRequest request, RedirectAttributes redirectAttributes) {
 		ModelAndView modelandview = new ModelAndView("register");
 		User tempUser = userService.findByEmail(user.getEmail());
 		if (tempUser != null) {
@@ -341,16 +407,7 @@ public class UserController {
 				return modelandview;
 			}
 		}
-		if (!(user.getPassword().isEmpty())) {
-			Pattern patternPassword = Pattern.compile(PASSWORD_PATTERN);
-			Matcher matcherPassword = patternPassword.matcher(user.getPassword());
-			if (!matcherPassword.matches()) {
-				errors.rejectValue("password", "special.password",
-						"password should contain atleast one numeric value,special symbol,one small letter, one capital letter and password length must be between 6 to 20 characters");
-				return modelandview;
-			}
-		}
-
+		//redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", messageSource.getMessage("Registered_successfully", new String[] {user.getEmail()},null));
 		user.setStatus(0);
 		userService.save(user);
 		try {
@@ -362,6 +419,24 @@ public class UserController {
 		}
 		ModelAndView modelview = new ModelAndView("redirect:/login");
 		return modelview;
+	}
+	
+	@RequestMapping(value = "/changePassword{email}{newpassword}{oldpassword}", method = RequestMethod.POST)
+	public ModelAndView changePassword(@ModelAttribute("changepassword") User user,@RequestParam String newpassword,@RequestParam String email,@RequestParam String oldpassword, Model model,Errors errors) {
+		user = userService.getUser(email);
+		if(user.getPassword().contains(oldpassword)) {
+			userService.updatePassword(email,newpassword);
+			if(user.getRole().contains("ROLE_ADMIN")){
+				return new ModelAndView("redirect:/requestedassets?email="+email);
+			} else if(user.getRole().contains("ROLE_USER")){
+			return new ModelAndView("redirect:/assetrequest");
+			} 
+			return new ModelAndView("redirect:/users?email="+email);
+		} else {
+			 model.addAttribute("passwordError","password not registered");
+			   return new ModelAndView("redirect:/changePassword");
+		}
+		
 	}
 
 	@RequestMapping(value = "/modelaccessory", method = RequestMethod.POST)
@@ -500,7 +575,50 @@ public class UserController {
 		ModelAndView modelview = new ModelAndView("redirect:/asset");
 		return modelview;
 	}
+	
+	@RequestMapping(value = "/listOfCompanies")
+	public ModelAndView listOfCompanies(ModelAndView model) throws IOException {
+		List<Company> listcompany = service.listCompany();
+		model.addObject("listcompany", listcompany);
+		model.setViewName("listofcompanies");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listOfSuppliers")
+	public ModelAndView listOfSuppliers(ModelAndView model) throws IOException {
+		List<Supplier> listsupplier = service.listSupplier();
+		model.addObject("listsupplier", listsupplier);
+		model.setViewName("listofsuppliers");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listOfAssetModels")
+	public ModelAndView listOfAssetModels(ModelAndView model) throws IOException {
+		List<NewModel> listmodel = service.listModel();
+		model.addObject("listmodel", listmodel);
+		model.setViewName("listofassetmodels");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listOfAccessoryModels")
+	public ModelAndView listOfAccessoryModels(ModelAndView model) throws IOException {
+		List<ModelAccessory> listmodelaccessory = service.listModelAccessory();
+		model.addObject("listmodelaccessory", listmodelaccessory);
+		model.setViewName("listofaccessorymodels");
+		return model;
+	}
+	
+	@RequestMapping(value = "/listOfConsumableModels")
+	public ModelAndView listOfConsumableModels(ModelAndView model) throws IOException {
+		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
+		model.addObject("listmodelconsumable", listmodelconsumable);
+		model.setViewName("listofconsumablemodels");
+		return model;
+	}
 
+
+
+	
 	@RequestMapping(value = "/assetrequest", method = RequestMethod.GET)
 	public ModelAndView listAssetsRequest(@ModelAttribute("assetrequest") AssetRequest assetrequest,ModelAndView model, HttpSession session, Model modelview) throws IOException {
 		session.getAttribute("email");
@@ -519,8 +637,10 @@ public class UserController {
 	@RequestMapping(value = "/assetrequest", method = RequestMethod.POST)
 	public ModelAndView requestAsset(@RequestParam String email,
 			@Valid @ModelAttribute("assetrequest") AssetRequest assetrequest, BindingResult result,
-			Map<String, Object> model, Errors errors, HttpSession session, User user) {
+			Map<String, Object> model, Errors errors, HttpSession session, User user, @RequestParam String assettype, @RequestParam String assetname, Model modelview) {
 		session.getAttribute("email");
+		List<AssetRequest> listAssets = service.listAsset(user);
+		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
 		ModelAndView view = new ModelAndView("assetrequest");
 		List<NewModel> listmodelname = service.listModel();
 		view.addObject("listmodelname", listmodelname);
@@ -528,15 +648,23 @@ public class UserController {
 		view.addObject("listmodelaccessory", listmodelaccessory);
 		List<ModelConsumable> listmodelconsumable = service.listModelConsumable();
 		view.addObject("listmodelconsumable", listmodelconsumable);
+		for(int i = 0 ; i < listAssets.size(); i++) {
+			if(listAssets.get(i).getAssettype().equals(assettype) && listAssets.get(i).getAssetname().equals(assetname)) {
+				modelview.addAttribute("typeRegistered", "assettype and assetname already registered");
+				view.addObject("listAssetsRequest", listAssetsRequest);
+				view.setViewName("assetrequest");
+				return view;
+			}
+		}
 
 		if (result.hasErrors()) {
-			List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+		 listAssetsRequest = service.listAssetsRequest(session);
 			view.addObject("listAssetsRequest", listAssetsRequest);
 			view.setViewName("assetrequest");
 			return view;
 		}
 		userService.saveAsset(assetrequest, user);
-		List<AssetRequest> listAssetsRequest = service.listAssetsRequest(session);
+		 listAssetsRequest = service.listAssetsRequest(session);
 		view.addObject("listAssetsRequest", listAssetsRequest);
 		view.setViewName("assetrequest");
 		return view;
@@ -599,6 +727,29 @@ public class UserController {
 		return modelview;
 	}
 	
+	@RequestMapping(value = "/statusCompleteRequest{id}{email}",method = RequestMethod.GET)
+	public ModelAndView statusCompleteRequest(@ModelAttribute("user") User user,
+			ModelAndView modelview,AssetRequest assetrequest,@RequestParam Long id,@RequestParam String email) throws IOException {
+		user = userService.getUser(email);
+		
+		List<AssetRequest> listAssets = service.listAsset(user);
+		for(int i=0; i < listAssets.size(); i++) {
+			if(listAssets.get(i).getId() == id)
+				temp = id;
+		}
+		if(temp != null) {
+			userService.updateCompleteRequest(assetrequest,id);
+		    listAssets = service.listAsset(user);
+			modelview.addObject("listAssets", listAssets);
+			modelview.setViewName("requestedassetslist");
+			return modelview;
+		} 
+	    listAssets = service.listAsset(user);
+		modelview.addObject("listAssets", listAssets);
+		modelview.setViewName("requestedassetslist");
+		return modelview;
+	}
+
 	@RequestMapping(value = "/requestedassetslist{email}")
 	public ModelAndView listAssets(@ModelAttribute("user") User user,
 			ModelAndView modelview,HttpSession session) throws IOException {
@@ -631,9 +782,10 @@ public class UserController {
 		return "redirect:/login";
 	}
 
-	@RequestMapping(value = "/requestedassets")
-	public ModelAndView listEmail(ModelAndView model) throws IOException {
-
+	@RequestMapping(value = "/requestedassets{email}")
+	public ModelAndView listEmail(ModelAndView model, HttpSession session) throws IOException {
+        
+		session.getAttribute("email");
 		List<User> listEmail = service.listEmail();
 		model.addObject("listEmail", listEmail);
 		model.setViewName("requestedassets");

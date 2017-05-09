@@ -100,6 +100,16 @@ Dropdown hover
 
 <script>
 	function validate() {
+		if (document.form.company.value == "") {
+			alert("company required");
+			document.form.company.focus();
+			return false;
+		}
+		if (document.form.assettype.value == "") {
+			alert("asset type required");
+			document.form.assettype.focus();
+			return false;
+		}
 		if (document.form.model.value == "") {
 			alert("model required");
 			document.form.model.focus();
@@ -110,6 +120,12 @@ Dropdown hover
 			document.form.tag.focus();
 			return false;
 		}
+		if (document.form.status.value == "") {
+			alert("status required");
+			document.form.status.focus();
+			return false;
+		}
+
 		if (document.form.serialnumber.value == "") {
 			alert("serial number required");
 			document.form.serialnumber.focus();
@@ -118,6 +134,11 @@ Dropdown hover
 		if (document.form.purchasedate.value == "") {
 			alert("purchase date required");
 			document.form.purchasedate.focus();
+			return false;
+		}
+		if (document.form.supplier.value == "") {
+			alert("supplier required");
+			document.form.supplier.focus();
 			return false;
 		}
 		if (document.form.suppliercontact.value == "") {
@@ -160,18 +181,19 @@ Dropdown hover
 			document.form.totalcost.focus();
 			return false;
 		}
-
 	}
 </script>
-<script type="text/javascript">
-	function serialError() {
-		var modelAttributeValue = '${serialError}';
-		//var serialError=  <c:out value = "${serialError}"/>;
-		alert(modelAtrributeValue + "required");
-	}
+<c:if test="${not empty serialError}">
+  <script>alert("serial number already registered");
+</script></c:if>
+<script>
+
+$(document).ready(function(){ 
+$("#company").val("${requestScope.selectedcompany}").attr('selected', 'selected'); 
+}); 
+
+
 </script>
-
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
 <script
@@ -208,14 +230,14 @@ Dropdown hover
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="company">
 								Company </label>
-							<form:select class="form-control" id="sell" name="company"
+							<form:select class="form-control" id="company" name="company"
 								path="company">
 								<c:forEach var="listcompany" items="${listcompany}">
 									<option value="${listcompany.company}">
 										${listcompany.company}</option>
 								</c:forEach>
 							</form:select>
-							<a href="/newcompany"> New <span
+							<a href="/newcompany"> New Company <span
 								class="glyphicon glyphicon-link"></span></a><br>
 						</div>
 						<br>
@@ -270,7 +292,7 @@ Dropdown hover
 										${liststatus.status}</option>
 								</c:forEach>
 							</form:select>
-						</div>&nbsp; <a href="/newstatus"> New <span
+						</div>&nbsp; <a href="/newstatus"> New status<span
 							class="glyphicon glyphicon-link"></span></a>
 						<br>
 						<div class="form-group">
@@ -282,8 +304,8 @@ Dropdown hover
 								<form:errors path="serialnumber"></form:errors>
 							</div>
 						</div>
-						<div class="redalert">${serialError}</div>
 						<br>
+						<div class="redalert">${serialError}</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label input-group date"
 								data-provide="datepicker" data-date-format="yyyy-MM-dd">
@@ -305,7 +327,7 @@ Dropdown hover
 										${listsupplier.supplier}</option>
 								</c:forEach>
 							</form:select>
-						</div>&nbsp; <a href="/newsupplier"> New <span
+						</div>&nbsp; <a href="/newsupplier"> New Supplier <span
 							class="glyphicon glyphicon-link"></span></a>
 						<br>
 						<div class="form-group">

@@ -97,6 +97,8 @@
 	      }
 	 
 	 </script>
+	 
+	 
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -114,6 +116,7 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 				    <li><a href="/statusassetslist?email=${email}">Assets Request List</a></li>
+				    <li><a href= "/changePassword?email=${email}"> CHANGE PASSWORD</a>
 					<li><a href="/logout">LOGOUT</a></li>
 				</ul>
 			</div>
@@ -203,7 +206,7 @@
 				<form:form action="/assetrequest" class="form-group"
 					commandName="assetrequest">
 					<table class="table table-striped" style="width: 40%">
-						<tr>
+					    <tr>
 							<th>Type</th>
 							<th>Name</th>
 							<th>Quantity</th>
@@ -225,6 +228,12 @@
 
 		</div>
 	</div>
-
+	<script type="text/javascript">
+   var modelAttributeValue = '${typeRegistered}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>
