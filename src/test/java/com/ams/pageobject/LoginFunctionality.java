@@ -7,15 +7,6 @@ public class LoginFunctionality extends SetUpLogin  {
 	
 public By logout = By.linkText("LOGOUT");
 	
-	@Override
-	public void setUp() {
-		try {
-			super.setUp();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}	
-	}
-
 	//to check login functionality
 	public boolean loginFunction() {
 		
