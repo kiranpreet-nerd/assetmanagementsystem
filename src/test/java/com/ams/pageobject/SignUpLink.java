@@ -38,5 +38,4 @@ public class SignUpLink extends SetUp {
 		return false;
 
 	}
-
 }
