@@ -1,24 +1,16 @@
 package com.ams.pageobject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import com.ams.testsetup.SetUp;
-import com.nerdapplabs.test.TestDataReader;
+import com.ams.testsetup.SetUpLogin;
 
-public class Request_AssetFunctionality extends SetUp {
+public class Request_AssetFunctionality extends SetUpLogin {
 
-	static By emailTextBox = By.name("email");
-	static By passwordTextBox = By.name("password");
-	static By loginBtn = By.name("loginbutton");
-	static By emailReq = By.name("email");
-	static By logout = By.linkText("LOGOUT");
 	static By type = By.name("assettype");
 	static By name = By.name("assetname");
 	static By quant = By.name("quantity");
@@ -26,83 +18,55 @@ public class Request_AssetFunctionality extends SetUp {
 	static By requestDate = By.name("requestdate");
 	static By requestBtn = By.name("requestbutton");
 	static By table = By.cssSelector("table[class ='table table-striped']");
+	static By dynamicBtn = By.cssSelector("span[class ='glyphicon glyphicon-trash']");
 	static By rows = By.tagName("tr");
 	static By tD = By.tagName("td");
 	static By tH = By.tagName("th");
-
-	static List<String[]> dataSource;
-	static String username;
-	static String password;
-
-	// to login the application
-	public static boolean loginFunction() throws IOException {
-		try {
-			dataSource = TestDataReader.readData("Test_Login.csv");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String[] userNameData = dataSource.get(0);
-		username = userNameData[0];
-		String[] passwordData = dataSource.get(1);
-		password = passwordData[0];
-		// find email text box and send email
-		driver.findElement(emailTextBox).sendKeys(username);
-		// find password text box and send password
-		driver.findElement(passwordTextBox).sendKeys(password);
-		// find login button
-		WebElement login = driver.findElement(loginBtn);
-		// click on login button
-		login.click();
-		String lgout = driver.findElement(logout).getText();
-		String logged = "LOGOUT";
-		if (lgout.equals(logged)) {
-			return true;
-		}
-		return false;
-	}
+	static By logout = By.linkText("LOGOUT");
 
 	// to verify the functionality of request-asset page
-	public boolean verifyRequest_AssetFunctionality() {
+	@Test
+	public void verifyRequest_AssetFunctionality() {
 
-		try {
-			loginFunction();
-			// find "asset-type" drop down and select the value
-			WebElement assetDrop = driver.findElement(type);
-			Select drop = new Select(assetDrop);
-			drop.selectByVisibleText("Accessory");
+		// take arrayList object to store the assertion values
+		ArrayList<String> expectedList = new ArrayList<String>();
 
-			// find "asset-name" drop down and select value
-			WebElement assetName = driver.findElement(name);
-			Select name = new Select(assetName);
-			name.selectByVisibleText("mouse");
+		// add the assertion values into arrayList
+		expectedList.add("asset");
+		expectedList.add("Laptop");
+		expectedList.add("2");
 
-			// find "number of needed asset" field and send number
-			WebElement assetCount = driver.findElement(quant);
-			assetCount.sendKeys("2");
+		// take arrayList to store the cell values from the
+		// web-table
+		ArrayList<String> actualList = new ArrayList<String>();
 
-			// find "reason" text-area field and send reason for request an
-			// asset
-			WebElement reason = driver.findElement(reasonTxt);
-			reason.sendKeys("Required");
+		// find "asset-type" drop down and select the value
+		WebElement assetDrop = driver.findElement(type);
+		Select drop = new Select(assetDrop);
+		drop.selectByVisibleText("Asset");
 
-			// find request button and click on it
-			driver.findElement(requestBtn).click();
+		// find "asset-name" drop down and select value
+		WebElement assetName = driver.findElement(name);
+		Select name = new Select(assetName);
+		name.selectByVisibleText("Laptop");
 
-			// if requested-row is visible on web page then go inside while loop
-			// and check the elements
-			while (isTableRowInserted()) {
+		// find "number of needed asset" field and send number
+		WebElement assetCount = driver.findElement(quant);
+		assetCount.sendKeys("2");
 
-				// take arrayList object to store the assertion values
-				ArrayList<String> expectedList = new ArrayList<String>();
+		// find "reason" text-area field and send reason for request an
+		// asset
+		WebElement reason = driver.findElement(reasonTxt);
+		reason.sendKeys("Required");
 
-				// add the assertion values into arrayList
-				expectedList.add("Accessory");
-				expectedList.add("mouse");
-				expectedList.add("2");
+		// find request button and click on it
+		driver.findElement(requestBtn).click();
 
-				// take arrayList to store the cell values from the web-table
-				ArrayList<String> actualList = new ArrayList<String>();
+		// if requested-row is visible on web page then go inside while loop
+		// and check the elements
+		while (isTableRowPresent()) {
 
+			try {
 				// To locate request-asset table
 				WebElement webTable = driver.findElement(table);
 
@@ -110,7 +74,9 @@ public class Request_AssetFunctionality extends SetUp {
 				List<WebElement> tableRow = webTable.findElements(rows);
 
 				// Loop will execute till the last row of table
-				// Since first row is the header row so start the loop form 1
+				// Since first row is the header row so start the loop form
+				// 1
+
 				for (int rnum = 1; rnum < tableRow.size(); rnum++) {
 
 					// To calculate no of cells In that specific row.
@@ -118,42 +84,47 @@ public class Request_AssetFunctionality extends SetUp {
 
 					// Loop will execute till the last cell of that specific
 					// row.
-					for (int rcol = 0; rcol < tableColns.size(); rcol++) {
+					for (int rcol = 0; rcol < tableColns.size() - 1; rcol++) {
 
 						// To retrieve text from that specific cell.
 						String actualValue = tableColns.get(rcol).getText();
 
 						// add these values of each cell into actual list
 						actualList.add(actualValue);
-					}
 
+					}
 					// to compare the actual arrayList and expected arrayList
-					if (Arrays.equals(actualList.toArray(), expectedList.toArray())) {
-						return true;
+					Assert.assertArrayEquals("Request for an asset fails, no row found", actualList.toArray(),
+							expectedList.toArray());
+					actualList.clear();
+					if (isTableRowPresent()) {
+						driver.findElement(dynamicBtn).click();
 					}
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// to check row is inserted or not
+	public boolean isTableRowPresent() {
+		WebElement webTable = driver.findElement(table);
+		List<WebElement> tableRows = webTable.findElements(rows);
+		if (tableRows.size() > 1) {
+			return true;
 		}
 		return false;
 	}
 
-	// to check row is inserted or not
-	public boolean isTableRowInserted() {
-		WebElement webTable = driver.findElement(table);
-		List<WebElement> tableRows = webTable.findElements(rows);
-		int count = tableRows.size();
-		System.out.print("count is" + count);
-		if (count == 1) {
-			return false;
+	@Override
+	public void tearDown() {
+		while (isTableRowPresent()) {
+			driver.findElement(dynamicBtn).click();
 		}
-		return true;
-	}
+		driver.findElement(logout).click();
+		super.tearDown();
 
-	@Test
-	public void verifyFunctionalityOfRequestAsset() {
-		Assert.assertTrue("Request for an asset failed", verifyRequest_AssetFunctionality());
 	}
-
 }

@@ -14,6 +14,8 @@ public class SignUpFieldsVisible extends SetUp {
 	By Password = By.name("password");
 	By Confirmpwd = By.name("confirm");
 	By signup = By.tagName("span");
+	By logout = By.linkText("LOGOUT");
+	By back = By.linkText("BACK");
 
 	// verify email text box is present
 	public boolean verifyEmailTextBox() {
@@ -77,4 +79,11 @@ public class SignUpFieldsVisible extends SetUp {
 		}
 		return false;
 	}
+	
+	@Override
+	public void tearDown() {	
+	driver.findElement(back).click();
+	super.tearDown();
+	}
 }
+	
