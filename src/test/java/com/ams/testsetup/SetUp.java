@@ -2,8 +2,9 @@ package com.ams.testsetup;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -40,9 +41,10 @@ public class SetUp {
 		driver.navigate().to(url);
 	}
 
-	@AfterClass
-	public static void tearDown() {
+	@After
+	public  void tearDown() {
 		// to close the driver
 		driver.quit();
+		
 	}
 }

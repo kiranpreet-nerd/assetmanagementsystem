@@ -1,15 +1,13 @@
 package com.ams.pageobject;
 
-import java.io.IOException;
 import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import com.ams.testsetup.SetUp;
-import com.nerdapplabs.test.TestDataReader;
+import com.ams.testsetup.SetUpLogin;
 
-public class Create_Asset_Validations extends SetUp {
+public class Create_Asset_Validations extends SetUpLogin {
 
 	static By emailTextBox = By.name("email");
 	static By passwordTextBox = By.name("password");
@@ -38,46 +36,16 @@ public class Create_Asset_Validations extends SetUp {
 	By accessory_model = By.linkText("Accessory Model");
 	By consumable_model = By.linkText("Consumable Model");
 	By assets_list = By.linkText("ASSETS LIST");
+	By back = By.linkText("BACK");
 
 	static List<String[]> dataSource;
 	static String username;
 	static String password;
 
-	// to login the application
-	public static boolean loginFunction() throws IOException {
-		try {
-			dataSource = TestDataReader.readData("Test_Login.csv");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String[] userNameData = dataSource.get(0);
-		username = userNameData[0];
-		String[] passwordData = dataSource.get(1);
-		password = passwordData[0];
-		// find email text box and send email
-		driver.findElement(emailTextBox).sendKeys(username);
-		// find password text box and send password
-		driver.findElement(passwordTextBox).sendKeys(password);
-		// find login button
-		WebElement login = driver.findElement(loginBtn);
-		// click on login button
-		login.click();
-		String lgout = driver.findElement(logout).getText();
-		String logged = "LOGOUT";
-		if (lgout.equals(logged)) {
-			return true;
-		}
-		return false;
-	}
-
+	
 	// to verify company field validation and handle alert message
-
 	public boolean verifyCompanyValidation() {
-
-		try {
-			// to login the application
-			loginFunction();
-
+            
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -107,19 +75,13 @@ public class Create_Asset_Validations extends SetUp {
 			if (compnyField.isEmpty()) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
 		return false;
 	}
 
 	// to verify Asset-type validation and handle alert message
 
 	public boolean verifyAssetTypeValidation() {
-		try {
-			// to login the application
-			loginFunction();
-
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -148,19 +110,13 @@ public class Create_Asset_Validations extends SetUp {
 			if (assetType.equals("None")) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		return false;
 	}
 
 	// to verify Asset-tag field validation
 	public boolean verifyAssetTagValidation() {
-
-		try {
-			// to login the application
-			loginFunction();
-
+		
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -178,7 +134,7 @@ public class Create_Asset_Validations extends SetUp {
 			// field
 			WebElement assetName = driver.findElement(asset_name);
 			Select assetValue = new Select(assetName);
-			assetValue.selectByVisibleText("laptop");
+			assetValue.selectByVisibleText("Laptop");
 
 			// to click on SAVE button
 			driver.findElement(asset_saveBtn).click();
@@ -206,18 +162,12 @@ public class Create_Asset_Validations extends SetUp {
 			if (assetTag.isEmpty()) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return false;
 	}
 
 	// to verify status field validation
 	public boolean verifyStatusValidation() {
-		try {
-			// to login the application
-			loginFunction();
-
+	
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -235,7 +185,7 @@ public class Create_Asset_Validations extends SetUp {
 			// field
 			WebElement assetName = driver.findElement(asset_name);
 			Select assetValue = new Select(assetName);
-			assetValue.selectByVisibleText("laptop");
+			assetValue.selectByVisibleText("Laptop");
 
 			// find tag field and send model tag
 			driver.findElement(asset_tag).sendKeys("L-MAC13-01-0315-04");
@@ -266,18 +216,12 @@ public class Create_Asset_Validations extends SetUp {
 			if (statusValue.isEmpty()) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return false;
 	}
 
 	// to verify serial number validation
 	public boolean verifySerialNumberValidation() {
-		try {
-			// to login the application
-			loginFunction();
-
+		
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -295,7 +239,7 @@ public class Create_Asset_Validations extends SetUp {
 			// field
 			WebElement assetName = driver.findElement(asset_name);
 			Select assetValue = new Select(assetName);
-			assetValue.selectByVisibleText("laptop");
+			assetValue.selectByVisibleText("Laptop");
 
 			// find tag field and send model tag
 			driver.findElement(asset_tag).sendKeys("L-MAC13-01-0315-04");
@@ -331,18 +275,12 @@ public class Create_Asset_Validations extends SetUp {
 			if (serialValue.isEmpty()) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return false;
 	}
 
 	// to verify purchase date field validation
 	public boolean verifyPurchaseDateValidation() {
-		try {
-			// to login the application
-			loginFunction();
-
+		
 			// to click on add asset link
 			driver.findElement(add_asset).click();
 
@@ -360,7 +298,7 @@ public class Create_Asset_Validations extends SetUp {
 			// field
 			WebElement assetName = driver.findElement(asset_name);
 			Select assetValue = new Select(assetName);
-			assetValue.selectByVisibleText("laptop");
+			assetValue.selectByVisibleText("Laptop");
 
 			// find tag field and send model tag
 			driver.findElement(asset_tag).sendKeys("L-MAC13-01-0315-04");
@@ -399,9 +337,14 @@ public class Create_Asset_Validations extends SetUp {
 			if (purchaseValue.isEmpty()) {
 				return true;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return false;
 	}
+	
+	@Override
+	public void tearDown() {
+		driver.findElement(back).click();
+		driver.findElement(logout).click();
+		super.tearDown();
+	}
+
 }
