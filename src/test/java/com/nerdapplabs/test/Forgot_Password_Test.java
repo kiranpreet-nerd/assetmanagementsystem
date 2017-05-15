@@ -2,8 +2,6 @@ package com.nerdapplabs.test;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.context.annotation.DependsOn;
-
 import com.ams.pageobject.Forgot_Password;
 
 public class Forgot_Password_Test extends Forgot_Password {
