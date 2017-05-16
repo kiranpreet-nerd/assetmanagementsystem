@@ -97,6 +97,8 @@
 	      }
 	 
 	 </script>
+	 
+	 
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -113,6 +115,8 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+				    <li><a href="/statusassetslist?email=${email}">Assets Request List</a></li>
+				    <li><a href= "/changePassword?email=${email}"> CHANGE PASSWORD</a>
 					<li><a href="/logout">LOGOUT</a></li>
 				</ul>
 			</div>
@@ -162,8 +166,35 @@
 							</div>
 						</div>
 						<br>
-
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label" for="windows"> Operating System </label> <select
+								class="form-control" name="windows" id = "ddl3">
+								<option value="">Not specific requirement</option>
+								<option value="windows">Windows</option>
+								<option value="mac">Mac</option>
+								<option value="linux">Linux</option>
+							</select>
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Name of Operating system </label> <input
+								type="text" name="category" value=""
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">RAM </label> <input
+								type="text" name="ram" value=""
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Hard Disk </label> <input
+								type="text" name="harddisk" value="${asset.harddisk}"
+								class="form-control">
+						</div>
+						<br>
+                        <div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Number of assets
 								needed </label> <input type="number" name="quantity" id="quantity"
 								value="" class="form-control">
@@ -202,7 +233,7 @@
 				<form:form action="/assetrequest" class="form-group"
 					commandName="assetrequest">
 					<table class="table table-striped" style="width: 40%">
-						<tr>
+					    <tr>
 							<th>Type</th>
 							<th>Name</th>
 							<th>Quantity</th>
@@ -224,6 +255,12 @@
 
 		</div>
 	</div>
-
+	<script type="text/javascript">
+   var modelAttributeValue = '${typeRegistered}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

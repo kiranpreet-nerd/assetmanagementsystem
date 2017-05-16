@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -11,6 +11,10 @@ s<!DOCTYPE html>
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
@@ -22,10 +26,24 @@ s<!DOCTYPE html>
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">Snap-It</a>
 			</div>
+			
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/logout">LOGOUT</a></li>
+				
 	           <li class="active"><a href="/assetslist">ASSETS LIST &nbsp;<span class="glyphicon glyphicon-th-list"></span></a></li>
 	           <li class = "active"><a href="/asset"> ADD ASSET</a></li>
+	           <li class = "active"><a href="/changePassword?email=${email}"> CHANGE PASSWORD</a></li>
+	          <li class = "dropdown active" ><a class = "dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" href = "#">
+									DELETE <span class="caret"></span></a>
+								<ul class="dropdown-menu" >
+									<li><a href="/listOfAssetModels">Asset Model</a></li>
+									<li><a href="/listOfAccessoryModels">Accessory Model</a></li>
+									<li><a href="/listOfConsumableModels">Consumable Model</a></li>
+									<li><a href="/listOfSuppliers">Supplier</a></li>
+									<li><a href="/listOfCompanies">Company</a></li>
+								</ul>
+								</li> 
+			  <li class="active"><a href="/logout">LOGOUT</a></li>
+								
 			</ul>
 		</div>
 	</nav>

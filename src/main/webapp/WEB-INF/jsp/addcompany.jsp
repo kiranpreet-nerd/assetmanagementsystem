@@ -38,6 +38,12 @@
 	rel="stylesheet" type="text/css" />
 	<script>
 	     function validate() {
+	    	 var numeric = /(?=.*[!@#$%^&*])/;
+	       	 if(numeric.test(form.company.value)) {
+	       		 alert("It must be alpha numeric");
+	       		 document.form.company.focus();
+	       		 return false;
+	       	 }
 	          if (document.form.company.value == "") {
 	             alert("Comapny name required");
 	             document.form.company.focus();

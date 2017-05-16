@@ -27,6 +27,9 @@ public class UserServiceImplement implements UserService {
 	@Autowired
 	private AssetDao assetDao;
 
+	@Autowired
+	private AssetRequestDao assetRequestDao;
+
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -52,10 +55,11 @@ public class UserServiceImplement implements UserService {
 	@Override
 	@Transactional
 	public void saveAsset(AssetRequest requestasset, User user) {
-		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email,requestmode) VALUES ('"
+		String sql = "INSERT INTO request_asset (assetname,assettype,quantity,reason,date,email,requestmode,status,is_deleted,category,ram,windows,harddisk) VALUES ('"
 				+ requestasset.getAssetname() + "','" + requestasset.getAssettype() + "','" + requestasset.getQuantity()
 				+ "','" + requestasset.getReason() + "','" + requestasset.getRequestdate() + "','" + user.getEmail()
-				+ "',1)";
+				+ "',1,'pending',1,'" + requestasset.getCategory() + "','" + requestasset.getRam() + "','"
+				+ requestasset.getWindows() + "','" + requestasset.getHarddisk() + "')";
 		jdbcTemplate.update(sql);
 	}
 
@@ -96,7 +100,7 @@ public class UserServiceImplement implements UserService {
 	}
 
 	public int softDelete(String email) {
-		String sql = "UPDATE user SET status = 0 WHERE email = '" + email + "'";
+		String sql = "UPDATE user SET status = 0 && is_approved = 0 WHERE email = '" + email + "'";
 		return jdbcTemplate.update(sql);
 	}
 
@@ -161,14 +165,21 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<AssetRequest> listAsset(User user) {
-		String sql = "SELECT r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date FROM request_asset r WHERE r.email = '"
-				+ user.getEmail() + "' && r.requestmode = 1";
+		String sql = "SELECT r.status,r.email,r.assetname,r.assettype,r.reason,r.quantity,r.date,r.id,r.windows,r.category,r.ram,r.harddisk FROM request_asset r WHERE r.email = '"
+				+ user.getEmail() + "' && r.requestmode = 1 && is_deleted = 1";
 		List<AssetRequest> listAssets = jdbcTemplate.query(sql, new RowMapper<AssetRequest>() {
 
 			@Override
 			public AssetRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
 				AssetRequest asset = new AssetRequest();
 
+				user.setEmail(rs.getString("email"));
+				asset.setId(Integer.parseInt(rs.getString("id")));
+				asset.setStatus(rs.getString("status"));
+				asset.setHarddisk(rs.getString("harddisk"));
+				asset.setWindows(rs.getString("windows"));
+				asset.setCategory(rs.getString("category"));
+				asset.setRam(rs.getString("ram"));
 				asset.setAssetname(rs.getString("assetname"));
 				asset.setAssettype(rs.getString("assettype"));
 				asset.setReason(rs.getString("reason"));
@@ -183,7 +194,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<User> listEmail() {
-		String sql = "SELECT email, firstname , lastname FROM user";
+		String sql = "SELECT DISTINCT u.email, u.firstname, u.lastname FROM user u JOIN request_asset r ON u.email = r.email AND r.requestmode = 1 WHERE u.status = 1";
 		List<User> listEmail = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
@@ -261,7 +272,7 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<Asset> listAssets() {
-		String sql = "SELECT id,company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,totalcost,suppliercontact,assettype FROM asset where assetmode = 1";
+		String sql = "SELECT id,company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,totalcost,suppliercontact,assettype,windows,category,ram,harddisk FROM asset where assetmode = 1";
 		List<Asset> listAssets = jdbcTemplate.query(sql, new RowMapper<Asset>() {
 
 			@Override
@@ -269,6 +280,10 @@ public class UserServiceImplement implements UserService {
 				Asset asset = new Asset();
 
 				asset.setId(rs.getLong("id"));
+				asset.setWindows(rs.getString("windows"));
+				asset.setHarddisk(rs.getString("harddisk"));
+				asset.setCategory(rs.getString("category"));
+				asset.setRam(rs.getString("ram"));
 				asset.setCompany(rs.getString("company"));
 				asset.setAssettype(rs.getString("assettype"));
 				asset.setTag(rs.getString("tag"));
@@ -291,13 +306,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<Supplier> listSupplier() {
-		String sql = "SELECT supplier FROM supplier";
+		String sql = "SELECT id,supplier FROM supplier";
 		List<Supplier> listSupplier = jdbcTemplate.query(sql, new RowMapper<Supplier>() {
 
 			@Override
 			public Supplier mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Supplier supplier = new Supplier();
 
+				supplier.setId(Integer.parseInt(rs.getString("id")));
 				supplier.setSupplier(rs.getString("supplier"));
 				return supplier;
 			}
@@ -307,13 +323,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<Status> listStatus() {
-		String sql = "SELECT status FROM status";
+		String sql = "SELECT id,status FROM status";
 		List<Status> listStatus = jdbcTemplate.query(sql, new RowMapper<Status>() {
 
 			@Override
 			public Status mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Status status = new Status();
 
+				status.setId(Integer.parseInt(rs.getString("id")));
 				status.setStatus(rs.getString("status"));
 				return status;
 			}
@@ -381,6 +398,11 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
+	public AssetRequest getAssetRequest(Long id) {
+		return assetRequestDao.findOne(id);
+	}
+
+	@Override
 	public int updateAsset(Asset asset, Long id) {
 		String sql = "UPDATE asset SET company='" + asset.getCompany() + "',tag='" + asset.getTag() + "', model='"
 				+ asset.getModel() + "', status='" + asset.getStatus() + "', serialnumber='" + asset.getSerialnumber()
@@ -388,18 +410,20 @@ public class UserServiceImplement implements UserService {
 				+ "',ordernumber='" + asset.getOrdernumber() + "',purchasecost='" + asset.getPurchasecost()
 				+ "',warranty='" + asset.getWarranty() + "', quantity='" + asset.getQuantity() + "',suppliercontact='"
 				+ asset.getSuppliercontact() + "',assettype='" + asset.getAssettype() + "',totalcost='"
-				+ asset.getTotalcost() + "'WHERE id='" + id + "'";
+				+ asset.getTotalcost() + "',windows='" + asset.getWindows() + "',category='" + asset.getCategory()
+				+ "',ram='" + asset.getRam() + "',harddisk='" + asset.getHarddisk() + "' WHERE id='" + id + "'";
 		return jdbcTemplate.update(sql);
 	}
 
 	@Override
 	public void addAsset(Asset asset) {
-		String sql = "INSERT INTO asset (company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,suppliercontact,assettype,assetmode,totalcost) VALUES ('"
+		String sql = "INSERT INTO asset (company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,suppliercontact,assettype,assetmode,totalcost,windows,category,ram,harddisk) VALUES ('"
 				+ asset.getCompany() + "','" + asset.getTag() + "','" + asset.getModel() + "','" + asset.getStatus()
 				+ "','" + asset.getSerialnumber() + "','" + asset.getPurchasedate() + "','" + asset.getSupplier()
 				+ "','" + asset.getOrdernumber() + "','" + asset.getPurchasecost() + "','" + asset.getWarranty() + "','"
 				+ asset.getQuantity() + "','" + asset.getSuppliercontact() + "','" + asset.getAssettype() + "',1,'"
-				+ asset.getTotalcost() + "')";
+				+ asset.getTotalcost() + "','" + asset.getWindows() + "','" + asset.getCategory() + "','"
+				+ asset.getRam() + "','" + asset.getHarddisk() + "')";
 		jdbcTemplate.update(sql);
 
 	}
@@ -432,13 +456,14 @@ public class UserServiceImplement implements UserService {
 
 	@Override
 	public List<Company> listCompany() {
-		String sql = "SELECT company FROM company";
+		String sql = "SELECT id,company FROM company";
 		List<Company> listCompany = jdbcTemplate.query(sql, new RowMapper<Company>() {
 
 			@Override
 			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Company company = new Company();
 
+				company.setId(Integer.parseInt(rs.getString("id")));
 				company.setCompany(rs.getString("company"));
 				return company;
 			}
@@ -470,4 +495,170 @@ public class UserServiceImplement implements UserService {
 		});
 		return uniqueNumbersList;
 	}
+
+	@Override
+	public int updateAssignRequest(Long id) {
+		String sql = "UPDATE request_asset SET status = 'ASSIGNED'  where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateCancelRequest(AssetRequest assetrequest, Long id) {
+		String sql = "UPDATE request_asset SET status = 'CANCELLED' where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateCompleteRequest(AssetRequest assetrequest, Long id) {
+		String sql = "UPDATE request_asset SET is_deleted = 0 where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updatePassword(String email, String newpassword) {
+		String sql = "UPDATE user SET password='" + newpassword + "', confirm = '" + newpassword + "' WHERE email ='"
+				+ email + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int deleteCompany(long id) {
+		String sql = "DELETE company from company where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+
+	}
+
+	@Override
+	public int deleteSupplier(long id) {
+		String sql = "DELETE supplier from supplier where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int deleteAssetModel(long id) {
+		String sql = "DELETE model from model where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int deleteAccessoryModel(long id) {
+		String sql = "DELETE from modelaccessory where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int deleteConsumableModel(long id) {
+		String sql = "DELETE from modelconsumable where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public List<Asset> existedAttributes() {
+		String sql = "SELECT id,company,supplier,model,assettype FROM asset where assetmode = 1";
+		List<Asset> listExistedAttributes = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+
+			@Override
+			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Asset asset = new Asset();
+
+				asset.setId(Integer.parseInt(rs.getString("id")));
+				asset.setCompany(rs.getString("company"));
+				asset.setSupplier(rs.getString("supplier"));
+				asset.setModel(rs.getString("model"));
+				asset.setAssettype(rs.getString("assettype"));
+				return asset;
+			}
+		});
+		return listExistedAttributes;
+	}
+
+	@Override
+	public List<User> listRegisteredUsers() {
+		String sql = "SELECT email,firstname,designation,role,lastname FROM user WHERE is_approved = 1 && status = 0";
+		List<User> listRegisteredUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
+
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User aUser = new User();
+
+				aUser.setEmail(rs.getString("email"));
+				aUser.setFirstname(rs.getString("firstname"));
+				aUser.setLastname(rs.getString("lastname"));
+				aUser.setDesignation(rs.getString("designation"));
+				aUser.setRole(rs.getString("role"));
+
+				return aUser;
+			}
+		});
+		return listRegisteredUsers;
+	}
+
+	@Override
+	public int updateRegisteredStatus(String email) {
+		String sql = "UPDATE user SET status = 1 where email = '" + email + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateRecieveRequest(AssetRequest assetrequest, Long id) {
+		String sql = "UPDATE request_asset SET requestmode = 0 , status = 'RECIEVED' where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateAssetQuantity(String quantity, String serialnumber) {
+		String sql = "UPDATE asset set quantity = quantity - '" + quantity + "' where serialnumber = '" + serialnumber
+				+ "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateAssetRequestQuantity(String quantity, Long id) {
+		String sql = "UPDATE request_asset set quantity = quantity - '" + quantity
+				+ "', status = 'ASSIGNED' where id = '" + id + "'";
+		return jdbcTemplate.update(sql);
+	}
+
+	@Override
+	public int updateNotAssignedRequest(String reason, Long id) {
+		String sql = "UPDATE request_asset set reason = '" + reason + "', status = ' NOT ASSIGNED' where id = '" + id
+				+ "'";
+		return jdbcTemplate.update(sql);
+
+	}
+
+	@Override
+	public List<Asset> searchAssets(String windows,String assettype,String model) {
+		String sql = "SELECT id,company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,totalcost,suppliercontact,assettype,windows,category,ram,harddisk FROM asset where assetmode = 1 || windows LIKE '"+windows+"%'";
+		List<Asset> listAssets = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+
+			@Override
+			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Asset asset = new Asset();
+
+				asset.setId(rs.getLong("id"));
+				asset.setWindows(rs.getString("windows"));
+				asset.setHarddisk(rs.getString("harddisk"));
+				asset.setCategory(rs.getString("category"));
+				asset.setRam(rs.getString("ram"));
+				asset.setCompany(rs.getString("company"));
+				asset.setAssettype(rs.getString("assettype"));
+				asset.setTag(rs.getString("tag"));
+				asset.setModel(rs.getString("model"));
+				asset.setStatus(rs.getString("status"));
+				asset.setSerialnumber(rs.getString("serialnumber"));
+				asset.setPurchasedate(rs.getString("purchasedate"));
+				asset.setSupplier(rs.getString("supplier"));
+				asset.setSuppliercontact(rs.getString("suppliercontact"));
+				asset.setOrdernumber(rs.getString("ordernumber"));
+				asset.setPurchasecost(rs.getString("purchasecost"));
+				asset.setWarranty(rs.getString("warranty"));
+				asset.setQuantity(rs.getString("quantity"));
+				asset.setTotalcost(rs.getString("totalcost"));
+				return asset;
+			}
+		});
+		return listAssets;
+	}
+
 }

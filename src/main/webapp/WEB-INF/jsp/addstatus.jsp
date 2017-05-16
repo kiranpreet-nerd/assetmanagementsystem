@@ -39,6 +39,12 @@
 	
 	<script>
 	     function validate() {
+	    	 var alphabet = /(?=.*\d)(?=.*[!@#$%^&*])/;
+	       	 if(alphabet.test(form.status.value)) {
+	       		 alert("It must be alphabetic only");
+	       		 document.form.status.focus();
+	       		 return false;
+	       	 }
 	          if (document.form.status.value == "") {
 	             alert("status name required");
 	             document.form.status.focus();
