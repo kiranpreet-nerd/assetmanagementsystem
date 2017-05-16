@@ -58,7 +58,7 @@
  	   </script>
  	   <script> 
  	   
- 	   function temporary(serialnumber) {
+ 	   function calculateQuantity(serialnumber) {
  		  var temp;
  		  var quantityDynamic = { <c:forEach items="${listAssets}" var="item2"> ${item2.serialnumber}: '${item2.quantity}' ${not loop.last ? ',' : ''} </c:forEach>};
  		 var subquantity = document.getElementById("subquantity"+serialnumber).value;
@@ -72,17 +72,12 @@
  			 temp = quantity - subquantity;
  			 if(key == serialnumber) {
  				 quantityDynamic[key] = temp;
- 				//alert(quantityDynamic[key]);
  				 updateAssignedData(quantityDynamic[key],key,subquantity);
- 				 
- 				 //alert(key);
  				 document.getElementById("subquantity"+serialnumber).value = temp;
- 				 			 }
+ 		     }
+ 		    }
  		 }
- 		 }
- 		
-			
- 	   }
+ 	  }
  	   
  	  function updateAssignedData(quantity,serialnumber,subquantity) {
  		 $.ajax({
@@ -94,13 +89,10 @@
 		            "email" : '${user.email}',
 		            "serialnumber" : serialnumber,
 		            "quantity": subquantity
-		            
-		        }
-		    });
+		           }
+ 		       });
 		}
-	   
- 	   
- 	   </script>
+	   </script>
  	   <script>
  	      function Search() {
  	    	 $.ajax({
@@ -191,7 +183,7 @@
 							&nbsp; <a href="/getAsset?id=${asset.id}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 								<td> <input type = "text" name ="subquantity" id = "subquantity${asset.serialnumber}" value = "" />&nbsp;
-				 <button type = "submit" name = "assignbutton" id = "assignbutton" onclick = 'return temporary(${asset.serialnumber})'>ASSIGN</button></td>
+				 <button type = "submit" name = "assignbutton" id = "assignbutton" onclick = 'return calculateQuantity(${asset.serialnumber})'>ASSIGN</button></td>
 				
 				</c:forEach>
                 
