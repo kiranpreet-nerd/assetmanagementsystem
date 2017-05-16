@@ -166,8 +166,35 @@
 							</div>
 						</div>
 						<br>
-
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label" for="windows"> Operating System </label> <select
+								class="form-control" name="windows" id = "ddl3">
+								<option value="">Not specific requirement</option>
+								<option value="windows">Windows</option>
+								<option value="mac">Mac</option>
+								<option value="linux">Linux</option>
+							</select>
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Name of Operating system </label> <input
+								type="text" name="category" value=""
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">RAM </label> <input
+								type="text" name="ram" value=""
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Hard Disk </label> <input
+								type="text" name="harddisk" value="${asset.harddisk}"
+								class="form-control">
+						</div>
+						<br>
+                        <div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Number of assets
 								needed </label> <input type="number" name="quantity" id="quantity"
 								value="" class="form-control">

@@ -60,6 +60,50 @@ public class Asset {
 	
 	@Column(name = "assetmode")
 	private Integer assetmode;
+	
+	@Column(name = "windows")
+	private String windows;
+	
+	@Column(name = "category")
+	private String category;
+	
+	@Column(name = "ram")
+	private String ram;
+	
+	@Column(name = "harddisk")
+	private String harddisk;
+	
+    public String getHarddisk() {
+		return harddisk;
+	}
+
+	public void setHarddisk(String harddisk) {
+		this.harddisk = harddisk;
+	}
+
+	public String getWindows() {
+		return windows;
+	}
+
+	public void setWindows(String windows) {
+		this.windows = windows;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getRam() {
+		return ram;
+	}
+
+	public void setRam(String ram) {
+		this.ram = ram;
+	}
 
 	public String getTotalcost() {
 		return totalcost;

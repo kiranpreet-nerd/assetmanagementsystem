@@ -12,6 +12,8 @@ public interface UserService {
 
 	void addAsset(Asset asset);
 
+	int updateNotAssignedRequest(String reason, Long id);
+
 	void addModel(NewModel newmodel);
 
 	void addCompany(Company company);
@@ -25,33 +27,39 @@ public interface UserService {
 	void addStatus(Status status);
 
 	void delete(String email);
-	
+
 	int deleteCompany(long id);
-	
+
 	int deleteSupplier(long id);
-	
+
 	int deleteAssetModel(long id);
-	
+
 	int deleteAccessoryModel(long id);
-	
+
 	int deleteConsumableModel(long id);
-	
+
 	int update(User user);
-	
+
 	int updateRegisteredStatus(String email);
-	
-	int updatePassword(String email,String newpassword);
+
+	int updatePassword(String email, String newpassword);
 
 	int updateAsset(Asset asset, Long id);
-	
-	int updateAssignRequest(AssetRequest assetrequest, Long id);
-	
+
+	int updateAssetQuantity(String quantity, String serialnumber);
+
+	int updateAssetRequestQuantity(String quantity, Long id);
+
+	int updateAssignRequest(Long id);
+
+	int updateRecieveRequest(AssetRequest assetrequest, Long id);
+
 	int updateCancelRequest(AssetRequest assetrequest, Long id);
-	
+
 	int updateCompleteRequest(AssetRequest assetrequest, Long id);
 
 	List<Asset> uniqueAttribute();
-	
+
 	List<Asset> existedAttributes();
 
 	List<Asset> registeredAttribute(Long id);
@@ -66,10 +74,12 @@ public interface UserService {
 
 	Asset getAsset(Long id);
 
+	AssetRequest getAssetRequest(Long id);
+
 	List<User> list();
 
 	List<User> listEmail();
-	
+
 	List<User> listRegisteredUsers();
 
 	List<NewModel> listModel();
@@ -87,8 +97,10 @@ public interface UserService {
 	List<AssetRequest> listAssetsRequest(HttpSession session);
 
 	List<AssetRequest> listAsset(User user);
-	
+
 	List<Asset> listAssets();
+	
+	List<Asset> searchAssets(String windows,String assettype,String model);
 
 	User findByEmail(String email);
 

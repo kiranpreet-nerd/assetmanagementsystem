@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+
 <html lang="en">
 <head>
 
@@ -97,16 +99,11 @@ Dropdown hover
 		}
 	}
 </script>
-    
+   
 <script>
+
 	function validate() {  
-      var today = new Date();
-      var purchasedate = document.getElementById("purchasedate");
-      if(purchasedate > today){
-    	  alert("invalid date");
-    	  document.form.purchasedate.focus();
-    	  return false;
-      }
+		
 	 var re = /(?=.*[!@#$%^&*])/;
    	 if(re.test(form.serialnumber.value)) {
    		 alert("It must be alpha numeric");
@@ -193,6 +190,36 @@ Dropdown hover
 			document.form.totalcost.focus();
 			return false;
 		}
+		 var ordernumber = document.getElementById('ordernumber').value;
+		 var purchasecost = document.getElementById('purchasecost').value;
+		 var warranty = document.getElementById('warranty').value;
+		 var quantity = document.getElementById('quantity').value;
+		 var totalcost = document.getElementById('totalcost').value;
+   	  if(quantity <= 0 )
+   	  {  alert("quantity must be greater than zero");
+   		  document.form.quantity.focus();
+   		  return false;
+   	  }
+   	if(purchasecost <= 0 )
+ 	  {  alert("purchase cost must be greater than zero");
+ 		  document.form.purchasecost.focus();
+ 		  return false;
+ 	  }
+ 	 if(warranty <= 0)
+  	  {  alert("warranty must be greater than zero");
+  		  document.form.warranty.focus();
+  		  return false;
+  	  }
+  	if(ordernumber <= 0 )
+ 	  {  alert("order number must be greater than zero");
+ 		  document.form.ordernumber.focus();
+ 		  return false;
+ 	  }
+ 	 if(totalcost <= 0)
+	  {  alert("Total cost must be greater than zero");
+		  document.form.totalcost.focus();
+		  return false;
+	  }
 	}
 </script>
 <script
@@ -283,6 +310,34 @@ Dropdown hover
 								</ul>
 							</div>
 						</div>&nbsp;
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label" for="windows"> Operating System </label> <select
+								class="form-control" name="windows" id = "ddl3" value = "${asset.windows}">
+								<option value="">Not specific requirement</option>
+								<option value="windows">Windows</option>
+								<option value="mac">Mac</option>
+								<option value="linux">Linux</option>
+							</select>
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Name of Operating system </label> <input
+								type="text" name="category" value="${asset.category}"
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">RAM </label> <input
+								type="text" name="ram" value="${asset.ram}"
+								class="form-control">
+						</div>
+						<br>
+						<div class="form-group" ${status.error ? 'has-error' : ''}>
+							<label class="col-sm-4 control-label">Hard Disk </label> <input
+								type="text" name="harddisk" value="${asset.harddisk}"
+								class="form-control">
+						</div>
+						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="status">
 								Status </label>
@@ -299,20 +354,19 @@ Dropdown hover
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Serial Number </label>
 							<form:input type="text" name="serialnumber" path="serialnumber"
-								value="${asset.serialnumber}" class="form-control"
-								onkeyup="return serialError();" />
+								value="${asset.serialnumber}" class="form-control" />
 							<div>
 								<form:errors path="serialnumber"></form:errors>
 							</div>
 						</div>
 						<br>
-						<div class="redalert">${serialError}</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label input-group date"
 								data-provide="datepicker" data-date-format="yyyy-MM-dd">
 								Purchase Date </label>
 							<form:input type="date" name="purchasedate" id = "purchasedate" path="purchasedate"
 								value="${asset.purchasedate}" class="form-control" />
+								<fmt:formatDate pattern="dd/mm/yyyy" value  = "${purchasedate}"/>
 							<div>
 								<form:errors path="purchasedate"></form:errors>
 							</div>
@@ -321,7 +375,7 @@ Dropdown hover
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="supplier">
 								Supplier </label>
-							<form:select class="form-control" id="sell" name="supplier"
+							<form:select class="form-control" name="supplier"
 								path="supplier">
 								<c:forEach var="listsupplier" items="${listsupplier}">
 									<option value="${listsupplier.supplier}">
@@ -344,8 +398,8 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Order Number </label>
-							<form:input type="number" name="ordernumber" path="ordernumber"
-								value="${ordernumber}" class="form-control" />
+							<input type="number" name="ordernumber"  id = "ordernumber"
+								value="${asset.ordernumber}" class="form-control" />
 							<div>
 								<form:errors path="ordernumber"></form:errors>
 							</div>
@@ -355,8 +409,8 @@ Dropdown hover
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Purchase cost(Per
 								Asset Cost) </label>
-							<form:input type="number" name="purchasecost" path="purchasecost"
-								value="${purchasecost}" id="purchasecost" class="form-control"
+							<input type="number" name="purchasecost"
+								value="${asset.purchasecost}" id="purchasecost" class="form-control"
 								onkeyup="return calculateTotalCost();" />
 							<div>
 								<form:errors path="purchasecost"></form:errors>
@@ -366,7 +420,7 @@ Dropdown hover
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Warranty </label>
-							<form:input type="number" name="warranty" path="warranty"
+							<input type="number" name="warranty" id = "warranty"
 								value="${asset.warranty}" placeholder="enter value in months"
 								class="form-control" />
 							<div>
@@ -376,9 +430,9 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Quantity </label>
-							<form:input type="number" name="quantity"
-								value="${asset.quantity}" id="quantity" path="quantity"
-								class="form-control" onkeyup="return calculateTotalCost();" />
+							<input type="number" name="quantity"
+								value="${asset.quantity}" id="quantity"
+								class="form-control" onkeyup="return calculateTotalCost();" >
 							<div>
 								<form:errors path="quantity"></form:errors>
 							</div>
@@ -388,7 +442,7 @@ Dropdown hover
 							<label class="col-sm-4 control-label">Total Cost </label>
 							<input type="number" readonly=readonly name="totalcost"
 								id="totalcost"  value="${asset.totalcost}"
-								class="form-control" >
+								class="form-control"  onkeyup="return calculateTotalCost();">
 							<div>
 								<form:errors path="totalcost"></form:errors>
 							</div>
@@ -420,5 +474,13 @@ Dropdown hover
 	
 	Bootstrap Dropdown Hover JS
 	    <script src="webjars/startbootstrap-sb-admin-2/1.0.2/js/bootstrap-dropdownhover.min.js"></script> -->
+	    
+	    <script type="text/javascript">
+   var modelAttributeValue = '${serialError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
+<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

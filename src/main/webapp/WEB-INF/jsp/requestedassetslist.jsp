@@ -58,6 +58,7 @@
 				<tr>
 					<th>Type</th>
 					<th>Name</th>
+					<th>Configuration</th>
 					<th>Quantity</th>
 					<th>Reason</th>
 					<th>Request Date</th>
@@ -67,14 +68,12 @@
 					<tr>
 						<td>${assetrequest.assettype}</td>
 						<td>${assetrequest.assetname}</td>
+						<td>${assetrequest.windows},${assetrequest.category},${assetrequest.ram},${assetrequest.harddisk}</td>
 						<td>${assetrequest.quantity}</td>
 						<td>${assetrequest.reason}</td>
 						<td>${assetrequest.requestdate}</td>
-						<td><a href="/statusAssignRequest?id=${assetrequest.id}&email=${user.email}"
-						id ="${assetrequest.id}" onclick="disable_link(${assetrequest.id});">ASSIGN</a> &nbsp; 
-						<a href="/statusCancelRequest?id=${assetrequest.id}&email=${user.email}" id = "Link2" >CANCEL</a>&nbsp;
-						<a href="/statusCompleteRequest?id=${assetrequest.id}&email=${user.email}"
-						id = "Link2">DELETE</a></td>
+						<td><a href="/statusCheckRequest?id=${assetrequest.id}&email=${user.email}"><span class="glyphicon glyphicon-check"></span></a> &nbsp; </td>
+						<td><a href = "/requestNotAssign?id=${assetrequest.id}&email=${user.email}">REASON FOR NOT ASSIGNING</a></td>
 				</c:forEach>
 
 			</table>

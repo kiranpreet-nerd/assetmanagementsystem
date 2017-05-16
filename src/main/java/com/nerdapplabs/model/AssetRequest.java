@@ -55,15 +55,48 @@ public class AssetRequest {
 	@Column(name = "is_deleted")
 	private Boolean is_deleted;
 	
-	@Column(name = "cause")
-	private String cause;
+	@Column(name = "windows")
+	private String windows;
 	
-	public String getCause() {
-		return cause;
+	@Column(name = "category")
+	private String category;
+	
+	@Column(name = "ram")
+	private String ram;
+	
+	@Column(name = "harddisk")
+	private String harddisk;
+	
+	public String getHarddisk() {
+		return harddisk;
 	}
 
-	public void setCause(String cause) {
-		this.cause = cause;
+	public void setHarddisk(String harddisk) {
+		this.harddisk = harddisk;
+	}
+
+	public String getWindows() {
+		return windows;
+	}
+
+	public void setWindows(String windows) {
+		this.windows = windows;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getRam() {
+		return ram;
+	}
+
+	public void setRam(String ram) {
+		this.ram = ram;
 	}
 
 	public Boolean getIs_deleted() {

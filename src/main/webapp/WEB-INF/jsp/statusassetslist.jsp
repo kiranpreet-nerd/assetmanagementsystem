@@ -34,19 +34,24 @@
 				<tr>
 					<th>Type</th>
 					<th>Name</th>
+					<th>Configuration</th>
 					<th>Quantity</th>
 					<th>Reason</th>
 					<th>Request Date</th>
 					<th>Status</th>
+					<th>Actions</th>
 				</tr>
 				<c:forEach items="${listAssets}" var="assetrequest">
 					<tr>
 						<td>${assetrequest.assettype}</td>
 						<td>${assetrequest.assetname}</td>
+						<td>${assetrequest.windows},${assetrequest.category},${assetrequest.ram},${assetrequest.harddisk}</td>
 						<td>${assetrequest.quantity}</td>
 						<td>${assetrequest.reason}</td>
 						<td>${assetrequest.requestdate}</td>
 						<td>${assetrequest.status}</td>
+						<td><a href="/statusRecieveRequest?id=${assetrequest.id}&email=${user.email}"
+						id ="${assetrequest.id}">RECIEVE</a> &nbsp; </td>
 				</c:forEach>
 
 			</table>
