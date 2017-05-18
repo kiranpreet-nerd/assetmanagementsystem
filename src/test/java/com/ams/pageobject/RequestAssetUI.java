@@ -14,15 +14,6 @@ public class RequestAssetUI extends SetUpLogin {
 	static By requestDate = By.name("requestdate");
 	static By requestBtn = By.name("requestbutton");
 	
-	@Override
-	public void setUp() {
-		try {
-			super.setUp();
-		} catch (InterruptedException e) {
-				e.printStackTrace();
-		}
-	}
-	
 	// to verify email field is visible on request asset page
 	public static boolean verifyEmailFiedOnReqAssetVisible() {
 
