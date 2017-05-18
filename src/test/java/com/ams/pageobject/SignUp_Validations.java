@@ -1,5 +1,6 @@
 package com.ams.pageobject;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import com.ams.testsetup.SetUp;
 
@@ -7,12 +8,6 @@ public class SignUp_Validations extends SetUp {
 
 	By signup = By.tagName("span");
 	By signbtn = By.name("registerbutton");
-	By email_error = By.id("email.errors");
-	By firstname_error = By.id("firstname.errors");
-	By lastname_error = By.id("lastname.errors");
-	By designation_error = By.id("designation.errors");
-	By password_error = By.id("password.errors");
-	By confirmpwd_error = By.id("confirm.errors");
 	By email = By.name("email");
 	By firstName = By.name("firstname");
 	By lastName = By.name("lastname");
@@ -21,93 +16,179 @@ public class SignUp_Validations extends SetUp {
 	By passwrd = By.name("password");
 	By confirmPwd = By.name("confirm");
 
-	// to verify error message on empty email
+	// to verify alert message on empty email
 	public boolean verifyEmailValidate() {
 		driver.findElement(signup).click();
 		driver.findElement(signbtn).click();
-		String emailtext = driver.findElement(email).getText();
-		if (emailtext.isEmpty()) {
-			if (driver.findElement(email_error).isDisplayed())
-				return true;
-			else
-				return false;
-		} else {
-			return false;
+		try {
+		// to locate the alert using switch statement
+		Alert al = driver.switchTo().alert();
+
+		// to get text from alert and store into string variable
+		String alertText = al.getText();
+
+		// to check actual text equals to expected text
+		if (alertText.equals("email required"))
+			// In oder to handle the alert message click on OK button
+			al.accept();
+		
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+		String emailtext = driver.findElement(email).getAttribute("value");
+		if(emailtext.isEmpty()){
+			return true;
+		}
+		return false;
+		
 	}
 
-	// to verify error message on empty first name
+	// to verify alert message on empty first name
 	public boolean verifyFirstNameValidate() {
 		driver.findElement(signup).click();
+		driver.findElement(email).sendKeys("har@");
 		driver.findElement(signbtn).click();
+		try {
+			// to locate the alert using switch statement
+			Alert al = driver.switchTo().alert();
+
+			// to get text from alert and store into string variable
+			String alertText = al.getText();
+
+			// to check actual text equals to expected text
+			if (alertText.equals("first name required"))
+				// In oder to handle the alert message click on OK button
+				al.accept();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		String firstname = driver.findElement(firstName).getText();
 		if (firstname.isEmpty()) {
-			if (driver.findElement(firstname_error).isDisplayed())
-				return true;
-			else
-				return false;
-		} else {
-			return false;
+			return true;
 		}
+		return false;
+			
 	}
 
-	// to verify error message on empty last name
+	// to verify alert message on empty last name
 	public boolean verifyLastNameValidate() {
 		driver.findElement(signup).click();
+		driver.findElement(email).sendKeys("har@");
+		driver.findElement( firstName).sendKeys("preet");
 		driver.findElement(signbtn).click();
+		try {
+			// to locate the alert using switch statement
+			Alert al = driver.switchTo().alert();
+
+			// to get text from alert and store into string variable
+			String alertText = al.getText();
+
+			// to check actual text equals to expected text
+			if (alertText.equals("last name required"))
+				// In oder to handle the alert message click on OK button
+				al.accept();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		String lastname = driver.findElement(lastName).getText();
 		if (lastname.isEmpty()) {
-			if (driver.findElement(lastname_error).isDisplayed())
 				return true;
-			else
-				return false;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
-	// to validate error message on empty designation
+	// to validate alert message on empty designation
 	public boolean verifyDesignationValidate() {
 		driver.findElement(signup).click();
+		driver.findElement(email).sendKeys("har@");
+		driver.findElement( firstName).sendKeys("har");
+		driver.findElement(lastName).sendKeys("kaur");
 		driver.findElement(signbtn).click();
+		try {
+			// to locate the alert using switch statement
+			Alert al = driver.switchTo().alert();
+
+			// to get text from alert and store into string variable
+			String alertText = al.getText();
+
+			// to check actual text equals to expected text
+			if (alertText.equals("designation required"))
+				// In oder to handle the alert message click on OK button
+				al.accept();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		
 		String designationtxt = driver.findElement(designation).getText();
 		if (designationtxt.isEmpty()) {
-			if (driver.findElement(designation_error).isDisplayed())
 				return true;
-			else
-				return false;
-		} else {
+		}
 			return false;
 		}
-	}
+	
 
-	// to validate error message on empty password
+	// to validate alert message on empty password
 	public boolean verifyPasswordValidate() {
 		driver.findElement(signup).click();
+		driver.findElement(email).sendKeys("har@");
+		driver.findElement( firstName).sendKeys("har");
+		driver.findElement(lastName).sendKeys("kaur");
+		driver.findElement(designation).sendKeys("test");
 		driver.findElement(signbtn).click();
+		try {
+			// to locate the alert using switch statement
+			Alert al = driver.switchTo().alert();
+
+			// to get text from alert and store into string variable
+			String alertText = al.getText();
+
+			// to check actual text equals to expected text
+			if (alertText.equals("password required"))
+				// In oder to handle the alert message click on OK button
+				al.accept();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		String passwordtxt = driver.findElement(passwrd).getText();
 		if (passwordtxt.isEmpty()) {
-			if (driver.findElement(password_error).isDisplayed())
-				return true;
-			else
-				return false;
-		} else {
+			return true;
+		}
 			return false;
 		}
-	}
+	
 
-	// to validate error message on empty confirm password
+	// to validate alert message on empty confirm password
 	public boolean verifyConfirmPwdValidate() {
 		driver.findElement(signup).click();
+		driver.findElement(email).sendKeys("har@");
+		driver.findElement( firstName).sendKeys("har");
+		driver.findElement(lastName).sendKeys("kaur");
+		driver.findElement(designation).sendKeys("test");
+		driver.findElement(passwrd).sendKeys("preet");
 		driver.findElement(signbtn).click();
+		try {
+			// to locate the alert using switch statement
+			Alert al = driver.switchTo().alert();
+
+			// to get text from alert and store into string variable
+			String alertText = al.getText();
+
+			// to check actual text equals to expected text
+			if (alertText.equals("confirm password required"))
+				// In oder to handle the alert message click on OK button
+				al.accept();
+			
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		String confirmtxt = driver.findElement(confirmPwd).getText();
 		if (confirmtxt.isEmpty()) {
-			if (driver.findElement(confirmpwd_error).isDisplayed())
-				return true;
-			else
-				return false;
-		} else {
+		    	return true;
+		}
 			return false;
 		}
 	}
-}
