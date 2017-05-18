@@ -39,7 +39,7 @@ public class SetUpLogin {
 	 * @array userNameData to get values from dataSource
 	 */
 	@Before
-	public void setUp() throws InterruptedException {
+	public void SetUp() throws InterruptedException {
 
 		// To set the path of chrome driver
 		System.setProperty("webdriver.chrome.driver", "libs/chromedriver");
