@@ -19,16 +19,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 	static By name = By.name("assetname");
 	static By date = By.name("requestdate");
 	static By textArea = By.name("reason");
-	
-	@Override
-	public void setUp() {
-		try {
-			super.setUp();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	// to verify "asset Type" drop-down is single select or multiple select
 	public boolean verifyDropDownIsSingleSelect() {
 		
