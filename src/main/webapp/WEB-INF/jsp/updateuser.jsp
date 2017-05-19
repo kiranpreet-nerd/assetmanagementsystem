@@ -24,6 +24,47 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
+	 <script>
+	      function validate() {
+	    	  if (document.form.firstname.value == "") {
+	  	        alert("first name required");
+	  	        document.form.firstname.focus();
+	  	        return false;
+	  	    }
+	  	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
+	      	 alert("only alphabets are allowed in firstname");
+	      	 document.form.firstname.focus();
+	      	 return false;
+	       }
+	  	 if (document.form.lastname.value == "") {
+	  	        alert("last name required");
+	  	        document.form.lastname.focus();
+	  	        return false;
+	  	    }
+	  	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
+	      	 alert("only alphabets are allowed in last name");
+	      	 document.form.lastname.focus();
+	      	 return false;
+	       }
+	  	var numeric = /(?=.*[!@#$%^&*])/;
+	   	 if(numeric.test(form.designation.value)) {
+	   		 alert("It must be alpha numeric");
+	   		 document.form.designation.focus();
+	   		 return false;
+	   	 }
+		 if (document.form.designation.value == "") {
+		        alert("designation required");
+		        document.form.designation.focus();
+		        return false;
+		    }
+		 if (document.form.role.value == "") {
+		        alert("role required");
+		        document.form.role.focus();
+		        return false;
+		    }
+	      }
+	 
+	 </script>
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -50,7 +91,7 @@
 					</div>
 				</div>
 					<br>
-					<form:form action = "/updateuser"  method = "post" class = "form-group" align = "center" commandName="user" >
+					<form:form name = "form" action = "/updateuser"  method = "post" class = "form-group" align = "center" commandName="user" onsubmit = "return validate();">
 					<input type = "hidden" name = "${user.email}"/>
 					           <div class = "form-group" >
 					           <label class="col-sm-4 control-label">First Name </label> 

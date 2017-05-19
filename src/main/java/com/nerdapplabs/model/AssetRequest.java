@@ -49,6 +49,72 @@ public class AssetRequest {
 	@Column(name = "requestmode")
 	private Boolean requestmode;
 	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "is_deleted")
+	private Boolean is_deleted;
+	
+	@Column(name = "windows")
+	private String windows;
+	
+	@Column(name = "category")
+	private String category;
+	
+	@Column(name = "ram")
+	private String ram;
+	
+	@Column(name = "harddisk")
+	private String harddisk;
+	
+	public String getHarddisk() {
+		return harddisk;
+	}
+
+	public void setHarddisk(String harddisk) {
+		this.harddisk = harddisk;
+	}
+
+	public String getWindows() {
+		return windows;
+	}
+
+	public void setWindows(String windows) {
+		this.windows = windows;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getRam() {
+		return ram;
+	}
+
+	public void setRam(String ram) {
+		this.ram = ram;
+	}
+
+	public Boolean getIs_deleted() {
+		return is_deleted;
+	}
+
+	public void setIs_deleted(Boolean is_deleted) {
+		this.is_deleted = is_deleted;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Boolean getRequestmode() {
 		return requestmode;
 	}

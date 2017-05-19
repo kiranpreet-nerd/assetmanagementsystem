@@ -11,31 +11,7 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
-	 <script type="text/javascript">
 
-    var link,color;
- function disable_link(id) { 
-	 alert("#"+id);
-	 $(id).click (function(e){
-		 alert("*"+id);
-	       e.preventDefault();
-	})
-  //link = document.getElementById('Link1').href;
-
- // document.getElementById('Link1').removeAttribute('href');
-  //document.getElementById('testlink').style.color = "grey";
-
-   } 
-
-
- function enable_link() { 
-
-  document.getElementById('Link1').setAttribute("href",link);
-
-   } 
-
-</script>
-	
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
@@ -47,13 +23,13 @@
 				<a class="navbar-brand" href="#">Snap-It</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/requestedassets">BACK</a></li>
+				<li class="active"><a href="/assetrequest">BACK</a></li>
 				
 			</ul>
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group">
+		<form:form action="" class="form-group" commandName = "statusasset">
 			<table class="table table-striped">
 				<tr>
 					<th>Type</th>
@@ -62,6 +38,7 @@
 					<th>Quantity</th>
 					<th>Reason</th>
 					<th>Request Date</th>
+					<th>Status</th>
 					<th>Actions</th>
 				</tr>
 				<c:forEach items="${listAssets}" var="assetrequest">
@@ -72,8 +49,9 @@
 						<td>${assetrequest.quantity}</td>
 						<td>${assetrequest.reason}</td>
 						<td>${assetrequest.requestdate}</td>
-						<td><a href="/statusCheckRequest?id=${assetrequest.id}&email=${user.email}"><span class="glyphicon glyphicon-check"></span></a> &nbsp; </td>
-						<td><a href = "/requestNotAssign?id=${assetrequest.id}&email=${user.email}">REASON FOR NOT ASSIGNING</a></td>
+						<td>${assetrequest.status}</td>
+						<td><a href="/statusRecieveRequest?id=${assetrequest.id}&email=${user.email}"
+						id ="${assetrequest.id}">RECIEVE</a> &nbsp; </td>
 				</c:forEach>
 
 			</table>
