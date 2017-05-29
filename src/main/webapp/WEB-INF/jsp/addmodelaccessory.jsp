@@ -78,7 +78,7 @@
 					<form:form name = "form" action="/modelaccessory" method="post" class="form-group"
 						align="center" commandName="newmodelaccessory" onsubmit = "return validate();">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Model Identifier </label> <input
+							<label class="col-sm-4 control-label">Model Identifier <span class = "required"> * </span></label> <input
 								type="text" name="model" value="" class="form-control">
 						</div>
 						<br>
@@ -90,5 +90,11 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+   var modelAttributeValue = '${modelError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
 </body>
 </html>

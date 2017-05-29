@@ -7,6 +7,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -25,6 +29,9 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 	
 	    @Autowired
 	    private UserServiceImplement userService;
+	    
+	    @Value("${server.port}")
+	    int port;
 
 	    @Autowired
 	    private MessageSource messages;
@@ -34,6 +41,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
 	    @Autowired
 	    private Environment env;
+	    
+	   ServerProperties serverproperties;
 
 		@Override
 		public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -58,7 +67,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 			helper = new MimeMessageHelper(message, true);
 			helper.setTo(recipientAddress);
 			helper.setSubject(subject);
-			helper.setText("hello", "<a href = http://localhost:8090"+ confirmationUrl + ">"+" confirmation link "+"</a>");//( "http://localhost:8090" + confirmationUrl);
+			helper.setText("hello", "<a href = http://localhost:"+port+ confirmationUrl + ">"+" confirmation link "+"</a>");//( "http://localhost:8090" + confirmationUrl);
 			mailSender.send(message);
 			
 	    }

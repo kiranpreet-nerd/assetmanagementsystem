@@ -43,14 +43,39 @@
 				<c:forEach items="${listcompany}" var="listcompany">
 					<tr>
 						<td>${listcompany.company}</td>
-						<td><a href="/deleteCompany?id=${listcompany.id}&company=${listcompany.company}">
-								<span class="glyphicon glyphicon-trash"></span></a></td>
+						<td><button type = "submit" name = "deletecompanybutton" onclick = "return deleteCompany(${listcompany.id},'${listcompany.company}')">
+								<span class="glyphicon glyphicon-trash"></span></button></td>
 				</c:forEach>
 
 			</table>
-			${companyError}
 		</form:form>
 	</div>
+<script type = "text/javascript">
 
+var companyError = '${companyError}';
+if(companyError != "") {
+	alert(companyError);
+}
+	 function deleteCompany(id,company) {
+		   var confirmCompany = confirm("Do you want to delete this company?");
+		   if(confirmCompany == true) {
+				  confirmCompanyDelete();
+			  }else {
+				  return false;
+			  };
+		function confirmCompanyDelete() {
+		   
+	   $.ajax({
+	        url : "/deleteCompany",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"id" : id,
+	        	"company" : company
+	        }
+	       });
+		}
+	   }
+	</script>
 </body>
 </html>

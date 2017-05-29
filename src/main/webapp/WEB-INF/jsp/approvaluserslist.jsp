@@ -6,6 +6,10 @@
 <head>
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- 
 	<spring:url value="/css/main.css" var="springCss" />
@@ -39,17 +43,49 @@
 					<th>Role</th>
 					<th>Actions</th>
 				</tr>
-				<c:forEach items="${listRegisteredUsers}" var="user">
+				<c:forEach items="${listApprovalUsers}" var="user">
 					<tr>
 						<td>${user.firstname} ${user.lastname}</td>
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
 						<td><a href="/approveUser?email=${user.email}"> APPROVE </a></td>
+						<td> <button type = "submit" name = "rejectbutton" id = "rejectbutton" onclick = "approveUserDelete('${user.email}');">REJECT</button></td>
 					</tr>
 				</c:forEach>
 			</table>
   		</form:form>
 	</div>
+	<script type = "text/javascript">
+	 var modelAttributeValue = '${tokenError}';
+	   if(modelAttributeValue != ""){
+	   alert(modelAttributeValue);
+	   }
+	   
+	   var modelAttributeValue = '${approveUser}';
+	   if(modelAttributeValue != ""){
+	   alert(modelAttributeValue);
+	   
+	   }
+	   function approveUserDelete(email) {
+		   var confirmUser = confirm("Do you want to delete this user?");
+		   if(confirmUser == true) {
+				  confirmUser1();
+			  }else {
+				  return false;
+			  };
+		function confirmUser1() {
+		   
+	   $.ajax({
+	        url : "/rejectUser",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"email" : email
+	        }
+	       });
+		}
+	   }
+	</script>
 </body>
 </html>

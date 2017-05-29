@@ -45,7 +45,7 @@
 	       		 return false;
 	       	 }
 	          if (document.form.company.value == "") {
-	             alert("Comapny name required");
+	             alert("Company name required");
 	             document.form.company.focus();
 	             return false;
 	          }
@@ -77,7 +77,7 @@
 					<form:form name = "form" action="/newcompany" method="post" class="form-group"
 						align="center" commandName="newcompany" onsubmit = "return validate();">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Company Name </label> <input
+							<label class="col-sm-4 control-label">Company Name<span class = "required"> * </span> </label> <input
 								type="text" name="company" value="" class="form-control">
 						</div>
 						<br>
@@ -89,6 +89,12 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+   var modelAttributeValue = '${companyError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
 </body>
 
 </html>

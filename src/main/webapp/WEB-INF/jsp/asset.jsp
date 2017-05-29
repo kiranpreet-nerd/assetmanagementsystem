@@ -110,33 +110,33 @@ Dropdown hover
    		 return false;
    	 }
 		if (document.form.company.value == "") {
-			alert("company required");
+			alert("Company required");
 			document.form.company.focus();
 			return false;
 		}
 		if (document.form.assettype.value == "") {
-			alert("asset type required");
+			alert("Asset type required");
 			document.form.assettype.focus();
 			return false;
 		}
 		if (document.form.model.value == "") {
-			alert("model required");
+			alert("Model required");
 			document.form.model.focus();
 			return false;
 		}
 		if (document.form.tag.value == "") {
-			alert("tag required");
+			alert("Tag required");
 			document.form.tag.focus();
 			return false;
 		}
 		if (document.form.status.value == "") {
-			alert("status required");
+			alert("Status required");
 			document.form.status.focus();
 			return false;
 		}
 
 		if (document.form.serialnumber.value == "") {
-			alert("serial number required");
+			alert("Serial number required");
 			document.form.serialnumber.focus();
 			return false;
 		}
@@ -146,47 +146,47 @@ Dropdown hover
 			return false;
 		}
 		if (document.form.supplier.value == "") {
-			alert("supplier required");
+			alert("Supplier required");
 			document.form.supplier.focus();
 			return false;
 		}
 		if (document.form.suppliercontact.value == "") {
-			alert("supplier contact required");
+			alert("Supplier contact required");
 			document.form.suppliercontact.focus();
 			return false;
 		}
 		if (document.form.suppliercontact.value.length != 10) {
-			alert("length must be 10 of contact number");
+			alert("Length must be 10 of contact number");
 			document.form.suppliercontact.focus();
 			return false;
 		}
 		if (!(document.form.suppliercontact.value.match(/^[0-9]+$/))) {
-			alert("only numbers are allowed");
+			alert("Only numbers are allowed");
 			document.form.suppliercontact.focus();
 			return false;
 		}
 		if (document.form.ordernumber.value == "") {
-			alert("order number required");
+			alert("Order number required");
 			document.form.ordernumber.focus();
 			return false;
 		}
 		if (document.form.purchasecost.value == "") {
-			alert("purchase cost required");
+			alert("Purchase cost required");
 			document.form.purchasecost.focus();
 			return false;
 		}
 		if (document.form.warranty.value == "") {
-			alert("warranty required");
+			alert("Warranty required");
 			document.form.warranty.focus();
 			return false;
 		}
 		if (document.form.quantity.value == "") {
-			alert("quantity required");
+			alert("Quantity required");
 			document.form.quantity.focus();
 			return false;
 		}
 		if (document.form.totalcost.value == "") {
-			alert("totalcost required");
+			alert("Totalcost required");
 			document.form.totalcost.focus();
 			return false;
 		}
@@ -196,22 +196,22 @@ Dropdown hover
 		 var quantity = document.getElementById('quantity').value;
 		 var totalcost = document.getElementById('totalcost').value;
    	  if(quantity <= 0 )
-   	  {  alert("quantity must be greater than zero");
+   	  {  alert("Quantity must be greater than zero");
    		  document.form.quantity.focus();
    		  return false;
    	  }
    	if(purchasecost <= 0 )
- 	  {  alert("purchase cost must be greater than zero");
+ 	  {  alert("Purchase cost must be greater than zero");
  		  document.form.purchasecost.focus();
  		  return false;
  	  }
  	 if(warranty <= 0)
-  	  {  alert("warranty must be greater than zero");
+  	  {  alert("Warranty must be greater than zero");
   		  document.form.warranty.focus();
   		  return false;
   	  }
   	if(ordernumber <= 0 )
- 	  {  alert("order number must be greater than zero");
+ 	  {  alert("Order number must be greater than zero");
  		  document.form.ordernumber.focus();
  		  return false;
  	  }
@@ -257,7 +257,7 @@ Dropdown hover
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="company">
-								Company </label>
+								Company<span class = "required"> * </span> </label>
 							<form:select class="form-control" id="company" name="company"
 								path="company">
 								<c:forEach var="listcompany" items="${listcompany}">
@@ -271,7 +271,7 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="assettype">
-								Asset Type </label>
+								Asset Type <span class = "required"> * </span></label>
 							<form:select class="form-control" id="ddl" name="assettype"
 								path="assettype" value="${asset.assettype}"
 								onChange="configureDropDownLists(this,document.getElementById('ddl2'))">
@@ -283,7 +283,7 @@ Dropdown hover
 						</div>
 						<br>
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label">Asset Tag </label>
+							<label class="col-sm-4 control-label">Asset Tag<span class = "required"> * </span> </label>
 							<form:input type="text" name="tag" path="tag"
 								value="${asset.tag}" class="form-control" />
 							<div>
@@ -293,7 +293,7 @@ Dropdown hover
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="model"> Model
+							<label class="col-sm-4 control-label" for="model"> Model<span class = "required"> * </span>
 							</label>
 							<form:select class="form-control" id="ddl2" name="model"
 								path="model" value="${asset.model}">
@@ -340,7 +340,7 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="status">
-								Status </label>
+								Status <span class = "required"> * </span></label>
 							<form:select class="form-control" id="sell" name="status"
 								path="status">
 								<c:forEach var="liststatus" items="${liststatus}">
@@ -352,7 +352,7 @@ Dropdown hover
 							class="glyphicon glyphicon-link"></span></a>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Serial Number </label>
+							<label class="col-sm-4 control-label">Serial Number<span class = "required"> * </span> </label>
 							<form:input type="text" name="serialnumber" path="serialnumber"
 								value="${asset.serialnumber}" class="form-control" />
 							<div>
@@ -363,7 +363,7 @@ Dropdown hover
 						<div class="form-group">
 							<label class="col-sm-4 control-label input-group date"
 								data-provide="datepicker" data-date-format="yyyy-MM-dd">
-								Purchase Date </label>
+								Purchase Date <span class = "required"> * </span></label>
 							<form:input type="date" name="purchasedate" id = "purchasedate" path="purchasedate"
 								value="${asset.purchasedate}" class="form-control" />
 								<fmt:formatDate pattern="dd/mm/yyyy" value  = "${purchasedate}"/>
@@ -374,7 +374,7 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="supplier">
-								Supplier </label>
+								Supplier <span class = "required"> * </span></label>
 							<form:select class="form-control" name="supplier"
 								path="supplier">
 								<c:forEach var="listsupplier" items="${listsupplier}">
@@ -387,7 +387,7 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Supplier contact
-								number </label>
+								number<span class = "required"> * </span> </label>
 							<form:input type="text" name="suppliercontact"
 								path="suppliercontact" value="${asset.suppliercontact}"
 								class="form-control" maxlength="10" />
@@ -397,7 +397,7 @@ Dropdown hover
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Order Number </label>
+							<label class="col-sm-4 control-label">Order Number<span class = "required"> * </span> </label>
 							<input type="number" name="ordernumber"  id = "ordernumber"
 								value="${asset.ordernumber}" class="form-control" />
 							<div>
@@ -408,7 +408,7 @@ Dropdown hover
 						<br>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Purchase cost(Per
-								Asset Cost) </label>
+								Asset Cost)<span class = "required"> * </span> </label>
 							<input type="number" name="purchasecost"
 								value="${asset.purchasecost}" id="purchasecost" class="form-control"
 								onkeyup="return calculateTotalCost();" />
@@ -419,7 +419,7 @@ Dropdown hover
 						<br>
 
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Warranty </label>
+							<label class="col-sm-4 control-label">Warranty<span class = "required"> * </span> </label>
 							<input type="number" name="warranty" id = "warranty"
 								value="${asset.warranty}" placeholder="enter value in months"
 								class="form-control" />
@@ -429,7 +429,7 @@ Dropdown hover
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Quantity </label>
+							<label class="col-sm-4 control-label">Quantity<span class = "required"> * </span> </label>
 							<input type="number" name="quantity"
 								value="${asset.quantity}" id="quantity"
 								class="form-control" onkeyup="return calculateTotalCost();" >
@@ -439,7 +439,7 @@ Dropdown hover
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Total Cost </label>
+							<label class="col-sm-4 control-label">Total Cost<span class = "required"> * </span> </label>
 							<input type="number" readonly=readonly name="totalcost"
 								id="totalcost"  value="${asset.totalcost}"
 								class="form-control"  onkeyup="return calculateTotalCost();">

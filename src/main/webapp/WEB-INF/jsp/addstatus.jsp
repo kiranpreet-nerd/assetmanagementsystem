@@ -46,7 +46,7 @@
 	       		 return false;
 	       	 }
 	          if (document.form.status.value == "") {
-	             alert("status name required");
+	             alert("Status name required");
 	             document.form.status.focus();
 	             return false;
 	          }
@@ -78,7 +78,7 @@
 					<form:form name = "form" action="/newstatus" method="post" class="form-group"
 						align="center" commandName="status" onsubmit = "return validate();">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Status </label> <input
+							<label class="col-sm-4 control-label">Status <span class = "required"> * </span></label> <input
 								type="text" name="status" value="" class="form-control">
 						</div>
 						<br>
@@ -89,5 +89,11 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+   var modelAttributeValue = '${statusError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
 </body>
 </html>

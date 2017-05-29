@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
@@ -14,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import com.nerdapplabs.dao.*;
 import com.nerdapplabs.model.*;
@@ -100,7 +104,7 @@ public class UserServiceImplement implements UserService {
 	}
 
 	public int softDelete(String email) {
-		String sql = "UPDATE user SET status = 0 && is_approved = 0 WHERE email = '" + email + "'";
+		String sql = "UPDATE user SET status = 0,is_approved = 0 WHERE email = '" + email + "'";
 		return jdbcTemplate.update(sql);
 	}
 
@@ -573,9 +577,9 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public List<User> listRegisteredUsers() {
+	public List<User> listApprovalUsers() {
 		String sql = "SELECT email,firstname,designation,role,lastname FROM user WHERE is_approved = 1 && status = 0";
-		List<User> listRegisteredUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
+		List<User> listApprovalUsers = jdbcTemplate.query(sql, new RowMapper<User>() {
 
 			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -590,7 +594,7 @@ public class UserServiceImplement implements UserService {
 				return aUser;
 			}
 		});
-		return listRegisteredUsers;
+		return listApprovalUsers;
 	}
 
 	@Override
@@ -615,7 +619,7 @@ public class UserServiceImplement implements UserService {
 	@Override
 	public int updateAssetRequestQuantity(String quantity, Long id) {
 		String sql = "UPDATE request_asset set quantity = quantity - '" + quantity
-				+ "', status = 'ASSIGNED' where id = '" + id + "'";
+				+ "', status = 'ASSIGNED', reason = 'Request Assigned now' where id = '" + id + "'";
 		return jdbcTemplate.update(sql);
 	}
 
@@ -628,37 +632,34 @@ public class UserServiceImplement implements UserService {
 	}
 
 	@Override
-	public List<Asset> searchAssets(String windows,String assettype,String model) {
-		String sql = "SELECT id,company,tag,model,status,serialnumber,purchasedate,supplier,ordernumber,purchasecost,warranty,quantity,totalcost,suppliercontact,assettype,windows,category,ram,harddisk FROM asset where assetmode = 1 || windows LIKE '"+windows+"%'";
-		List<Asset> listAssets = jdbcTemplate.query(sql, new RowMapper<Asset>() {
+	public void sendApprovalEmail(String email) throws MessagingException {
+		User user = this.findByEmail(email);
+		String recipientAddress = user.getEmail();
+		String subject = "Approval of Confirmation";
+		MimeMessage message = mailService.createMimeMessage();
+		MimeMessageHelper helper ;
+		helper = new MimeMessageHelper(message, true);
+		helper.setTo(recipientAddress);
+		helper.setSubject(subject);
+		helper.setText("hello "+ user.getFirstname() + ", you can login now");//( "http://localhost:8090" + confirmationUrl);
+		try {
+			mailService.send(message);
+			System.out.println("mail sent");
+		} catch (MailException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
-			@Override
-			public Asset mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Asset asset = new Asset();
+	@Override
+	public int deleteFakeUser(String email) {
+		String sql = "DELETE from user where email = '" + email + "'";
+		return jdbcTemplate.update(sql);
+	}
 
-				asset.setId(rs.getLong("id"));
-				asset.setWindows(rs.getString("windows"));
-				asset.setHarddisk(rs.getString("harddisk"));
-				asset.setCategory(rs.getString("category"));
-				asset.setRam(rs.getString("ram"));
-				asset.setCompany(rs.getString("company"));
-				asset.setAssettype(rs.getString("assettype"));
-				asset.setTag(rs.getString("tag"));
-				asset.setModel(rs.getString("model"));
-				asset.setStatus(rs.getString("status"));
-				asset.setSerialnumber(rs.getString("serialnumber"));
-				asset.setPurchasedate(rs.getString("purchasedate"));
-				asset.setSupplier(rs.getString("supplier"));
-				asset.setSuppliercontact(rs.getString("suppliercontact"));
-				asset.setOrdernumber(rs.getString("ordernumber"));
-				asset.setPurchasecost(rs.getString("purchasecost"));
-				asset.setWarranty(rs.getString("warranty"));
-				asset.setQuantity(rs.getString("quantity"));
-				asset.setTotalcost(rs.getString("totalcost"));
-				return asset;
-			}
-		});
-		return listAssets;
+	@Override
+	public int deleteToken(String email) {
+		String sql = "DELETE from verification_token where email = '" + email + "'";
+		return jdbcTemplate.update(sql);
 	}
 
 }
