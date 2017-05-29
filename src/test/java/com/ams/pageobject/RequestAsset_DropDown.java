@@ -7,9 +7,13 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import com.ams.testsetup.AdminLogin;
+import com.ams.testsetup.LoginPage;
+import com.ams.testsetup.SetUp;
 import com.ams.testsetup.SetUpLogin;
 
-public class RequestAsset_DropDown extends SetUpLogin {
+public class RequestAsset_DropDown extends SetUp {
 
 	static By emailTextBox = By.name("email");
 	static By passwordTextBox = By.name("password");
@@ -22,6 +26,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 
 	// to verify "asset Type" drop-down is single select or multiple select
 	public boolean verifyDropDownIsSingleSelect() {
+		 LoginPage.login_User();
 		
 			WebElement assetDrop = driver.findElement(type);
 			Select drop = new Select(assetDrop);
@@ -33,7 +38,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 
 	// verify "asset type" drop-down options count is 4
 	public boolean verifyAssetTypeDropDownCount() {
-	
+		 LoginPage.login_User();
 			WebElement assetDrop = driver.findElement(type);
 			Select drop = new Select(assetDrop);
 			List<WebElement> options = drop.getOptions();
@@ -47,7 +52,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 	// to verify default value in "asset Type" drop down
 
 	public boolean verifyDefaultValueOfTypeDropDown() {
-
+		 LoginPage.login_User();
 			WebElement assetDrop = driver.findElement(type);
 			Select drop = new Select(assetDrop);
 			List<WebElement> options = drop.getOptions();
@@ -64,7 +69,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 	// verify to select the option from "asset type" may impact on another
 	// drop-down
 	public boolean verifyImpactOnNameDropDown() {
-		
+		 LoginPage.login_User();
 			WebElement assetDrop = driver.findElement(type);
 			Select drop = new Select(assetDrop);
 			drop.selectByVisibleText("Asset");
@@ -78,7 +83,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 
 	// verify "None" value of "asset type" does't impact on assetName drop-down
 	public boolean verifyNoneOptionImpactOnNameDropDown() {
-		
+		 LoginPage.login_User();
 			WebElement assetDrop = driver.findElement(type);
 			Select drop = new Select(assetDrop);
 			drop.selectByVisibleText("None");
@@ -92,7 +97,7 @@ public class RequestAsset_DropDown extends SetUpLogin {
 
 	// to verify date field having current date
 	public boolean verifyDateFieldContainsCurrentDate() {
-			
+		 LoginPage.login_User();
 			//to find date value from date field and store into string variable
 			String assetDate = driver.findElement(date).getAttribute("value");
 			
