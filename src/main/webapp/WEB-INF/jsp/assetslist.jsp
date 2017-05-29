@@ -16,7 +16,6 @@
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
  	   <script> 
- 	   
  	   function calculateQuantity(serialnumber) {
  		  var temp;
  		  var quantityDynamic = { <c:forEach items="${listAssets}" var="item2"> ${item2.serialnumber}: '${item2.quantity}' ${not loop.last ? ',' : ''} </c:forEach>};

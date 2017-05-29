@@ -94,6 +94,15 @@
 	    		  document.form.quantity.focus();
 	    		  return false;
 	    	  }
+	    	  if(document.form.assettype.value == "asset" && document.form.windows.value != "" && document.form.category.value != "" & document.form.ram.value !="" && document.form.harddisk.value != "") {
+	    		  return true;
+	    	  } else if(document.form.assettype.value == "accessory" || document.form.assettype.value == "consumable"){
+	    		  return true;
+	    	  } else {
+	    	      alert("Fill type of operating system, hard disk and ram of choosen asset model");
+	    		  document.form.assettype.focus();
+	    		  return false;
+	    	  }
 	      }
 	 
 	 </script>

@@ -372,11 +372,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/deleterequestedassets", method = RequestMethod.GET)
-	public ModelAndView deleteRequestedAssets(@RequestParam(value = "id") Long id,@RequestParam(value = "email") String email) {
+	public ModelAndView deleteRequestedAssets(HttpServletRequest request) {
 		
-		//Long id = (long) Integer.parseInt(request.getParameter("id"));
+		Long id = (long) Integer.parseInt(request.getParameter("id"));
 		userService.deleteAssetRequest(id);
-		return new ModelAndView("redirect:/assetrequest"+ email);
+		return new ModelAndView("redirect:/assetrequest");
 	}
 
 	@RequestMapping(value = "/deleteAsset", method = RequestMethod.GET)
@@ -806,10 +806,10 @@ public class UserController {
 		user = userService.getUser(email);
         List<AssetRequest> listAssets = service.listAsset(user);
 		for (int i = 0; i < listAssets.size(); i++) {
-			if (listAssets.get(i).getId() == id && listAssets.get(i).getStatus().contains("ASSIGNED"))
+			if (listAssets.get(i).getId() == id)
 				tempid = id;
 		}
-		if (temp != null) {
+		if (tempid != null) {
 			userService.updateRecieveRequest(assetrequest, id);
 			listAssets = service.listAsset(user);
 			modelview.addObject("listAssets", listAssets);
