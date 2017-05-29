@@ -6,6 +6,10 @@
 <head>
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- 
 	<spring:url value="/css/main.css" var="springCss" />
@@ -24,7 +28,7 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href='/listOfRegisteredUsers'>REGISTERED USERS</a></li>
+					<li><a href='/listOfApprovalUsers'>APPROVAL LISTS</a></li>
 					<li><a href='/add'>ADD USER</a></li>
 					<li><a href='/changePassword?email=${email}'>CHANGE PASSWORD</a></li>
 					<li><a href='/logout'>LOGOUT</a></li>
@@ -48,8 +52,8 @@
 						<td>${user.email}</td>
 						<td>${user.designation}</td>
 						<td>${user.role}</td>
-						<td><a href="/deleteUser?email=${user.email}"> <span
-								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						<td><button type = "submit" name = "deleteuserbutton" onclick = "return Val('${user.email}')" ><span
+								class="glyphicon glyphicon-trash" aria-hidden="true"></span></button> 
 							&nbsp; <a href="/getUser?email=${user.email}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 					</tr>
@@ -57,5 +61,31 @@
 			</table>
   		</form:form>
 	</div>
+	<script type = "text/javascript">
+	 function Val(email) {
+		   var confirmUser = confirm("Do you want to delete this user?");
+		   if(confirmUser == true) {
+				  confirmUserDelete();
+			  }else {
+				  return false;
+			  };
+		function confirmUserDelete() {
+		   
+	   $.ajax({
+	        url : "/deleteUser",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"email" : email
+	        }
+	       });
+		}
+	   }
+	
+	
+	
+	
+	
+	</script>
 </body>
 </html>

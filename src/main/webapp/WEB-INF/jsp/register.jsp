@@ -14,6 +14,10 @@
 <c:url value="/css/main.css" var="jstlCss" />
 <link href="${jstlCss}" rel="stylesheet" />
 <c:url value="/css/userdesign.css" var="jstlCss" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script>
 function validate() {
@@ -23,43 +27,33 @@ function validate() {
 		 return false;
    }
 	 if (document.form.email.value == "") {
-        alert("email required");
+        alert("Email required");
         document.form.email.focus();
         return false;
     }
 	 if (document.form.firstname.value == "") {
-	        alert("first name required");
+	        alert("First name required");
 	        document.form.firstname.focus();
 	        return false;
 	    }
-	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
-    	 alert("only alphabets are allowed in firstname");
-    	 document.form.firstname.focus();
-    	 return false;
-     }
 	 if (document.form.lastname.value == "") {
-	        alert("last name required");
+	        alert("Last name required");
 	        document.form.lastname.focus();
 	        return false;
 	    }
-	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
-    	 alert("only alphabets are allowed in last name");
-    	 document.form.lastname.focus();
-    	 return false;
-     }
 	 var numeric = /(?=.*[!@#$%^&*])/;
    	 if(numeric.test(form.designation.value)) {
-   		 alert("It must be alpha numeric");
+   		 alert("Designation must be alpha numeric");
    		 document.form.designation.focus();
    		 return false;
    	 }
 	 if (document.form.designation.value == "") {
-	        alert("designation required");
+	        alert("Designation required");
 	        document.form.designation.focus();
 	        return false;
 	    }
-	 if (document.form.role.value == "") {
-	        alert("role required");
+	 if (document.form.role.value != "ROLE_USER" ){
+	        alert("Role must be of user by default");
 	        document.form.role.focus();
 	        return false;
 	    }
@@ -70,20 +64,30 @@ function validate() {
 	 }
 	 var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
 	 if(!re.test(form.password.value)) {
-		 alert("password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
+		 alert("Password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
 		 document.form.password.focus();
 		 return false;
 	 }
 	 if (document.form.confirm.value == "") {
-	        alert("confirm password required");
+	        alert("Confirm password required");
 	        document.form.confirm.focus();
 	        return false;
 	    }
 	 if(document.form.password.value != document.form.confirm.value) {
-		 alert("password must be same ");
+		 alert("Password must be same ");
 		 //document.form.confirm.focus();
 		 return false;
 	 }
+	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
+    	 alert("Only alphabets are allowed in firstname");
+    	 document.form.firstname.focus();
+    	 return false;
+     }
+	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
+    	 alert("Only alphabets are allowed in last name");
+    	 document.form.lastname.focus();
+    	 return false;
+     }
 }
 </script>
 
@@ -111,7 +115,6 @@ function validate() {
 					<br>
 					<form:form name = "form" action="" method="post" commandName="userform"
 						class="form-group" align="center" onsubmit = "return validate();">
-						<div class = "redalert">${emailError}</div>
 						<div class="form-group " ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label ">Email<span class = "required"> * </span></label> <input
 								type="text" name="email" placeholder="enter email"
@@ -121,7 +124,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">First Name </label> <input
+							<label class="col-sm-4 control-label">First Name<span class = "required"> * </span> </label> <input
 								type="text" name="firstname" placeholder="enter firstname"
 								class="form-control">
 							<div>
@@ -129,7 +132,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Last Name </label> <input
+							<label class="col-sm-4 control-label">Last Name<span class = "required"> * </span> </label> <input
 								type="text" name="lastname" placeholder="enter lastname"
 								class="form-control">
 							<div>
@@ -137,7 +140,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Designation </label> <input
+							<label class="col-sm-4 control-label">Designation<span class = "required"> * </span> </label> <input
 								type="text" name="designation" placeholder="enter designation"
 								class="form-control">
 							<div>
@@ -145,12 +148,12 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Role </label> <input
+							<label class="col-sm-4 control-label">Role<span class = "required"> * </span></label> <input
 								type="text" readonly="readonly" value=" ROLE_USER" name="role"
 								class="form-control">
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Password </label> <input
+							<label class="col-sm-4 control-label">Password <span class = "required"> * </span></label> <input
 								type="password" name="password" placeholder="enter password"
 								class="form-control">
 							<div>
@@ -158,7 +161,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Confirm Password</label> <input
+							<label class="col-sm-4 control-label">Confirm Password <span class = "required"> * </span></label> <input
 								type="password" name="confirm"
 								placeholder="enter password again" class="form-control">
 							<div>
@@ -173,6 +176,17 @@ function validate() {
 			</div>
 			</div>
 			</div>
+			<script type="text/javascript">
+   var modelAttributeValue = '${emailError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+   var modelAttributeValue = '${confirmationlink}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+   
+</script>
 			<c:if test="${SUCCESS_MESSAGE != null}">
 			  <div id="status_message">${SUCCESS_MESSAGE}</div>
 			</c:if>

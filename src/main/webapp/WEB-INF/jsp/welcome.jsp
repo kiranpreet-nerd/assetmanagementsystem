@@ -24,17 +24,17 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href='/login'>LOGOUT</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<div class="container">
-
-		<div class="starter-template" align="center" commandName="userform">
-			</a>
-			<h2>Welcome ${userform.email}! You have logged in successfully.</h2>
+       		<div class="starter-template" align="center">
+		
+			<h1>Welcome to Snap-It</h1><br><br>
+			<h3>Click on Login if you are already registered or Register yourself first</h3><br>
+			<a href = "/login"> LOGIN</a>&nbsp; &nbsp; <a href = "/register"> REGISTER<span class="glyphicon glyphicon-user"></span></a>
 		</div>
 
 	</div>

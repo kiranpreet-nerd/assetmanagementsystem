@@ -43,13 +43,38 @@
 				<c:forEach items="${listmodelaccessory}" var="listmodelaccessory">
 					<tr>
 						<td>${listmodelaccessory.model}</td>
-						<td><a href="/deleteAccessoryModel?id=${listmodelaccessory.id}&model=${listmodelaccessory.model}">
-								<span class="glyphicon glyphicon-trash"></span></a></td>
+						<td><button type = "submit" name = "deleteModelbutton" onclick = "return deleteAccessoryModel(${listmodelaccessory.id},'${listmodelaccessory.model}')">
+								<span class="glyphicon glyphicon-trash"></span></button></td>
 				</c:forEach>
 
 			</table>
 		</form:form>
 	</div>
-
+<script type = "text/javascript">
+var modelError = '${modelError}';
+if(modelError != "") {
+	alert(modelError);
+}
+	 function deleteAccessoryModel(id,model) {
+		   var confirmModel = confirm("Do you want to delete this Model?");
+		   if(confirmModel == true) {
+				  confirmModelDelete();
+			  }else {
+				  return false;
+			  };
+		function confirmModelDelete() {
+		   
+	   $.ajax({
+	        url : "/deleteAccessoryModel",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"id" : id,
+	        	"model" : model
+	        }
+	       });
+		}
+	   }
+	</script>
 </body>
 </html>

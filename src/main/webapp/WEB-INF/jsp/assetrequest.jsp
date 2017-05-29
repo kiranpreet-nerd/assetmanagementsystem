@@ -59,38 +59,38 @@
 <script>
 	      function validate() {
 	    	  if (document.form.email.value == "") {
-	 		             alert("email required");
+	 		             alert("Email required");
 	 		             document.form.email.focus();
 	 		             return false;
 	 		         }
 	    	  if (document.form.assettype.value == "") {
-	 		             alert("asset type required");
+	 		             alert("Asset type required");
 	 		             document.form.assettype.focus();
 	 		             return false;
 	 		         }
 	    	  if (document.form.assetname.value == "") {
-	 		             alert("asset name required");
+	 		             alert("Asset name required");
 	 		             document.form.assetname.focus();
 	 		             return false;
 	 		         }
 	    	  if (document.form.quantity.value == "") {
-	 		             alert("quantity required");
+	 		             alert("Quantity required");
 	 		             document.form.quantity.focus();
 	 		             return false;
 	 		         }
 	    	  if (document.form.reason.value == "") {
-	 		             alert("reason required");
+	 		             alert("Reason required");
 	 		             document.form.reason.focus();
 	 		             return false;
 	 		         }
 	    	  if (document.form.requestdate.value == "") {
-	 		             alert("request date required");
+	 		             alert("Request date required");
 	 		             document.form.requestdate.focus();
 	 		             return false;
 	 		         }
 	    	  var quantity = document.getElementById('quantity').value;
 	    	  if(quantity <= 0) {
-	    		  alert("quantity must be greater than zero");
+	    		  alert("Quantity must be greater than zero");
 	    		  document.form.quantity.focus();
 	    		  return false;
 	    	  }
@@ -135,7 +135,7 @@
 						onsubmit="return validate();">
 
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label">Email </label> <input
+							<label class="col-sm-4 control-label">Email <span class = "required"> * </span></label> <input
 								type="text" readonly="readonly" name="email" value="${email}"
 								class="form-control">
 							<div>
@@ -145,7 +145,7 @@
 						<br>
 
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label" for="type"> Type </label> <select
+							<label class="col-sm-4 control-label" for="type"> Type <span class = "required"> * </span></label> <select
 								class="form-control" name="assettype" id="ddl"
 								onChange="configureDropDownLists(this,document.getElementById('ddl2'))">
 								<option value="">None</option>
@@ -159,7 +159,7 @@
 						</div>
 						<br>
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label"> Name </label> <select
+							<label class="col-sm-4 control-label"> Name<span class = "required"> * </span> </label> <select
 								class="form-control" name="assetname" id="ddl2"></select>
 							<div>
 								<form:errors path="assetname"></form:errors>
@@ -196,7 +196,7 @@
 						<br>
                         <div class="form-group" ${status.error ? 'has-error' : ''}>
 							<label class="col-sm-4 control-label">Number of assets
-								needed </label> <input type="number" name="quantity" id="quantity"
+								needed <span class = "required"> * </span></label> <input type="number" name="quantity" id="quantity"
 								value="" class="form-control">
 							<div>
 								<form:errors path="quantity"></form:errors>
@@ -204,7 +204,7 @@
 						</div>
 						<br>
 						<div class="form-group" ${status.error ? 'has-error' : ''}>
-							<label class="col-sm-4 control-label">Reason </label>
+							<label class="col-sm-4 control-label">Reason <span class = "required"> * </span></label>
 							<textarea class="form-control" name="reason" rows="5"></textarea>
 							<div>
 								<form:errors path="reason"></form:errors>
@@ -261,6 +261,5 @@
    alert(modelAttributeValue);
    }
 </script>
-<script type="text/javascript"> window.onload = alertName; </script>
 </body>
 </html>

@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	    $(document).ready(function() {
 	    	$('#forgotpasswordbutton').click(function(){
-	    		alert('enter password');
+	    		alert('Enter password');
 	    	});
 	    });
 	 
@@ -43,13 +43,19 @@
 		
 		<form:form action="/recoverypassword" method="post" class="form-signin" align="center" commandName = "passwordform">
 			<div class="form-group">
-				<label >Email </label> 
+				<label >Email<span class = "required"> * </span> </label> 
 				<input type="text" name="email"
 					placeholder="enter email"><br>
-				<br> <div class = "redalert">${emailError} </div>
+				<br>
 			</div>
 			<button type = "submit" name = "forgotpasswordbutton" value = "submit" class="btn btn-success"> GET PASSWORD</button><br><br>
 		</form:form>
 	</div>
+   <script type="text/javascript">
+   var modelAttributeValue = '${emailError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
 </body>
 </html>

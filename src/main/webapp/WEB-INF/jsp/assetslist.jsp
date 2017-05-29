@@ -15,47 +15,6 @@
 	<spring:url value="/css/main.css" var="springCss" />
 	<link href="${springCss}" rel="stylesheet" />
 	 -->
-	 <script type="text/javascript">
- 	     function configureDropDownLists(ddl1,ddl2) {
-	    	
- 	    	 switch(ddl1.value) {
- 	    	 case 'asset':
- 	    		 ddl2.options.length = 0;
- 	    		 var myMap = { <c:forEach items="${listmodelname}" var="item"> ${item.id}: '${item.model}' ${not loop.last ? ',' : ''} </c:forEach>};  
- 	    		 // Object.keys(myMap).length
- 	    		 for(key in myMap){		 
- 	    			 createOption(ddl2, myMap[key], myMap[key]);
- 	    		  }
- 	    	 break;
- 	    	 case 'accessory':
- 	    		 ddl2.options.length = 0;
- 	    		var myMap1 = { <c:forEach items="${listmodelaccessory}" var="item1"> ${item1.id}: '${item1.model}' ${not loop.last ? ',' : ''} </c:forEach>}; 
- 	    		 // Object.keys(myMap).length
-	    		 for(key in myMap1){		 
-	    			 createOption(ddl2, myMap1[key], myMap1[key]);
-	    		  }
- 	    		 break;
- 	    	 case 'consumable':
- 	    		 ddl2.options.length = 0;
- 	    		var myMap2 = { <c:forEach items="${listmodelconsumable}" var="item2"> ${item2.id}: '${item2.model}' ${not loop.last ? ',' : ''} </c:forEach>};  
-	    		 // Object.keys(myMap).length
-	    		 for(key in myMap2){		 
-	    			 createOption(ddl2, myMap2[key], myMap2[key]);
-	    		 }
- 	    		 break;
- 	    		 default:
- 	    			 ddl2.options.length = 0;
- 	    		 break;
- 	    	 }
- 	     }
- 	 
- 	     function createOption(ddl, text, value) {
- 	    	 var opt = document.createElement('option');
- 	    	 opt.value = value;
- 	    	 opt.text = text;
- 	    	 ddl.options.add(opt);
- 	     }
- 	   </script>
  	   <script> 
  	   
  	   function calculateQuantity(serialnumber) {
@@ -68,7 +27,7 @@
  		 for(key in quantityDynamic) {
  			 if(subquantity > quantity) {
  				 alert("invalid quantity to be subtracted");
- 			 } else if(subquantity < quantity) {
+ 			 } else if(subquantity <= quantity) {
  			 temp = quantity - subquantity;
  			 if(key == serialnumber) {
  				 quantityDynamic[key] = temp;
@@ -92,21 +51,6 @@
 		           }
  		       });
 		}
-	   </script>
- 	   <script>
- 	      function Search() {
- 	    	 $.ajax({
- 		        url : "/Search",
- 		        type : "GET",
- 		        dataType : 'text',  
- 		        data : {
- 		        	"windows" : $("#windows").val(),
- 		            "assettype" : $("#assettype").val(),
- 		            "model" : $("#model").val()
- 		            
- 		        }
- 		    });
- 	      }
  	   
  	   </script>
 <c:url value="/css/main.css" var="jstlCss" />
@@ -125,22 +69,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" name = "form" class="form-group" commandName = "asset">
-		<div class="form-group">
-							<label class="col-sm-4 control-label">Search Operating system</label> 
-							<input type="text" name="windows" id="windows" onkeyup = "return Search();"/>
-						</div>
-						<br> 
-		<div class="form-group">
-							<label class="col-sm-4 control-label">Search Asset Type </label> 
-							<input type = "text" name = "assettype" id = "assettype" />
-						</div>
-						<br>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="model"> Model
-							</label>
-							<input type = "text" name = "model" id = "model" />
-						</div>
+		<form:form action="" name = "form" class="form-group" commandName = "asset" >
 			<table class="table table-striped" id = "tb1">
 				<tr>
 					<th>Company</th>
@@ -178,8 +107,8 @@
 						<td>${asset.warranty}</td>
 						<td id = "quantity${asset.serialnumber}">${asset.quantity}</td>
 						<td>${asset.totalcost}</td>
-						<td><a href="/deleteAsset?id=${asset.id}"> <span
-								class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+						<td><button type = "submit" name = "deleteassetbutton" onclick = "return deleteAsset(${asset.id});"> <span
+								class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 							&nbsp; <a href="/getAsset?id=${asset.id}"> <span
 								class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
 								<td> <input type = "text" name ="subquantity" id = "subquantity${asset.serialnumber}" value = "" />&nbsp;
@@ -190,5 +119,26 @@
 			</table>
 		</form:form>
 	</div>
+	<script type = "text/javascript">
+	 function deleteAsset(id) {
+		   var confirmAsset = confirm("Do you want to delete this asset?");
+		   if(confirmAsset == true) {
+				  confirmAssetDelete();
+			  }else {
+				  return false;
+			  };
+		function confirmAssetDelete() {
+		   
+	   $.ajax({
+	        url : "/deleteAsset",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"id" : id
+	        }
+	       });
+		}
+	   }
+	</script>
 </body>
 </html>
