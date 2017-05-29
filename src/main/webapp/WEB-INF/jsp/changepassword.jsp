@@ -15,30 +15,30 @@
 <script>
      function validate() {
     	 if (document.form.oldpassword.value == "") {
- 	        alert("fill your old password here");
+ 	        alert("Fill your old password here");
  	        document.form.oldpassword.focus();
  	        return false;
  		 }
     	 
     	 if (document.form.newpassword.value == "") {
-    	        alert("password required");
+    	        alert("Password required");
     	        document.form.newpassword.focus();
     	        return false;
     		 }
     	 var passwordpattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
     	 if(!passwordpattern.test(form.newpassword.value)) {
-    		 alert("password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
+    		 alert("Password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
     		 document.form.newpassword.focus();
     		 return false;
     	 }
     	 if(document.form.retypepassword.value == "") {
-    		 alert("type password again");
+    		 alert("Type password again");
     		 document.form.retypepassword.focus();
     		 return false;
     	 }
     		
     		 if(document.form.newpassword.value != document.form.retypepassword.value) {
-    			 alert("password must be same ");
+    			 alert("Password must be same ");
     			 return false;
     		 }
      }
@@ -53,9 +53,9 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active" ><a href="/assetrequest">BACK</a></li>
-					<li class="active" title = "a"><a href="/users"> USERSLIST </a></li>
-					<li class="active" title = "a"><a href="/requestedassets"> REQUESTED USERS </a></li>
+					<li><a href="/assetrequest">BACK</a></li>
+					<li><a href="/users"> USERSLIST </a></li>
+					<li><a href="/requestedassets"> REQUESTED USERS </a></li>
 				</ul>
 			</div>
 		</div>
@@ -72,21 +72,21 @@
 						class="form-group" align="center" commandName = "changepassword" onsubmit="return validate();">
 						${passwordError}
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Old Password </label>
+							<label class="col-sm-4 control-label">Old Password<span class = "required"> * </span> </label>
 							<input type="password" name="oldpassword"
 								value=""
 								class="form-control" >
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">New Password </label>
+							<label class="col-sm-4 control-label">New Password<span class = "required"> * </span> </label>
 							<input type="password" name="newpassword"
 								value=""
 								class="form-control" >
 						</div>
 						<br>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Retype Password </label>
+							<label class="col-sm-4 control-label">Retype Password<span class = "required"> * </span> </label>
 							<input type="password" name="retypepassword" value="" 
 								class="form-control" >
 						</div>

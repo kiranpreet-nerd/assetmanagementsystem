@@ -46,7 +46,7 @@
 	       		 return false;
 	       	 }
 	          if (document.form.supplier.value == "") {
-	             alert("supplier name required");
+	             alert("Supplier name required");
 	             document.form.supplier.focus();
 	             return false;
 	          }
@@ -79,7 +79,7 @@
 					<form:form name = "form" action="/newsupplier" method="post" class="form-group"
 						align="center" commandName="supplier" onsubmit = "return validate();">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Supplier </label> <input
+							<label class="col-sm-4 control-label">Supplier <span class = "required"> * </span>label> <input
 								type="text" name="supplier" value="" class="form-control">
 						</div>
 						<br>
@@ -90,5 +90,11 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+   var modelAttributeValue = '${supplierError}';
+   if(modelAttributeValue != ""){
+   alert(modelAttributeValue);
+   }
+</script>
 </body>
 </html>

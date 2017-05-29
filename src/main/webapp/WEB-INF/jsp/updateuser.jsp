@@ -27,22 +27,22 @@
 	 <script>
 	      function validate() {
 	    	  if (document.form.firstname.value == "") {
-	  	        alert("first name required");
+	  	        alert("First name required");
 	  	        document.form.firstname.focus();
 	  	        return false;
 	  	    }
 	  	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
-	      	 alert("only alphabets are allowed in firstname");
+	      	 alert("Only alphabets are allowed in firstname");
 	      	 document.form.firstname.focus();
 	      	 return false;
 	       }
 	  	 if (document.form.lastname.value == "") {
-	  	        alert("last name required");
+	  	        alert("Last name required");
 	  	        document.form.lastname.focus();
 	  	        return false;
 	  	    }
 	  	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
-	      	 alert("only alphabets are allowed in last name");
+	      	 alert("Only alphabets are allowed in last name");
 	      	 document.form.lastname.focus();
 	      	 return false;
 	       }
@@ -53,12 +53,12 @@
 	   		 return false;
 	   	 }
 		 if (document.form.designation.value == "") {
-		        alert("designation required");
+		        alert("Designation required");
 		        document.form.designation.focus();
 		        return false;
 		    }
 		 if (document.form.role.value == "") {
-		        alert("role required");
+		        alert("Role required");
 		        document.form.role.focus();
 		        return false;
 		    }
@@ -87,44 +87,43 @@
 			<div class="col-md-5 col-md-offset-3">
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title" align="center">Edit Values</h3>
+						<h3 class="panel-title" align="center">Edit User</h3>
 					</div>
 				</div>
 					<br>
 					<form:form name = "form" action = "/updateuser"  method = "post" class = "form-group" align = "center" commandName="user" onsubmit = "return validate();">
 					<input type = "hidden" name = "${user.email}"/>
 					           <div class = "form-group" >
-					           <label class="col-sm-4 control-label">First Name </label> 
+					           <label class="col-sm-4 control-label">First Name<span class = "required"> * </span> </label> 
 					           <input type="text" name="firstname" value = "${user.firstname}" class="form-control" > 
 					           <form:errors path="firstname"/>
 					           </div> <br>
 					           <div class = "form-group" >
-					           <label class="col-sm-4 control-label">Last Name </label> 
+					           <label class="col-sm-4 control-label">Last Name<span class = "required"> * </span></label> 
 					           <input type="text" name="lastname"  value = "${user.lastname}" class="form-control" > 
 					           <form:errors path="lastname" />
 					           </div> <br>
 					            <div class = "form-group">
-					           <label class="col-sm-4 control-label">Email </label> 
+					           <label class="col-sm-4 control-label">Email<span class = "required"> * </span> </label> 
 					           <input type="text" name="email" readonly = "readonly" value = "${user.email}" class="form-control" > 
 					           </div> <br>
 					           <div class = "form-group">
-					           <label class="col-sm-4 control-label" >Designation </label> 
+					           <label class="col-sm-4 control-label" >Designation <span class = "required"> * </span></label> 
 					           <input type="text" name="designation" value = "${user.designation}" class="form-control" > 
 					           <form:errors path="designation" />
 					           </div> <br>
-					           <div class = "form-group" >
-					           <label class="col-sm-4 control-label" >Role </label> 
-					           <div class=" col-sm-3 checkbox checkbox-primary">
-					           <form:errors path="role"  />
-					            <form:checkbox path="role"  value = "ROLE_SUPER"/> Super Admin <br>
-					           </div><br>
-                               <div class=" col-sm-3 checkbox checkbox-primary">
-					           <form:checkbox path="role"  value = "ROLE_ADMIN"/> Admin <br>
-					           </div><br>
-					           <div class="col-sm-1 checkbox checkbox-primary">
-					            <form:checkbox path="role"  value = "ROLE_USER"/> Employee <br>
-					           </div>
-					           </div><br> 
+					           <div class="form-group">
+							       <label class="col-sm-4 control-label" for="assettype">
+								Role<span class = "required"> * </span> </label>
+							       <form:select class="form-control" name="role"
+								path="role" >
+								    <option value="">None</option>
+								    <option value="ROLE_SUPER">Super Admin</option>
+								    <option value="ROLE_ADMIN">Admin</option>
+								    <option value="ROLE_USER">Employee</option>
+							       </form:select>
+						       </div>
+						       <br>
 					            <button type = "submit" value = "submit" name = "editbutton" class="btn btn-success" onClick="updateUser()"> Update </button>
 					        
 					</form:form>

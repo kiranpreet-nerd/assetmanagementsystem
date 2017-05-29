@@ -17,26 +17,6 @@
 <c:url value="/css/main.css" var="jstlCss" />
 <c:url value="/css/userdesign.css" var="jstlCssfile" />
 <link href="${jstlCss}" rel="stylesheet" />
-
-<!-- Bootstrap Core CSS -->
-<link
-	href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/bootstrap.min.css"
-	rel="stylesheet" />
-
-<!-- MetisMenu CSS -->
-<link
-	href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/plugins/metisMenu/metisMenu.min.css"
-	rel="stylesheet" />
-
-<!-- Custom CSS -->
-<link href="/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css"
-	rel="stylesheet" />
-
-<!-- Custom Fonts -->
-<link
-	href="/webjars/startbootstrap-sb-admin-2/1.0.2/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css" />
-	
 	<script>
 	     function validate() {
 	    	 if(document.form.email.value == "" && document.form.password.value == "") {
@@ -45,12 +25,12 @@
 	    		 return false;
 	        }
 	    	 if (document.form.email.value == "") {
-	             alert("email required");
+	             alert("Email required");
 	             document.form.email.focus();
 	             return false;
 	         }
 	         if (document.form.password.value == "") {
-	             alert("password required");
+	             alert("Password required");
 	             document.form.password.focus();
 	             return false;
 	         }
@@ -116,20 +96,6 @@
 			</div>
 		</div>
 	</div>
-	
 
-	<!-- jQuery -->
-	<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script
-		src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/bootstrap.min.js"></script>
-
-	<!-- Metis Menu Plugin JavaScript -->
-	<script
-		src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.min.js"></script>
-
-	<!-- Custom Theme JavaScript -->
-	<script src="/webjars/startbootstrap-sb-admin-2/1.0.2/js/sb-admin-2.js"></script>
 </body>
 </html>

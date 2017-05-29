@@ -1,6 +1,8 @@
 package com.nerdapplabs.service;
 
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import com.nerdapplabs.model.*;
 
@@ -37,6 +39,10 @@ public interface UserService {
 	int deleteAccessoryModel(long id);
 
 	int deleteConsumableModel(long id);
+	
+	int deleteToken(String email);
+	
+	int deleteFakeUser(String email);
 
 	int update(User user);
 
@@ -80,7 +86,7 @@ public interface UserService {
 
 	List<User> listEmail();
 
-	List<User> listRegisteredUsers();
+	List<User> listApprovalUsers();
 
 	List<NewModel> listModel();
 
@@ -99,12 +105,12 @@ public interface UserService {
 	List<AssetRequest> listAsset(User user);
 
 	List<Asset> listAssets();
-	
-	List<Asset> searchAssets(String windows,String assettype,String model);
 
 	User findByEmail(String email);
 
 	void sendEmail(String email);
+	
+	void sendApprovalEmail(String email) throws MessagingException;
 
 	User loginUser(String email, String password);
 

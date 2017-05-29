@@ -33,7 +33,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<form:form action="" class="form-group" >
+		<form:form action="" class="form-group" commandName = "assetmodel">
 			<table class="table table-striped">
 				<tr>
 					<th>Model name</th>
@@ -43,13 +43,39 @@
 				<c:forEach items="${listmodel}" var="listmodel">
 					<tr>
 						<td>${listmodel.model}</td>
-						<td><a href="/deleteAssetModel?id=${listmodel.id}&model=${listmodel.model}">
-								<span class="glyphicon glyphicon-trash"></span></a></td>
+						<td><button type = "submit" name = "deleteassetbutton" onclick = "return deleteAssetModel(${listmodel.id},'${listmodel.model}')">
+								<span class="glyphicon glyphicon-trash"></span></button></td>
 				</c:forEach>
 
 			</table>
 		</form:form>
 	</div>
+	<script type = "text/javascript">
+	var modelError = '${modelError}';
+	if(modelError != "") {
+		alert(modelError);
+	}
+	 function deleteAssetModel(id,model) {
+		   var confirmModel = confirm("Do you want to delete this Model?");
+		   if(confirmModel == true) {
+				  confirmModelDelete();
+			  }else {
+				  return false;
+			  };
+		function confirmModelDelete() {
+		   
+	   $.ajax({
+	        url : "/deleteAssetModel",
+	        type : "GET",
+	        dataType : 'text',
+	        data : {
+	        	"id" : id,
+	        	"model" : model
+	        }
+	       });
+		}
+	   }
+	</script>
 
 </body>
 </html>

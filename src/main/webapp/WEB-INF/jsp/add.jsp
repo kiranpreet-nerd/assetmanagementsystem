@@ -22,57 +22,64 @@ function validate() {
 		 return false;
    }
 	 if (document.form.email.value == "") {
-        alert("email required");
+        alert("Email required");
         document.form.email.focus();
         return false;
     }
 	 if (document.form.firstname.value == "") {
-	        alert("first name required");
+	        alert("First name required");
 	        document.form.firstname.focus();
 	        return false;
 	    }
-	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
-    	 alert("only alphabets are allowed in firstname");
-    	 document.form.firstname.focus();
-    	 return false;
-     }
+	 
 	 if (document.form.lastname.value == "") {
-	        alert("last name required");
+	        alert("Last name required");
 	        document.form.lastname.focus();
 	        return false;
 	    }
-	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
-    	 alert("only alphabets are allowed in last name");
-    	 document.form.lastname.focus();
-    	 return false;
-     }
+	
 	 if (document.form.designation.value == "") {
-	        alert("designation required");
+	        alert("Designation required");
 	        document.form.designation.focus();
 	        return false;
 	    }
 	 if (document.form.password.value == "") {
-        alert("password required");
+        alert("Password required");
         document.form.password.focus();
         return false;
 	 }
 	 var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,20}/;
 	 if(!re.test(form.password.value)) {
-		 alert("password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
+		 alert("Password must contain one number, one lowercase letter and uppercase letter,one symbol, atleast six characters and maximum 20");
 		 document.form.password.focus();
 		 return false;
 	 }
 	 if (document.form.confirm.value == "") {
-	        alert("confirm password required");
+	        alert("Confirm password required");
 	        document.form.confirm.focus();
 	        return false;
 	    }
 	 if(document.form.password.value != document.form.confirm.value) {
-		 alert("password must be same ");
+		 alert("Password must be same ");
 		 //docu
 		 ment.form.confirm.focus();
 		 return false;
 	 }
+	 if (document.form.role.value == "") {
+	        alert("Role required");
+	        document.form.role.focus();
+	        return false;
+	    }
+	 if(!(document.form.firstname.value.match(/^[a-zA-Z]+$/))) {
+    	 alert("Only alphabets are allowed in firstname");
+    	 document.form.firstname.focus();
+    	 return false;
+     }
+	 if(!(document.form.lastname.value.match(/^[a-zA-Z]+$/))) {
+    	 alert("Only alphabets are allowed in last name");
+    	 document.form.lastname.focus();
+    	 return false;
+     }
 }
 </script>
 </head>
@@ -100,7 +107,7 @@ function validate() {
 					<form:form name ="form" action="" method="post" commandName="adduser"
 						class="form-group" align="center" onsubmit = "return validate();">
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label ">Email</label> <input
+							<label class="col-sm-4 control-label ">Email<span class = "required"> * </span></label> <input
 								type="text" name="email" placeholder="enter email"
 								class="form-control">
 							<div>
@@ -109,7 +116,7 @@ function validate() {
 							<div>${emailError}</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">First Name </label> <input
+							<label class="col-sm-4 control-label">First Name <span class = "required"> * </span></label> <input
 								type="text" name="firstname" placeholder="enter firstname"
 								class="form-control">
 							<div>
@@ -117,7 +124,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Last Name </label> <input
+							<label class="col-sm-4 control-label">Last Name<span class = "required"> * </span> </label> <input
 								type="text" name="lastname" placeholder="enter lastname"
 								class="form-control">
 							<div>
@@ -125,7 +132,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Designation </label> <input
+							<label class="col-sm-4 control-label">Designation<span class = "required"> * </span> </label> <input
 								type="text" name="designation" placeholder="enter designation"
 								class="form-control">
 							<div>
@@ -133,7 +140,7 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Password </label> <input
+							<label class="col-sm-4 control-label">Password<span class = "required"> * </span> </label> <input
 								type="password" name="password" placeholder="enter password"
 								class="form-control">
 							<div>
@@ -141,25 +148,24 @@ function validate() {
 							</div>
 						</div>
 						<div class="form-group ${status.error ? 'has-error' : ''}">
-							<label class="col-sm-4 control-label">Confirm Password</label> <input
+							<label class="col-sm-4 control-label">Confirm Password<span class = "required"> * </span></label> <input
 								type="password" name="confirm"
 								placeholder="enter password again" class="form-control">
 							<div>
 								<form:errors path="confirm"></form:errors>
 							</div>
 						</div>
-						 <div class = "form-group">
-					           <label class="col-sm-4 control-label">Role </label> 
-					           <div class=" col-sm-3 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "ROLE_SUPER"> Super Admin <br>
-					           </div><br>
-                               <div class=" col-sm-3 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "ROLE_ADMIN"> Admin <br>
-					           </div><br>
-					           <div class="col-sm-1 checkbox checkbox-primary">
-					           <input id="checkbox" type="checkbox" name = "role" value = "ROLE_USER" > Employee <br>
-					           </div>
-					      </div><br> 
+						 <div class="form-group">
+							<label class="col-sm-4 control-label" for="assettype">
+								Role <span class = "required"> * </span></label>
+							<select class="form-control" name="role">
+								<option value="">None</option>
+								<option value="ROLE_SUPER">Super Admin</option>
+								<option value="ROLE_ADMIN">Admin</option>
+								<option value="ROLE_USER">Employee</option>
+							</select>
+						</div>
+						<br>
 						<button class="btn btn-success" type="submit"
 							name="registerbutton" value="submit" onClick="addUser()">
 							ADD</button>
@@ -168,5 +174,11 @@ function validate() {
 				</div>
 				</div>
 				</div>
+				<script type = "text/javascript">
+				var saveUser = '${saveUser}';
+				if(saveUser != "") {
+					alert(saveUser);
+				}
+				</script>
 </body>
 </html>
