@@ -6,12 +6,9 @@
 
 ## Basic Features
   * a Basic Asset management system 
-  * allows to maintain records for Assets, licenses, accessories and consumeables with its specs, moodel details, purchase date, customized labels, warranty info, invoice attachment, asset pics etc..
+  * allows to maintain records for Assets,accessories and consumables with its specs, model details, purchase date, customized labels, warranty info, invoice attachment etc..
   * allows to request to issue / approval by manager
-  * allow to archive dead assets
-  * reports
-  * activity streams
-  * user managment with 3 roles
+  * user management with 3 roles
   * only (email) domain based signup
 
 
