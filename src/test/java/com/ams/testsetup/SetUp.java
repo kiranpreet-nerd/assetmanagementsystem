@@ -1,36 +1,31 @@
 package com.ams.testsetup;
 
 import java.util.concurrent.TimeUnit;
-
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SetUp {
-
+	
 	public static WebDriver driver;
 	public static final String url = "http://localhost:8090/login";
 
 	/*
-	 * In order to use chrome driver Go to:
-	 * http://chromedriver.storage.googleapis.com/index.html?path=2.9/ Download
-	 * (I'm using mac, hence) chromedriver_mac64.zip Extract to <Project
-	 * DIR>/libs folder
+	 * @ this method is to verify login functionality with multiple test data
+	 * through csv file exception IOException on input error
 	 * 
-	 * @param args Unused.
+	 * @param username to get value of email from string array
 	 * 
-	 * @return Nothing.
+	 * @param password to get value of password from string array
 	 * 
-	 * @exception InterruptedException .
+	 * @array dataSource to read test data from csv file
 	 * 
-	 * @before it will execute before each test
-	 * 
-	 * @AfterClass will execute after each test
+	 * @array userNameData to get values from dataSource
 	 */
 	@Before
-	public void setup() throws InterruptedException {
+	public void setUp() throws InterruptedException {
+
 		// To set the path of chrome driver
 		System.setProperty("webdriver.chrome.driver", "libs/chromedriver");
 		// Create a new instance of the Chrome driver
@@ -40,7 +35,7 @@ public class SetUp {
 		// driver navigate to given link
 		driver.navigate().to(url);
 	}
-
+	
 	@After
 	public  void tearDown() {
 		// to close the driver
