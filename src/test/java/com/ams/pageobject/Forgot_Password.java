@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import org.openqa.selenium.By;
 import com.ams.testsetup.SetUp;
-import com.nerdapplabs.test.TestDataReader;
+import com.ams.test.TestDataReader;
 
 public class Forgot_Password extends SetUp {
 
