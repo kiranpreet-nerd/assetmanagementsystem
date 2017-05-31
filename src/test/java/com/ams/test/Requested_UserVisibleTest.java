@@ -1,4 +1,4 @@
-package com.nerdapplabs.test;
+package com.ams.test;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.nerdapplabs.test;
+package com.ams.test;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.nerdapplabs.test;
+package com.ams.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +8,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import com.ams.pageobject.Add_UserBySuperAdmin;
 import com.ams.testsetup.LoginPage;
-import com.ams.testsetup.SuperAdminLogin;
+import com.ams.testsetup.Login_SuperAdmin;
+
 
 public class Add_UserBySuperTest extends Add_UserBySuperAdmin {
 
@@ -63,7 +64,7 @@ public class Add_UserBySuperTest extends Add_UserBySuperAdmin {
 		expectedList.add(role);
 
 		// login the application by super_admin
-		SuperAdminLogin.login_SuperAdmin();
+		Login_SuperAdmin.login_SuperAdmin();
 
 		// fill the all the fields and click on add button
 		driver.findElement(adduser).click();

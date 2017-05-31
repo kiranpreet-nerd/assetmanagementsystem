@@ -1,4 +1,4 @@
-package com.nerdapplabs.test;
+package com.ams.test;
 
 import org.junit.Assert;
 import org.junit.Test;
